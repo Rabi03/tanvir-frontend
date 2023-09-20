@@ -65,7 +65,9 @@ export default function Home({ match, history }) {
         if (match.params.keyword) {
             let query = match.params.keyword;
             if (query.includes('cat~')) {
+                
                 setCategory(query.split("cat~")[1])
+                
             }
             else setKeyWord(query)
         }
@@ -77,9 +79,10 @@ export default function Home({ match, history }) {
         if (error) {
             return alert.error(error.message)
         }
-        dispatch(getProducts(keyword, currentPage, price, category, rating))
+        setTimeout(()=>dispatch(getProducts(keyword, currentPage, price, category, rating)),500)
 
-    }, [dispatch, alert, error, keyword, currentPage,  category, rating])
+    }, [dispatch, alert, error, keyword, currentPage,  category, rating,match.params])
+    
 
     const setCurrentPageNo = (pageNumber) => {
         setCurrentPage(pageNumber)
