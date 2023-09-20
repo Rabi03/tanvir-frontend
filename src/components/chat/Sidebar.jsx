@@ -9,7 +9,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       {/* <Search/> */}
-      <div style={{textAlign:'center',fontSize:25,color:'white',width:'100%',borderBottom:'1px solid white'}}>{user?.role!=='admin'?"Admin":"Users"}</div>
+      <div style={{textAlign:'center',fontSize:25,color:'white',width:'100%',borderBottom:'1px solid white'}}>Chats</div>
       <Chats/>
     </div>
   );

@@ -887,7 +887,7 @@ ul.CTAs a {
 .home .container .sidebar .userChat {
   padding: 10px;
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
   color: white;
   cursor: pointer;

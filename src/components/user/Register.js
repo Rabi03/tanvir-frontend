@@ -12,10 +12,10 @@ export default function Register({ history }) {
     name: "",
     email: "",
     password: "",
-    account:""
+    role: "user"
   });
 
-  const { name, email, password,account } = userData;
+  const { name, email, password, role } = userData;
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(
     "/images/default_avatar.jpg"
@@ -41,7 +41,7 @@ export default function Register({ history }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(register(name, email, password, avatar));
+    dispatch(register(name, email, password, avatar,role));
   };
 
   const UploadFile = (e) => {
@@ -98,7 +98,18 @@ export default function Register({ history }) {
                 {Error.email && Error.email}
               </p>
             </div>
-           
+            <div className="form-group">
+              <label htmlFor="email_field">Role</label>
+              <select name="role" className="form-select form-control" aria-label="Default select example" value={role} onChange={(e) =>
+                  setUserData({ ...userData, [e.target.name]: e.target.value })
+                }>
+                
+                <option value="user">user</option>
+                <option value="seller">seller</option>
+              </select>
+              
+            </div>
+
 
             <div className="form-group">
               <label htmlFor="password_field">Password</label>
@@ -116,7 +127,7 @@ export default function Register({ history }) {
                 {Error.account && Error.account}
               </p>
             </div>
-            
+
 
             <div className="form-group">
               <label htmlFor="avatar_upload">Avatar</label>

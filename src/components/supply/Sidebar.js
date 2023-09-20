@@ -7,16 +7,24 @@ export default function Sidebar (){
             <nav id="sidebar">
                 <ul className="list-unstyled components">
                     <li>
-                        <Link to="/supply/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</Link>
+                        <Link to="/seller/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</Link>
                     </li>
 
                     <li>
-                        <Link to="/supply/orders"><i className="fa fa-shopping-basket"></i> Orders</Link>
+                        <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
+                        <i class="fab fa-product-hunt"></i> Products</a>
+                        <ul className="collapse list-unstyled" id="productSubmenu">
+                            <li>
+                                <Link to="/seller/products"><i className="fa fa-clipboard"></i> All</Link>
+                            </li>
+
+                            <li>
+                                <Link to="/seller/product/new"><i className="fa fa-plus"></i> Create</Link>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <Link to="/supply/transactions"><i className="fa fa-star"></i>Transactions</Link>
-                    </li>
+                    
 
                    
 

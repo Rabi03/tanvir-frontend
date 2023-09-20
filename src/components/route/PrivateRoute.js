@@ -16,7 +16,7 @@ export default function PrivateRoute({isAdmin,isSupply,component:Component,...ot
                     if(isAdmin===true && user?.role !== 'admin'){
                         return <Redirect to='/' />
                     }
-                    if(isSupply===true && user?.role !== 'supply'){
+                    if(isSupply===true && user?.role !== 'seller'){
                         return <Redirect to='/' />
                     }
                     return <Component {...props} />

@@ -51,6 +51,11 @@ import Home2 from "./components/Home2";
 import ChatHome from "./components/ChatHome";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./components/firebase";
+import SellerProduct from './components/supply/Products'
+import SellerNewProduct from './components/supply/NewProduct'
+import SellerUpdateProduct from './components/supply/UpdateProduct'
+import { useContext } from "react";
+import { ChatContext } from "./components/context/ChatContext";
 
 //"http://[::1]:5000"
 
@@ -58,7 +63,7 @@ export default function App() {
   const dispatch = useDispatch();
   const [stripeApiKey, setStripeApiKey] = useState("");
   const { user, isAuthenticated, loading } = useSelector(state => state.user)
-  const [open, setOpen] = useState(false)
+  const {open, setOpen} = useContext(ChatContext)
 
   useEffect(() => {
 
@@ -120,11 +125,14 @@ export default function App() {
         <PrivateRoute path="/admin/user/:id" isAdmin={true} exact component={UpdateUser} />
         <PrivateRoute path="/admin/product/new" isAdmin={true} exact component={NewProduct} />
         <PrivateRoute path="/admin/products/:id" isAdmin={true} exact component={UpdateProduct} />
-        <PrivateRoute path="/supply/dashboard" isSupply={true} exact component={SupplyDashboard} />
-        <PrivateRoute path="/supply/transactions" isSupply={true} exact component={SupplyTransactions} />
-        <PrivateRoute path="/supply/orders" isSupply={true} exact component={SupplyOrders} />
+        <PrivateRoute path="/seller/dashboard" isSupply={true} exact component={SupplyDashboard} />
+        <PrivateRoute path="/seller/transactions" isSupply={true} exact component={SupplyTransactions} />
+        <PrivateRoute path="/seller/orders" isSupply={true} exact component={SupplyOrders} />
+        <PrivateRoute path="/seller/products"  isSupply={true} exact component={SellerProduct} />
+        <PrivateRoute path="/seller/product/new"  isSupply={true} exact component={SellerNewProduct} />
+        <PrivateRoute path="/seller/products/:id"  isSupply={true} exact component={SellerUpdateProduct} />
 
-        {!loading && (!isAuthenticated || user.role !== 'admin' || user.role !== 'supply') && (
+        {!loading && (!isAuthenticated || user.role !== 'admin' || user.role !== 'seller') && (
           <Footer />
         )}
         <Dialog

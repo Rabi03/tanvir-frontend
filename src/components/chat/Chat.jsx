@@ -21,6 +21,7 @@ import {
 import { db } from "../firebase";
 import { useState } from "react";
 import { ChatContext } from "../context/ChatContext";
+import anime from '../../imgs/robot.gif'
 
 const Chat = () => {
   const { user, isAuthenticated, loading } = useSelector(state => state.user)
@@ -37,7 +38,7 @@ const Chat = () => {
 
       const currentUser = resadmin.data.admin
       setAdmin(currentUser)
-      dispatch({ type: "CHANGE_USER", payload: currentUser });
+      // dispatch({ type: "CHANGE_USER", payload: currentUser });
 
       const combinedId =
         currentUser._id > user._id
@@ -56,6 +57,7 @@ const Chat = () => {
               _id: user._id,
               name: user.name,
               avatar: user.avatar,
+              role:user.role
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
@@ -64,7 +66,8 @@ const Chat = () => {
             [combinedId + ".userInfo"]: {
               _id: currentUser._id,
               name: currentUser.name,
-              avatar: currentUser.avatar
+              avatar: currentUser.avatar,
+              role:currentUser.role
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
@@ -82,27 +85,26 @@ const Chat = () => {
     }
   },[user])
 
-  console.log(data.user)
+  console.log(data.user.name===null)
 
   return (
     <>
-    {data.user?
+    {data.user._id?
     <div className="chat">
       <div className="chatInfo">
         <span>{data.user?.name}</span>
-        {/* <div className="chatIcons">
-          <img src={Cam} alt="" />
-          <img src={Add} alt="" />
-          <img src={More} alt="" />
-        </div> */}
+        <div className="chatIcons">
+        <span>{data.user?.role}</span>
+          
+        </div>
       </div>
       <Messages />
       <Input />
     </div>
     :
     <div>
-      <div>Hello {user?.name}. No Admin found.Please wait..</div>
-      <img src="images/robot.gif" />
+      <img src={anime} />
+      <div style={{fontSize:'20px',padding:'10px 30px'}}>Hello {user?.name}. Select user to start chat..</div>
     </div>
 }
     </>

@@ -65,7 +65,7 @@ export const login = (email, password) => async (dispatch) => {
     }
 }
 
-export const register = (name, email, password, avatar) => async (dispatch) => {
+export const register = (name, email, password, avatar,role) => async (dispatch) => {
 
     try {
 
@@ -76,7 +76,7 @@ export const register = (name, email, password, avatar) => async (dispatch) => {
 
 
 
-        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/register', { name, email, password, avatar }, config)
+        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/register', { name, email, password, avatar,role }, config)
         
         console.log(data.user)
         localStorage.setItem("token",data.token)
@@ -129,6 +129,7 @@ export const logout = () => async (dispatch) => {
             type: LOGOUT_SUCCESS
         })
         localStorage.removeItem("token")
+        localStorage.removeItem("cartItems")
 
     } catch (error) {
         dispatch({

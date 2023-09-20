@@ -1,16 +1,29 @@
-import React ,{useEffect, useState}from 'react'
-import {useAlert} from 'react-alert'
+import React, { useEffect, useState, useContext } from 'react'
+import { useAlert } from 'react-alert'
 import { Carousel } from 'react-bootstrap'
 import MetaData from '../layout/MetaData'
 
-import {useDispatch,useSelector} from 'react-redux'
-import { getProductDetails,clearErrors, newReview } from '../../actions/ProductActions'
-import {addCartItems} from '../../actions/CartActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetails, clearErrors, newReview } from '../../actions/ProductActions'
+import { addCartItems } from '../../actions/CartActions'
 import Loader from '../layout/Loader'
-import {NEW_REVIEW_RESET} from '../../constants/ProductConstants'
+import { NEW_REVIEW_RESET } from '../../constants/ProductConstants'
 import ProductReviews from './ProductReviews'
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    setDoc,
+    doc,
+    updateDoc,
+    serverTimestamp,
+    getDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { ChatContext } from '../context/ChatContext'
 
-export default function ProductDetails({match}) {
+export default function ProductDetails({ match }) {
 
     const [quantity, setQuantity] = useState(1)
     const [rating, setRating] = useState(0);
@@ -22,6 +35,7 @@ export default function ProductDetails({match}) {
     const { loading, error, product } = useSelector(state => state.productDetails)
     const { user } = useSelector(state => state.user)
     const { error: reviewError, success } = useSelector(state => state.newReview)
+    const { dispatch: chatDispatch, setOpen } = useContext(ChatContext);
 
     useEffect(() => {
         dispatch(getProductDetails(match.params.id))
@@ -116,6 +130,47 @@ export default function ProductDetails({match}) {
         dispatch(newReview(formData));
     }
 
+    const chatWithSeller = async (seller) => {
+        if (seller._id === user._id) return
+        const combinedId =
+            seller._id > user._id
+                ? seller._id + user._id
+                : user._id + seller._id;
+        try {
+            const res = await getDoc(doc(db, "chats", combinedId));
+
+            if (!res.exists()) {
+                //create a chat in chats collection
+                await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+                //create user chats
+                await updateDoc(doc(db, "userChats", seller._id), {
+                    [combinedId + ".userInfo"]: {
+                        _id: user._id,
+                        name: user.name,
+                        avatar: user.avatar,
+                        role: user.role
+                    },
+                    [combinedId + ".date"]: serverTimestamp(),
+                });
+
+                await updateDoc(doc(db, "userChats", user._id), {
+                    [combinedId + ".userInfo"]: {
+                        _id: seller._id,
+                        name: seller.name,
+                        avatar: seller.avatar,
+                        role: seller.role
+                    },
+                    [combinedId + ".date"]: serverTimestamp(),
+                });
+
+
+            }
+            setOpen(true)
+            chatDispatch({ type: "CHANGE_USER", payload: seller })
+        } catch (err) { }
+    }
+
     return (
         <>
             {loading ? <Loader /> : (
@@ -154,6 +209,7 @@ export default function ProductDetails({match}) {
                                 <span className="btn btn-primary plus" onClick={increaseQty}>+</span>
                             </div>
                             <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4" disabled={product.stock === 0} onClick={addToCart}>Add to Cart</button>
+                            <button type="button" id="" style={{ borderRadius: '100px' }} className="btn btn-primary d-inline ml-4" onClick={() => chatWithSeller(product?.user)}>Chat with seller</button>
 
                             <hr />
 
@@ -164,7 +220,7 @@ export default function ProductDetails({match}) {
                             <h4 className="mt-2">Description:</h4>
                             <p>{product.description}</p>
                             <hr />
-                            <p id="product_seller mb-3">Sold by: <strong>{product.seller}</strong></p>
+                            <p id="product_seller mb-3">Sold by: <strong>{product?.user?.name}</strong></p>
 
                             {user ? <button id="review_btn" type="button" className="btn btn-primary mt-4" data-toggle="modal" data-target="#ratingModal" onClick={setUserRatings}>
                                 Submit Your Review

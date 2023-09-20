@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   createContext,
   useContext,
@@ -31,9 +32,10 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+  const [open,setOpen]=useState(false)
 
   return (
-    <ChatContext.Provider value={{ data:state, dispatch }}>
+    <ChatContext.Provider value={{ data:state, dispatch,open,setOpen }}>
       {children}
     </ChatContext.Provider>
   );

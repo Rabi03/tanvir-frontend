@@ -1,4 +1,4 @@
-import React, {useEffect } from "react";
+import React, { useEffect } from "react";
 
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -15,47 +15,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { useState } from "react";
 import { useAlert } from 'react-alert'
+import { getSellerProducts } from "../../actions/ProductActions";
 
 const SupplyDashboard = () => {
+  const dispatch=useDispatch()
   const alert = useAlert();
-  const {user}=useSelector(state=>state.user)
+  const { products,loading } = useSelector(state => state.products);
 
-    const [loading,setLoading]=useState(false)
-    const [account,setAccount]=useState(null)
-    const [orders,setOrders]=useState([])
-    
-    const getAccount=async()=>{
-      setLoading(true)
-      const res=await axios.get(`http://localhost:5001/api/account/web/${user?.account}`)
-      if (res.data) {
-        setAccount(res.data)
+  let OutOfStock = 0;
+  products.forEach(product => {
+    if (product.stock === 0) OutOfStock += 1;
+  })
+  useEffect(() => {
+    dispatch(getSellerProducts());
+  }, [dispatch])
 
-    }
-    else {
-        alert.error('Con not get Outgoing transections data')
-    }
 
-    setLoading(false)
-    }
 
-    const  getAllOrders=async()=>{
-      const res=await axios.get('https://tanvir-backend.vercel.app/api/v1/supply/orders',{headers:{token:localStorage.getItem('token')}})
-      console.log(res.data)
-      if (res.data.success===true) {
-        setOrders(res.data.supplies)
 
-    }
-    else {
-        alert.error('Con not get Outgoing transections data')
-    }
-
-      
-    }
-    
-    useEffect(() => {
-      getAccount()
-      getAllOrders()
-  }, [])
   return (
     <>
       <div className="row">
@@ -65,41 +42,42 @@ const SupplyDashboard = () => {
 
         <div className="col-12 col-md-10">
           <h1 className="my-4">Dashboard</h1>
-          {loading?<Loader />:
-          <>
-            <MetaData title={'Admin Dashboard'} />
-            <div className="row pr-4">
-          <div className="col-xl-4 col-sm-6 mb-3">
-            <Card sx={{ maxWidth: 345,backgroundColor:'#007bff' }}>
-                <CardContent>
-                  <Typography className='card-font-size' gutterBottom variant="h5" component="div" style={{color:'white'}}>
-                    Account Balance
-                  </Typography>
-                  <Typography className='card-font-size' variant="body2" style={{color:'white',fontWeight:'bold',fontSize:'24px'}}>
-                    ${account?.balance}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <div className="col-xl-4 col-sm-6 mb-3">
-            <Card sx={{ maxWidth: 345,backgroundColor:'#dc3545' }}>
-                <CardContent>
-                  <Typography className='card-font-size' gutterBottom variant="h5" component="div" style={{color:'white'}}>
-                    Orders
-                  </Typography>
-                  <Typography className='card-font-size' variant="body2" style={{color:'white',fontWeight:'bold',fontSize:'24px'}}>
-                    {orders&&orders.length}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Link to="/admin/orders" style={{color:'white',textTransform:'capitalize'}}>View Details</Link>
-                </CardActions>
-              </Card>
-            </div>
-            
-            </div>
-          </>
+          {loading ? <Loader /> :
+            <>
+              <MetaData title={'Admin Dashboard'} />
+              <div className="row pr-4">
+
+
+                <div className="col-xl-4 col-sm-6 mb-3">
+                  <Card sx={{ maxWidth: 345, backgroundColor: '#17a2b8' }}>
+                    <CardContent>
+                      <Typography className='card-font-size' gutterBottom variant="h5" component="div" style={{ color: 'white' }}>
+                        Products
+                      </Typography>
+                      <Typography className='card-font-size' variant="body2" style={{ color: 'white', fontWeight: 'bold', fontSize: '24px' }}>
+                        {products && products.length}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link to="/admin/products" style={{ color: 'white', textTransform: 'capitalize' }}>View Details</Link>
+                    </CardActions>
+                  </Card>
+                </div>
+                <div className="col-xl-4 col-sm-6 mb-3">
+                  <Card sx={{ maxWidth: 345, backgroundColor: '#ffc107' }}>
+                    <CardContent>
+                      <Typography className='card-font-size' gutterBottom variant="h5" component="div" style={{ color: 'white' }}>
+                        Out Of Stock
+                      </Typography>
+                      <Typography className='card-font-size' variant="body2" style={{ color: 'white', fontWeight: 'bold', fontSize: '24px' }}>
+                        {OutOfStock}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </div>
+
+              </div>
+            </>
           }
         </div>
       </div>

@@ -77,9 +77,9 @@ export default function Header() {
                     Dashboard
                   </Link>
                 )}
-                {user&&user?.role==="supply"&&(
-                  <Link className="dropdown-item" to="/supply/dashboard">
-                  Supplier
+                {user&&user?.role==="seller"&&(
+                  <Link className="dropdown-item" to="/seller/dashboard">
+                  Seller
                 </Link>
                 )}
                 <Link className="dropdown-item" to="/orders/me">

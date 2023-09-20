@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-export default function Sidebar (){
+export default function Sidebar() {
     return (
         <div className="sidebar-wrapper">
             <nav id="sidebar">
@@ -11,17 +11,7 @@ export default function Sidebar (){
                     </li>
 
                     <li>
-                        <a href="#productSubmenu" data-toggle="collapse" aria-expanded="false" className="dropdown-toggle">
-                        <i class="fab fa-product-hunt"></i> Products</a>
-                        <ul className="collapse list-unstyled" id="productSubmenu">
-                            <li>
-                                <Link to="/admin/products"><i className="fa fa-clipboard"></i> All</Link>
-                            </li>
-
-                            <li>
-                                <Link to="/admin/product/new"><i className="fa fa-plus"></i> Create</Link>
-                            </li>
-                        </ul>
+                        <Link to="/admin/products"><i className="fa fa-clipboard"></i>Products</Link>
                     </li>
 
                     <li>

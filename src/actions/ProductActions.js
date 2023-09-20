@@ -35,16 +35,16 @@ import {
 import axios from 'axios'
 
 
-export const getProducts=(keyword='',currentPage=1,price,category,rating=0)=>async(dispatch)=>{
+export const getProducts=(keyword="",currentPage=1,price,category="",rating=0)=>async(dispatch)=>{
 
     try {
 
         dispatch({type: ALL_PRODUCTS_REQUEST})
 
-        let route=`https://tanvir-backend.vercel.app/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating[gte]=${rating}`
+        let route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating[gte]=${rating}`
 
         if(category){
-            route=`https://tanvir-backend.vercel.app/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating[gte]=${rating}`
+            route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating[gte]=${rating}`
         }
 
         const {data} = await axios.get(route)
@@ -73,6 +73,34 @@ export const newProduct = (productData) => async (dispatch) => {
         }
 
         const { data } = await axios.post(`https://tanvir-backend.vercel.app/api/v1/admin/product/new`, productData, config)
+
+        dispatch({
+            type: NEW_PRODUCT_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: NEW_PRODUCT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const newSellerProduct = (productData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: NEW_PRODUCT_REQUEST })
+
+        let token=localStorage.getItem('token')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                token
+            }
+        }
+
+        const { data } = await axios.post(`https://tanvir-backend.vercel.app/api/v1/seller/product/new`, productData, config)
 
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
@@ -137,6 +165,34 @@ export const getAdminProducts = () => async (dispatch) => {
     }
 }
 
+export const getSellerProducts = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: ADMIN_PRODUCTS_REQUEST })
+        let token=localStorage.getItem('token')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                token
+            }
+        }
+
+        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/seller/products`,config)
+
+        dispatch({
+            type: ADMIN_PRODUCTS_SUCCESS,
+            payload: data.products
+        })
+
+    } catch (error) {
+
+        dispatch({
+            type: ADMIN_PRODUCTS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const deleteProduct = (id) => async (dispatch) => {
     try {
 
@@ -150,6 +206,33 @@ export const deleteProduct = (id) => async (dispatch) => {
         }
 
         const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/admin/product/${id}`,config)
+
+        dispatch({
+            type: DELETE_PRODUCT_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELETE_PRODUCT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const deleteSellerProduct = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: DELETE_PRODUCT_REQUEST })
+        let token=localStorage.getItem('token')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                token
+            }
+        }
+
+        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/seller/product/${id}`,config)
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
@@ -191,6 +274,35 @@ export const updateProduct = (id, productData) => async (dispatch) => {
         })
     }
 }
+
+export const updateSellerProduct = (id, productData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_PRODUCT_REQUEST })
+
+        let token=localStorage.getItem('token')
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                token
+            }
+        }
+
+        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/seller/product/${id}`, productData, config)
+
+        dispatch({
+            type: UPDATE_PRODUCT_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PRODUCT_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 
 export const clearErrors=() => async (dispatch) => {
     dispatch({
