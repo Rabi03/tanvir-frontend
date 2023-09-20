@@ -12,6 +12,8 @@
     "@stripe/stripe-js": "^1.20.2",
     "axios": "^0.22.0",
     "countries-list": "^2.6.1",
+    "emoji-picker-react": "^4.5.2",
+    "firebase": "^10.4.0",
     "mdbreact": "^5.1.0",
     "pure-react-carousel": "^1.30.1",
     "rc-slider": "^9.7.2",
@@ -27,9 +29,13 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.1",
     "react-tiny-fab": "^4.0.4",
+    "react-toastify": "^9.1.3",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^4.7.2",
+    "styled-components": "^6.0.8",
+    "uuid": "^9.0.1"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
@@ -52,6 +58,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://tanvir-backend.vercel.app" 
+  "proxy": "https://tanvir-backend.vercel.app"
 }
-

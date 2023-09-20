@@ -46,8 +46,11 @@ import { Fab, Action } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
 import { BsMessenger } from 'react-icons/bs'
 import Dialog from '@mui/material/Dialog';
-import {BiMessageDetail} from "react-icons/bi"
+import { BiMessageDetail } from "react-icons/bi"
 import Home2 from "./components/Home2";
+import ChatHome from "./components/ChatHome";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "./components/firebase";
 
 //"http://[::1]:5000"
 
@@ -55,7 +58,23 @@ export default function App() {
   const dispatch = useDispatch();
   const [stripeApiKey, setStripeApiKey] = useState("");
   const { user, isAuthenticated, loading } = useSelector(state => state.user)
-  const [open,setOpen]=useState(false)
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+
+    const setChat = async () => {
+      if (user) {
+        const res = await getDoc(doc(db, "userChats", user?._id));
+
+        if (!res.exists()) {
+          //create a chat in userChats collection
+          await setDoc(doc(db, "userChats", user._id), {});
+        }
+      }
+    }
+
+    setChat()
+  }, [user])
 
 
   return (
@@ -108,45 +127,18 @@ export default function App() {
         {!loading && (!isAuthenticated || user.role !== 'admin' || user.role !== 'supply') && (
           <Footer />
         )}
-        <Dialog open={open} onClose={()=>setOpen(!open)}>
-          <div className="container my-5" >
-            <div className="row justify-content-center">
-              <div className="col-lg-9">
-                <h1 className="mb-3">Contact Us</h1>
-                <form>
-                  <div className="row g-3">
-                    <div className="col-md-6">
-                      <label for="your-name" className="form-label">Your Name</label>
-                      <input type="text" className="form-control" id="your-name" name="your-name" required />
-                    </div>
-                    <div className="col-md-6">
-                      <label for="your-surname" className="form-label">Your Surname</label>
-                      <input type="text" className="form-control" id="your-surname" name="your-surname" required />
-                    </div>
-                    <div className="col-md-6">
-                      <label for="your-email" className="form-label">Your Email</label>
-                      <input type="email" className="form-control" id="your-email" name="your-email" required />
-                    </div>
-                    <div className="col-md-6">
-                      <label for="your-subject" className="form-label">Your Subject</label>
-                      <input type="text" className="form-control" id="your-subject" name="your-subject" />
-                    </div>
-                    <div className="col-12">
-                      <label for="your-message" className="form-label">Your Message</label>
-                      <textarea className="form-control" id="your-message" name="your-message" rows="5" required></textarea>
-                    </div>
-                    <div className="col-12 ">
-                      <div className="row">
-                        <div className="col-md-12" >
-                          <button  type="submit" className="btn btn-dark w-100 fw-bold" style={{marginTop:'10px'}} >Send</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+        <Dialog
+          fullWidth
+          maxWidth="md"
+          PaperProps={{
+            sx: {
+              
+              maxHeight: 600,
+              borderRadius:2
+            }
+          }}
+          open={open} onClose={() => setOpen(!open)}>
+          <ChatHome />
         </Dialog>
 
         <Fab
@@ -156,10 +148,10 @@ export default function App() {
           icon={<BiMessageDetail size={30} />}
           event={"click"}
           alwaysShowTitle={true}
-        onClick={()=>setOpen(!open)}
+          onClick={() => setOpen(!open)}
         >
 
-          
+
 
         </Fab>
       </div>
