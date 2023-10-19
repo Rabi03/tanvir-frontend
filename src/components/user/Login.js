@@ -7,7 +7,16 @@ import Loader from "../layout/Loader";
 import { login, clearErrors } from "../../actions/UserActions";
 import { Link } from "react-router-dom";
 
-export default function Login({ history,location }) {
+/**
+ * A React component that renders a login form.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.history The history object.
+ * @param {string} props.location The location object.
+ *
+ * @returns {React.Component} A React component that renders a login form.
+ */
+export default function Login({ history, location }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -17,7 +26,7 @@ export default function Login({ history,location }) {
     (state) => state.user
   );
 
-  const redirect=location.search?'/'+location.search.split("=")[1]:'/'
+  const redirect = location.search ? '/' + location.search.split("=")[1] : '/'
   console.log(redirect);
 
   useEffect(() => {
@@ -29,7 +38,7 @@ export default function Login({ history,location }) {
       setError(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, error, isAuthenticated, history,redirect]);
+  }, [dispatch, error, isAuthenticated, history, redirect]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

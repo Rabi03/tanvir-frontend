@@ -11,14 +11,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import { allOrders, deleteOrder, clearErrors } from '../../actions/OrderActions'
 import { DELETE_ORDER_RESET } from '../../constants/OrderConstants'
 
-export default function Orders ({ history }) {
+/**
+ * A React component that renders a list of all orders.
+ *
+ * @returns {React.Component} A React component that renders a list of all orders.
+ */
+export default function Orders({ history }) {
 
+    /**
+   * The useAlert hook to display alerts to the user.
+   */
     const alert = useAlert();
+
+    /**
+     * The useDispatch hook to dispatch actions to the Redux store.
+     */
     const dispatch = useDispatch();
 
+    /**
+     * The useSelector hook to select state from the Redux store.
+     */
     const { loading, error, orders } = useSelector(state => state.allOrders);
     const { isDeleted } = useSelector(state => state.orderDelorUp)
 
+    /**
+     * An effect hook that fetches all orders from the Redux store and displays an alert
+     * if there is an error.
+     */
     useEffect(() => {
         dispatch(allOrders());
 
@@ -33,12 +52,22 @@ export default function Orders ({ history }) {
             dispatch({ type: DELETE_ORDER_RESET })
         }
 
-    }, [dispatch, alert, error, history,isDeleted])
+    }, [dispatch, alert, error, history, isDeleted])
 
+    /**
+     * A function that dispatches an action to delete an order.
+     *
+     * @param {string} id The ID of the order to delete.
+     */
     const deleteOrderHandler = (id) => {
         dispatch(deleteOrder(id))
     }
 
+    /**
+     * A function that formats the orders data for the MDBDataTable component.
+     *
+     * @returns {object} An object containing the formatted orders data.
+     */
     const setOrders = () => {
         const data = {
             columns: [
@@ -57,7 +86,7 @@ export default function Orders ({ history }) {
                     field: 'amount',
                     sort: 'asc'
                 },
-                
+
                 {
                     label: 'Payment',
                     field: 'payment',
@@ -87,15 +116,15 @@ export default function Orders ({ history }) {
                 status: order.orderStatus && String(order.orderStatus).includes('Delivered')
                     ? <p style={{ color: 'green' }}>{order.orderStatus}</p>
                     : <p style={{ color: 'red' }}>{order.orderStatus}</p>,
-                payment:"Paid",
-            //     supplied:order.supplied&&String(order.orderStatus).includes('Delivered')?<div className='line'>
-            //     <h6 className='pop-outin'>supplied</h6>
-            //   </div>:<p style={{ color: 'green' }}></p>,
+                payment: "Paid",
+                //     supplied:order.supplied&&String(order.orderStatus).includes('Delivered')?<div className='line'>
+                //     <h6 className='pop-outin'>supplied</h6>
+                //   </div>:<p style={{ color: 'green' }}></p>,
                 actions: <>
                     <Link to={`/admin/order/${order._id}`}>
-                    <i className="fa fa-eye"></i>
+                        <i className="fa fa-eye"></i>
                     </Link>
-                    <i className="fa fa-trash" style={{marginLeft:20,color:'red',cursor:'pointer'}} onClick={() => deleteOrderHandler(order._id)}></i>
+                    <i className="fa fa-trash" style={{ marginLeft: 20, color: 'red', cursor: 'pointer' }} onClick={() => deleteOrderHandler(order._id)}></i>
                 </>
             })
         })
@@ -103,7 +132,11 @@ export default function Orders ({ history }) {
         return data;
     }
 
-
+    /**
+   * Renders the list of all orders.
+   *
+   * @returns {React.Component} A React component that renders the list of all orders.
+   */
     return (
         <>
             <MetaData title={'All Orders'} />

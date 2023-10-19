@@ -23,6 +23,15 @@ import {
 import { db } from "../firebase";
 import { ChatContext } from '../context/ChatContext'
 
+/**
+ * A React component that displays the details of a product.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.product The product to display.
+ * @param {number} props.match.params.id The ID of the product to display.
+ *
+ * @returns {React.Component} A React component that displays the details of a product.
+ */
 export default function ProductDetails({ match }) {
 
     const [quantity, setQuantity] = useState(1)

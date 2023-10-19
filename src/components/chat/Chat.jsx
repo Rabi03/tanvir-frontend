@@ -23,12 +23,20 @@ import { useState } from "react";
 import { ChatContext } from "../context/ChatContext";
 import anime from '../../imgs/robot.gif'
 
+/**
+ * Chat component for handling user chats.
+ * @component
+ */
+
 const Chat = () => {
   const { user, isAuthenticated, loading } = useSelector(state => state.user)
   const [admin,setAdmin]=useState(null)
   const { data,dispatch } = useContext(ChatContext);
 
-
+  /**
+   * Fetches information about the admin user and initializes the chat.
+   * @async
+   */
   const getAdminInfo = async () => {
 
     const resadmin = await axios.get("https://tanvir-backend.vercel.app/api/v1/getAdmin")
@@ -79,6 +87,9 @@ const Chat = () => {
 
   }
 
+  /**
+   * useEffect hook to get admin information when the user is available.
+   */
   useEffect(() => {
     if (user) {
       getAdminInfo()

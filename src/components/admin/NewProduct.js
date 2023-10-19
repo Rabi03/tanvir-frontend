@@ -8,6 +8,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { newProduct, clearErrors } from '../../actions/ProductActions'
 import { NEW_PRODUCT_RESET } from '../../constants/ProductConstants'
 
+/**
+ * A React component that renders a new product form.
+ *
+ * @returns {React.Component} A React component that renders a new product form.
+ */
 const NewProduct = ({ history }) => {
 
     const [name, setName] = useState('');

@@ -14,6 +14,10 @@ import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useSelector } from 'react-redux'
 
+/**
+ * Input component for sending messages and images.
+ * @component
+ */
 const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
@@ -21,6 +25,9 @@ const Input = () => {
   const { user:currentUser, isAuthenticated, loading } = useSelector(state => state.user)
   const { data } = useContext(ChatContext);
 
+  /**
+   * Handle sending a message (with or without an image).
+   */
   const handleSend = async () => {
     if (img) {
       const storageRef = ref(storage, uuid());

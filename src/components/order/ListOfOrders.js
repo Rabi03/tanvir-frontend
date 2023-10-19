@@ -7,13 +7,18 @@ import { MDBDataTable } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { myOrders, clearErrors } from "../../actions/OrderActions";
 import Loader from "../layout/Loader";
-
+/**
+ * React component for displaying a list of user's orders.
+ * @returns {React.Component} A React component that displays a list of user's orders.
+ */
 export default function ListOfOrders() {
   const dispatch = useDispatch();
   const alert = useAlert();
 
   const { loading, error, orders } = useSelector((state) => state.myOrders);
-
+  /**
+     * Use the useEffect hook to fetch the user's orders and handle errors.
+     */
   useEffect(() => {
     dispatch(myOrders());
 
@@ -23,6 +28,10 @@ export default function ListOfOrders() {
     }
   }, [dispatch, alert, error]);
 
+   /**
+   * Generate data for the MDBDataTable component.
+   * @returns {object} - Data for the MDBDataTable component.
+   */
   const setOrders = () => {
     const data = {
       columns: [
@@ -62,7 +71,7 @@ export default function ListOfOrders() {
         amount: `$${order.totalPrice}`,
         status:
           order.orderStatus &&
-          String(order.orderStatus).includes("Delivered") ? (
+            String(order.orderStatus).includes("Delivered") ? (
             <p style={{ color: "green" }}>{order.orderStatus}</p>
           ) : (
             <p style={{ color: "red" }}>{order.orderStatus}</p>

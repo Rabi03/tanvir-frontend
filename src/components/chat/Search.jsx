@@ -12,6 +12,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useSelector } from 'react-redux'
+/**
+ * A React component that renders a search bar for finding other users.
+ *
+ * @returns {React.Component} A React component that renders the search bar.
+ */
 const Search = () => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);

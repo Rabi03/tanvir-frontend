@@ -7,6 +7,14 @@ import Loader from "../layout/Loader";
 
 import { register, clearErrors } from "../../actions/UserActions";
 
+/**
+ * A React component that renders a registration form.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.history The history object.
+ *
+ * @returns {React.Component} A React component that renders a registration form.
+ */
 export default function Register({ history }) {
   const [userData, setUserData] = useState({
     name: "",

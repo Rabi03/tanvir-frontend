@@ -7,6 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveShippingInfo} from "../../actions/CartActions";
 import CheckoutSteps from "./CheckoutSteps";
 
+/**
+ * A React component that displays the shipping information form.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {object} props.shippingInfo The current user's shipping information.
+ *
+ * @returns {React.Component} A React component that displays the shipping information form.
+ */
 export default function Shipping({history}) {
     const countriesList = Object.values(countries)
     const {shippingInfo}=useSelector((state) => state.cart)

@@ -15,6 +15,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAdminProducts } from '../../actions/ProductActions'
 import { allOrders } from "../../actions/OrderActions";
 
+/**
+ * A React component that renders the admin dashboard.
+ *
+ * @returns {React.Component} A React component that renders the admin dashboard.
+ */
 const Dashboard = () => {
   const dispatch = useDispatch();
 

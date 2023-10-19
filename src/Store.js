@@ -28,7 +28,13 @@ import {
   allOrdersReducer,
   orderDelorUpReducer,
 } from "./reducers/OrderReducers";
-
+/**
+ * The Redux reducer for the application.
+ *
+ * @param {State} state The current state of the store.
+ * @param {Action} action The action to be dispatched.
+ * @returns {State} The new state of the store.
+ */
 const reducer = combineReducers({
   products: ProductsReducer,
   productDelorUp: deleteOrUpdateProductReducer,

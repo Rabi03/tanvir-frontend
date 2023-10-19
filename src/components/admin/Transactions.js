@@ -24,7 +24,15 @@ import { useAlert } from 'react-alert'
 import { useEffect } from 'react';
 import { allOrders } from '../../actions/OrderActions';
 
-
+/**
+ * The `Transactions` component renders a list of all transactions, including both incoming and outgoing transactions.
+ *
+ * The component uses the `allOrders` reducer to get a list of all orders. Each order has a `paymentInfo` property, which contains information about the payment for the order.
+ *
+ * The component also uses the `useAlert` hook to display alerts to the user.
+ *
+ * @returns {React.Component} A React component that renders a list of all transactions.
+ */
 export default function Transactions() {
     const dispatch=useDispatch()
     const alert = useAlert();

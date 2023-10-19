@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 
+/**
+ * A React component that renders a user's profile.
+ *
+ * @returns {React.Component} A React component that renders a user's profile.
+ */
 export default function Profile() {
   const { user, loading } = useSelector((state) => state.user);
   return (

@@ -6,6 +6,15 @@ import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { resetPassword, clearErrors } from "../../actions/UserActions";
 
+/**
+ * A React component that renders a reset password form.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.history The history object.
+ * @param {string} props.match The match object.
+ *
+ * @returns {React.Component} A React component that renders a reset password form.
+ */
 export default function ResetPassword({ history, match }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

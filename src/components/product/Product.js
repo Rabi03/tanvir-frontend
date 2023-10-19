@@ -6,7 +6,15 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 
-
+/**
+ * A React component that displays a product card.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.product The product to display.
+ * @param {number} props.col The number of columns that the product card should occupy.
+ *
+ * @returns {React.Component} A React component that displays a product card.
+ */
 export default function Product({ product, col }) {
   return (
     <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>

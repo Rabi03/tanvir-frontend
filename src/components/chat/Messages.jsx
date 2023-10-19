@@ -4,7 +4,11 @@ import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import Message from "./Message";
 
-
+/**
+ * A React component that renders a list of messages in a chat conversation.
+ *
+ * @returns {React.Component} A React component that renders the list of messages.
+ */
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const { data } = useContext(ChatContext);

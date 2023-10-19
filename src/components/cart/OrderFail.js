@@ -1,7 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData'
-
+/**
+ * A React component that displays the order fail page.
+ *
+ * @returns {React.Component} A React component that displays the order fail page.
+ */
 const OrderFail = () => {
     return (
         <>

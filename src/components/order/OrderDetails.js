@@ -8,6 +8,14 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderDetails, clearErrors } from '../../actions/OrderActions'
 
+/**
+ * A React component that displays the details of an order.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.match.params.id The ID of the order to display.
+ *
+ * @returns {React.Component} A React component that displays the details of an order.
+ */
 const OrderDetails = ({ match }) => {
 
     const alert = useAlert();

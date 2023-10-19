@@ -4,13 +4,23 @@ import { ChatContext } from "../context/ChatContext";
 import { db } from "../firebase";
 import { useSelector } from 'react-redux'
 
+/**
+ * Chats component for displaying user chats.
+ * @component
+ */
 const Chats = () => {
   const [chats, setChats] = useState([]);
 
   const { user: currentUser, isAuthenticated, loading } = useSelector(state => state.user)
   const { dispatch } = useContext(ChatContext);
 
+  /**
+     * Get user chats when the component mounts or when the user changes.
+     */
   useEffect(() => {
+    /**
+   * Fetch user chats from Firestore and update the state.
+   */
     const getChats = () => {
       const unsub = onSnapshot(doc(db, "userChats", currentUser._id), (doc) => {
         setChats(doc.data());
@@ -24,6 +34,10 @@ const Chats = () => {
     currentUser._id && getChats();
   }, [currentUser._id]);
 
+  /**
+   * Handle the selection of a chat user and dispatch the selected user to the context.
+   * @param {Object} u - The user to select.
+   */
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
   };

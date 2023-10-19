@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import MetaData from '../layout/MetaData'
 
+/**
+ * A React component that displays the order cancellation page.
+ *
+ * @returns {React.Component} A React component that displays the order cancellation page.
+ */
 const OrderCancel = () => {
     return (
         <>

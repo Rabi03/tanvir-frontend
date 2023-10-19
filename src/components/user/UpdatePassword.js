@@ -7,6 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updatePassword, clearErrors } from '../../actions/UserActions'
 import { UPDATE_PASSWORD_RESET } from '../../constants/UserConstants'
 
+/**
+ * A React component that renders a password update form.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ *
+ * @returns {React.Component} A React component that renders a password update form.
+ */
 export default function UpdatePassword ({ history }){
 
     const [oldPassword, setOldPassword] = useState('')

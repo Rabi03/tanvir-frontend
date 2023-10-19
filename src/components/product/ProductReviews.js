@@ -7,7 +7,14 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
-
+/**
+ * A React component that displays a list of product reviews.
+ *
+ * @param {object} props The component props.
+ * @param {array} props.reviews An array of product reviews.
+ *
+ * @returns {React.Component} A React component that displays a list of product reviews.
+ */
 export default function ProductReviews({reviews}) {
   return (
       <>

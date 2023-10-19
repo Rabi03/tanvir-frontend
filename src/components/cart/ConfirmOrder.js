@@ -5,7 +5,17 @@ import MetaData from '../layout/MetaData'
 import CheckoutSteps from './CheckoutSteps'
 
 import { useSelector } from 'react-redux'
-
+/**
+ * A React component that displays the order confirmation page.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {Array<object>} props.cartItems The current user's cart items.
+ * @param {object} props.shippingInfo The current user's shipping information.
+ * @param {object} props.user The current user.
+ *
+ * @returns {React.Component} A React component that displays the order confirmation page.
+ */
 const ConfirmOrder = ({ history }) => {
 
     const { cartItems, shippingInfo } = useSelector(state => state.cart)
@@ -13,7 +23,11 @@ const ConfirmOrder = ({ history }) => {
 
     console.log(shippingInfo)
 
-    // Calculate Order Prices
+    /**
+   * Calculates the order prices.
+   *
+   * @returns {Object} An object containing the items price, shipping price, tax price, and total price.
+   */
     const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     const shippingPrice = itemsPrice > 200 ? 0 : 25
     const taxPrice = Number((0.05 * itemsPrice).toFixed(2))

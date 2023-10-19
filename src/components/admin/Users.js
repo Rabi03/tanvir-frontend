@@ -8,17 +8,23 @@ import Sidebar from './Sidebar'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { allUsers, clearErrors,deleteUser } from '../../actions/UserActions'
+import { allUsers, clearErrors, deleteUser } from '../../actions/UserActions'
 import { DELETE_USER_RESET } from '../../constants/UserConstants'
 
-export default function Users({ history }){
+/**
+ * React component for displaying a list of users in an admin panel.
+ * @param {object} history - The history object from react-router for navigation.
+ */
+export default function Users({ history }) {
 
     const alert = useAlert();
     const dispatch = useDispatch();
 
     const { loading, error, users } = useSelector(state => state.allUsers);
     const { isDeleted } = useSelector(state => state.profile)
-
+    /**
+         * useEffect to fetch all users and handle errors and deletion.
+         */
     useEffect(() => {
         dispatch(allUsers());
 
@@ -33,12 +39,15 @@ export default function Users({ history }){
             dispatch({ type: DELETE_USER_RESET })
         }
 
-    }, [dispatch, alert, error, history,isDeleted])
+    }, [dispatch, alert, error, history, isDeleted])
 
     const handleDeleteUser = (id) => {
         dispatch(deleteUser(id))
     }
-
+    /**
+         * Generate data for the MDBDataTable component.
+         * @returns {object} - Data for the MDBDataTable component.
+         */
     const setUsers = () => {
         const data = {
             columns: [
@@ -81,7 +90,7 @@ export default function Users({ history }){
                     <Link to={`/admin/user/${user._id}`}>
                         <i className="fas fa-pencil-alt"></i>
                     </Link>
-                    <i className="fa fa-trash" style={{marginLeft:20,color:'red',cursor:'pointer'}} onClick={() =>handleDeleteUser(user._id)}></i>
+                    <i className="fa fa-trash" style={{ marginLeft: 20, color: 'red', cursor: 'pointer' }} onClick={() => handleDeleteUser(user._id)}></i>
                 </>
             })
         })

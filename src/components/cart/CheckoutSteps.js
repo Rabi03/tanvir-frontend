@@ -8,8 +8,21 @@ import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 
+ /**
+   * The checkout progress steps.
+   *
+   * @type {Array<string>}
+   */
 const steps = ["Shipping", "Confirm Order", "Payment"];
 
+ /**
+   * Renders a checkout progress step.
+   *
+   * @param {string} label The label of the checkout progress step.
+   * @param {number} index The index of the checkout progress step.
+   *
+   * @returns {React.Component} A React component that renders a checkout progress step.
+   */
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
@@ -33,6 +46,15 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }));
+
+/**
+ * A React component that displays the checkout progress steps.
+ *
+ * @param {object} props The component props.
+ * @param {number} props.state The current state of the checkout process.
+ *
+ * @returns {React.Component} A React component that displays the checkout progress steps.
+ */
 
 export default function CheckoutSteps({ state }) {
   return (

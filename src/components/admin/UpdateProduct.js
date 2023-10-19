@@ -8,6 +8,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateProduct, getProductDetails, clearErrors } from '../../actions/ProductActions'
 import { UPDATE_PRODUCT_RESET } from '../../constants/ProductConstants'
 
+/**
+ * A React component that updates a product.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.name The name of the product.
+ * @param {number} props.price The price of the product.
+ * @param {string} props.description The description of the product.
+ * @param {string} props.category The category of the product.
+ * @param {number} props.stock The stock of the product.
+ * @param {string} props.seller The seller of the product.
+ * @param {Array<File>} props.images The images of the product.
+ *
+ * @returns {React.Component} A React component that updates a product.
+ */
 const UpdateProduct = ({ match, history }) => {
 
     const [name, setName] = useState('');

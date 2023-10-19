@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/layout/Header.js - Docdash</title>
+    
+    <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
+    
+        <meta name="keywords" content="jsdoc, docdash" />
+        <meta name="keyword" content="jsdoc, docdash" />
+    
+    
+    
+    <meta property="og:title" content="Docdash"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="https://cloud.githubusercontent.com/assets/447956/13398144/4dde7f36-defd-11e5-8909-1a9013302cb9.png"/>
+    <meta property="og:site_name" content="Docdash"/>
+    <meta property="og:url" content="http://clenemt.github.io/docdash/"/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/layout/Header.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React,{useEffect} from "react";
+import { Route, Link } from "react-router-dom";
+import Search from "./Search";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { logout,loadedUser } from "../../actions/UserActions";
+import Badge from "@mui/material/Badge";
+import { createTheme } from '@mui/material/styles';
+
+
+/**
+ * A React component that displays the header of the website.
+ *
+ * @returns {React.Component} A React component that displays the header of the website.
+ */
+export default function Header() {
+  /**
+   * The Redux dispatch function.
+   *
+   * @type {function}
+   */
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const { user, loading } = useSelector((state) => state.user);
+   /**
+   * The cart items state.
+   *
+   * @type {Array}
+   */
+  const {cartItems}=useSelector((state) => state.cart)
+
+  useEffect(()=>{
+    let token=localStorage.getItem('token')
+    if(token)
+    dispatch(loadedUser())
+  },[dispatch])
+
+  const handleLogOut = () => {
+    dispatch(logout());
+    alert.success("Log Out Successfully.....");
+  };
+
+  return (
+    &lt;div style={{width:'100%',backgroundColor:'#212529'}}>
+      &lt;nav className="navbar row container container-fluid mx-auto rounded" style={{backgroundColor:'#212529'}}>
+        &lt;div className="col-12 col-md-2">
+          &lt;div className="navbar-brand">
+            &lt;Link to="/">
+              &lt;img src="/images/walmart-logo.png" alt="" width="120" height="50"/>
+            &lt;/Link>
+          &lt;/div>
+        &lt;/div>
+
+        &lt;div className="col-12 col-md-6 mt-2 mt-md-0">
+          &lt;Route render={({ history }) => &lt;Search history={history} />} />
+        &lt;/div>
+
+        &lt;div className="col-12 col-md-4 mt-4 mt-md-0 text-center">
+          &lt;Link to="/cart" style={{ textDecoration: "none" }}>
+            &lt;Badge badgeContent={cartItems.length} color="secondary">
+              &lt;i className="fas fa-shopping-cart" style={{ color: "white",fontSize: "22px"}}>&lt;/i>
+            &lt;/Badge>
+          &lt;/Link>
+          {user ? (
+            &lt;div className="ml-4 dropdown d-inline">
+              &lt;Link
+                to="#!"
+                className="btn dropdown-toggle text-white mr-4"
+                type="button"
+                id="dropDownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                &lt;figure className="avatar avatar-nav">
+                  &lt;img
+                    src={user.avatar &amp;&amp; user.avatar.url}
+                    alt={user &amp;&amp; user.name}
+                    className="rounded-circle"
+                  />
+                &lt;/figure>
+                &lt;span>{user &amp;&amp; user.name}&lt;/span>
+              &lt;/Link>
+
+              &lt;div
+                className="dropdown-menu"
+                aria-labelledby="dropDownMenuButton"
+              >
+                {user &amp;&amp; user?.role === "admin" &amp;&amp; (
+                  &lt;Link className="dropdown-item" to="/dashboard">
+                    Dashboard
+                  &lt;/Link>
+                )}
+                {user&amp;&amp;user?.role==="seller"&amp;&amp;(
+                  &lt;Link className="dropdown-item" to="/seller/dashboard">
+                  Seller
+                &lt;/Link>
+                )}
+                &lt;Link className="dropdown-item" to="/orders/me">
+                  Orders
+                &lt;/Link>
+                &lt;Link className="dropdown-item" to="/me">
+                  Profile
+                &lt;/Link>
+                &lt;Link
+                  className="dropdown-item text-danger"
+                  to="/"
+                  onClick={handleLogOut}
+                >
+                  Logout
+                &lt;/Link>
+              &lt;/div>
+            &lt;/div>
+          ) : (
+            !loading &amp;&amp; (
+              &lt;Link to="/login" className="btn ml-4" id="login_btn">
+                Login
+              &lt;/Link>
+            )
+          )}
+        &lt;/div>
+      &lt;/nav>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 02:03:57 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

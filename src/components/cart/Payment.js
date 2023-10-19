@@ -21,7 +21,17 @@ const options = {
         }
     }
 }
-
+/**
+ * A React component that displays the payment page.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {Array<object>} props.cartItems The current user's cart items.
+ * @param {object} props.shippingInfo The current user's shipping information.
+ * @param {object} props.user The current user.
+ *
+ * @returns {React.Component} A React component that displays the payment page.
+ */
 export default function Payment({ history }) {
     const alert = useAlert();
     const dispatch = useDispatch();

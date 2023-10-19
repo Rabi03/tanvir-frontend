@@ -10,14 +10,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProductReviews, deleteReview, clearErrors } from '../../actions/ProductActions'
 import { DELETE_REVIEW_RESET } from '../../constants/ProductConstants'
 
-export default function ProductReviews () {
-
+/**
+ * A React component that renders a list of product reviews.
+ *
+ * @returns {React.Component} A React component that renders a list of product reviews.
+ */
+export default function ProductReviews() {
+    /**
+       * The state of the component.
+       *
+       * @typedef {{
+    *   productId: string
+    * }} ProductReviewsState
+    */
     const [productId, setProductId] = useState('')
 
     const alert = useAlert();
     const dispatch = useDispatch();
 
     const { error, reviews } = useSelector(state => state.productReviews);
+    /**
+   * The isDeleted flag indicates whether a review has been deleted.
+   *
+   * @type {boolean}
+   */
+    /**
+     * The deleteError flag indicates whether there was an error deleting a review.
+     *
+     * @type {?string}
+     */
     const { isDeleted, error: deleteError } = useSelector(state => state.reviewDelete)
 
     useEffect(() => {
@@ -44,16 +65,29 @@ export default function ProductReviews () {
 
 
     }, [dispatch, alert, error, productId, isDeleted, deleteError])
-
+    /**
+      * A function that handles the deletion of a review.
+      *
+      * @param {string} id The ID of the review to delete.
+      */
     const handleReviewDelete = (id) => {
         dispatch(deleteReview(id, productId))
     }
-
+    /**
+      * A function that handles the submission of the form to fetch the product reviews.
+      *
+      * @param {Event} e The event object.
+      */
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(getProductReviews(productId))
     }
 
+    /**
+ * A React component that displays product reviews.
+ *
+ * @returns {Object} An object containing the columns and rows data for the MDBDataTable component.
+ */
     const setReviews = () => {
         const data = {
             columns: [
@@ -93,7 +127,7 @@ export default function ProductReviews () {
                 user: review.name,
 
                 actions:
-                        <i className="fa fa-trash" onClick={() => handleReviewDelete(review._id)}></i>
+                    <i className="fa fa-trash" onClick={() => handleReviewDelete(review._id)}></i>
             })
         })
 
@@ -130,7 +164,7 @@ export default function ProductReviews () {
                                         className="btn btn-primary btn-block py-2"
                                     >
                                         SEARCH
-								    </button>
+                                    </button>
                                 </form>
                             </div>
 
@@ -145,8 +179,8 @@ export default function ProductReviews () {
                                 hover
                             />
                         ) : (
-                                <p className="mt-5 text-center">No Reviews.</p>
-                            )}
+                            <p className="mt-5 text-center">No Reviews.</p>
+                        )}
 
 
                     </>

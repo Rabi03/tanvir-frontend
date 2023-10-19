@@ -7,9 +7,25 @@ import MetaData from "../layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartItems ,removeCartItem} from "../../actions/CartActions";
 
+/**
+ * A React component that displays the current user's cart.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {Array<object>} props.cartItems The current user's cart items.
+ *
+ * @returns {React.Component} A React component that displays the current user's cart.
+ */
 export default function Cart({history}) {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+   /**
+   * Increases the quantity of a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   * @param {number} quantity The current quantity of the cart item.
+   * @param {number} stock The stock of the product.
+   */
   const increaseQuantity=(id,quantity,stock) => {
     const newQuantity = quantity+1
 
@@ -18,10 +34,21 @@ export default function Cart({history}) {
     dispatch(addCartItems(id,newQuantity))
 }
 
+  /**
+   * Removes a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   */
 const handleCartRemove=id=>{
     dispatch(removeCartItem(id))
 }
 
+  /**
+   * Decreases the quantity of a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   * @param {number} quantity The current quantity of the cart item.
+   */
 const decreaseQuantity=(id, quantity)=>{
     const newQuantity = quantity-1
 
@@ -29,7 +56,9 @@ const decreaseQuantity=(id, quantity)=>{
 
     dispatch(addCartItems(id,newQuantity))
 }
-
+/**
+   * Handles the checkout process.
+   */
 const handleCheckOut=()=>{
   history.push('/login?redirect=shipping')
 }

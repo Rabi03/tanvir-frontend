@@ -12,6 +12,14 @@ import {
 } from "../../actions/UserActions";
 import { UPDATE_PROFILE_RESET } from "../../constants/UserConstants";
 
+/**
+ * A React component that renders a profile update form.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.history The history object.
+ *
+ * @returns {React.Component} A React component that renders a profile update form.
+ */
 export default function UpdateProfile({ history }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

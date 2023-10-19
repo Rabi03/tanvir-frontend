@@ -8,6 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUser, getUserDetails, clearErrors } from '../../actions/UserActions'
 import { UPDATE_USER_RESET } from '../../constants/UserConstants'
 
+/**
+ * A React component that updates a user.
+ *
+ * @param {object} props The component props.
+ * @param {string} props.history The history object.
+ * @param {string} props.match The match object.
+ * @param {string} props.userId The ID of the user that is being updated.
+ */
 export default function UpdateUser ({ history, match }){
 
     const [name, setName] = useState('')

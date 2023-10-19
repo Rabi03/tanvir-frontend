@@ -8,11 +8,25 @@ import Badge from "@mui/material/Badge";
 import { createTheme } from '@mui/material/styles';
 
 
-
+/**
+ * A React component that displays the header of the website.
+ *
+ * @returns {React.Component} A React component that displays the header of the website.
+ */
 export default function Header() {
+  /**
+   * The Redux dispatch function.
+   *
+   * @type {function}
+   */
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user, loading } = useSelector((state) => state.user);
+   /**
+   * The cart items state.
+   *
+   * @type {Array}
+   */
   const {cartItems}=useSelector((state) => state.cart)
 
   useEffect(()=>{
