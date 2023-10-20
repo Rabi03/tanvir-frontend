@@ -40,8 +40,8 @@ export default function Home2({ match, history }) {
         'Headphones',
         'Food',
         "Books",
-        'Clothes/Shoes',
-        'Beauty/Health',
+        'Clothes_Shoes',
+        'Beauty_Health',
         'Sports',
         'Outdoor',
         'Home'
@@ -195,19 +195,19 @@ export default function Home2({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0 }} onClick={() => history.push(`/search/Clothes/Shoes`)}>
+                                    <div class="col-md-3" style={{ padding: 0 }} onClick={() => history.push(`/search/Clothes_Shoes`)}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Clothes/Shoes</h5>
+                                                <h5 class="card-title">Clothes_Shoes</h5>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0 }} onClick={() => history.push(`/search/Beauty/Health`)}>
+                                    <div class="col-md-3" style={{ padding: 0 }} onClick={() => history.push(`/search/Beauty_Health`)}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Beauty/Health</h5>
+                                                <h5 class="card-title">Beauty_Health</h5>
                                             </div>
                                         </div>
                                     </div>

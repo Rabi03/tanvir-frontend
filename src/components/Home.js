@@ -26,7 +26,7 @@ export default function Home({ match, history }) {
     const [price, setPrice] = useState([1, 25000])
     const alert = useAlert()
     const dispatch = useDispatch()
-    const [keyword, setKeyWord] = useState(null)
+    // const [keyword, setKeyWord] = useState(null)
 
     const [category, setCategory] = useState('')
     const [rating, setRating] = useState(0)
@@ -39,8 +39,8 @@ export default function Home({ match, history }) {
         'Headphones',
         'Food',
         "Books",
-        'Clothes/Shoes',
-        'Beauty/Health',
+        'Clothes_Shoes',
+        'Beauty_Health',
         'Sports',
         'Outdoor',
         'Home'
@@ -59,29 +59,36 @@ export default function Home({ match, history }) {
         "Automotive & Motorbike"
     ];
 
-    // const keyword = match.params.keyword
+    const keyword = match.params.keyword
 
-    useEffect(() => {
-        if (match.params.keyword) {
-            let query = match.params.keyword;
-            if (query.includes('cat~')) {
+    useEffect(()=>{
+        if(match.params.category)
+        setCategory(match.params.category)
+        dispatch(getProducts(keyword, currentPage, price, match.params.category, rating))
+    },[match.params])
+
+    // useEffect(() => {
+    //     if (match.params.keyword) {
+    //         let query = match.params.keyword;
+    //         if (query.includes('cat~')) {
                 
-                setCategory(query.split("cat~")[1])
+    //             setCategory(query.split("cat~")[1])
                 
-            }
-            else setKeyWord(query)
-        }
-    }, [match.params])
+    //         }
+    //         else setKeyWord(query)
+    //     }
+    // }, [match.params])
 
     const { loading, products, error, resPerPage, productCount, filteredProductsCount } = useSelector(state => state.products)
 
     useEffect(() => {
+       
         if (error) {
             return alert.error(error.message)
         }
-        setTimeout(()=>dispatch(getProducts(keyword, currentPage, price, category, rating)),500)
+        dispatch(getProducts(keyword, currentPage, price, category, rating))
 
-    }, [dispatch, alert, error, keyword, currentPage,  category, rating,match.params])
+    }, [dispatch, alert, error, keyword, currentPage,  category, rating])
     
 
     const setCurrentPageNo = (pageNumber) => {
@@ -157,7 +164,7 @@ export default function Home({ match, history }) {
                             <h1 id="products_heading">Categories</h1>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Electronics")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" class="card-img-top" alt="Electronics" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -165,7 +172,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Cameras")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" class="card-img-top" alt="Cameras" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -173,7 +180,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Laptops")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" class="card-img-top" alt="Laptops" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -181,7 +188,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Accessories")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -189,7 +196,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Headphones")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -197,7 +204,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Food")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -205,7 +212,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Books")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -213,25 +220,25 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Clothes/Shoes")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Clothes/Shoes</h5>
+                                                <h5 class="card-title">Clothes_Shoes</h5>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Beauty/Health")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Beauty/Health</h5>
+                                                <h5 class="card-title">Beauty_Health</h5>
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Sports")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" class="card-img-top" alt="Sports" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -239,7 +246,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} >onClick={() => history.push("/search/cat~Outdoor")}
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" class="card-img-top" alt="Outdoor" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -247,7 +254,7 @@ export default function Home({ match, history }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/search/cat~Home")}>
+                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" class="card-img-top" alt="Home" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
@@ -262,7 +269,7 @@ export default function Home({ match, history }) {
                             </div>
                         </>
                     }
-                    <h1 id="products_heading">Latest Products</h1>
+                    <h1 id="products_heading">{(keyword|| category)?"Available Products":"Latest Products"}</h1>
 
                     <section id="products" className="container mt-5">
                         <div className="row">

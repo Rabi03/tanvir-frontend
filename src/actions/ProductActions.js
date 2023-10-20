@@ -41,10 +41,10 @@ export const getProducts=(keyword="",currentPage=1,price,category="",rating=0)=>
 
         dispatch({type: ALL_PRODUCTS_REQUEST})
 
-        let route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating[gte]=${rating}`
+        let route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating=${rating}`
 
         if(category){
-            route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating[gte]=${rating}`
+            route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating=${rating}`
         }
 
         const {data} = await axios.get(route)

@@ -27,8 +27,8 @@ const NewProduct = ({ history }) => {
         'Headphones',
         'Food',
         "Books",
-        'Clothes/Shoes',
-        'Beauty/Health',
+        'Clothes_Shoes',
+        'Beauty_Health',
         'Sports',
         'Outdoor',
         'Home'
