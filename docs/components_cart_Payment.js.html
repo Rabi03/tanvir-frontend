@@ -3,20 +3,8 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/cart/Payment.js - Docdash</title>
+    <title>components/cart/Payment.js - Documentation</title>
     
-    <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
-    
-        <meta name="keywords" content="jsdoc, docdash" />
-        <meta name="keyword" content="jsdoc, docdash" />
-    
-    
-    
-    <meta property="og:title" content="Docdash"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:image" content="https://cloud.githubusercontent.com/assets/447956/13398144/4dde7f36-defd-11e5-8909-1a9013302cb9.png"/>
-    <meta property="og:site_name" content="Docdash"/>
-    <meta property="og:url" content="http://clenemt.github.io/docdash/"/>
     
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -40,10 +28,8 @@
 
 <nav >
     
-    <input type="text" id="nav-search" placeholder="Search" />
     
-    
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
     
 </nav>
 
@@ -82,16 +68,13 @@ const options = {
         }
     }
 }
+
 /**
- * A React component that displays the payment page.
+ * Payment component for handling payment methods and order submission.
  *
- * @param {object} props The component props.
- * @param {object} props.history The history object.
- * @param {Array&lt;object>} props.cartItems The current user's cart items.
- * @param {object} props.shippingInfo The current user's shipping information.
- * @param {object} props.user The current user.
- *
- * @returns {React.Component} A React component that displays the payment page.
+ * @param {Object} props - The component's props.
+ * @param {object} props.history - The history object for navigation.
+ * @returns {JSX.Element} - React component for Payment.
  */
 export default function Payment({ history }) {
     const alert = useAlert();
@@ -102,7 +85,7 @@ export default function Payment({ history }) {
     const { cartItems, shippingInfo } = useSelector(state => state.cart);
     const { error } = useSelector(state => state.newOrder)
 
-    console.log("Shipping Info",shippingInfo)
+    console.log("Shipping Info", shippingInfo)
 
     useEffect(() => {
 
@@ -129,11 +112,15 @@ export default function Payment({ history }) {
     const paymentData = {
         amount: Math.round(orderInfo.totalPrice * 100)
     }
-
+        /**
+         * Handles the form submission for payment processing.
+         *
+         * @param {Event} e - The event object.
+         */
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        
+
         let token = localStorage.getItem("token")
         try {
             const res = await axios.post("https://tanvir-backend.vercel.app/api/v1/payment/process", { user, order, shippingInfo, totalPrice: orderInfo.totalPrice }, {
@@ -150,19 +137,23 @@ export default function Payment({ history }) {
 
         }
     }
-
+    /**
+         * Handles the form submission for card payment processing.
+         *
+         * @param {Event} e - The event object.
+         */
     const cardSubmitHandler = async (e) => {
         e.preventDefault();
 
-        
+
         let token = localStorage.getItem("token")
         await axios.post("https://tanvir-backend.vercel.app/stripe/create-checkout-session", {
             orderItems: cartItems,
             shippingInfo,
-            itemsPrice:orderInfo.itemsPrice,
-            taxPrice:orderInfo.taxPrice,
-            shippingPrice:orderInfo.shippingPrice,
-            totalPrice:orderInfo.totalPrice
+            itemsPrice: orderInfo.itemsPrice,
+            taxPrice: orderInfo.taxPrice,
+            shippingPrice: orderInfo.shippingPrice,
+            totalPrice: orderInfo.totalPrice
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -184,19 +175,19 @@ export default function Payment({ history }) {
             &lt;MetaData title={'Payment'} />
 
             &lt;CheckoutSteps state={2} />
-            &lt;h1 style={{margin:'30px 0px'}}>Select Payment method&lt;/h1>
+            &lt;h1 style={{ margin: '30px 0px' }}>Select Payment method&lt;/h1>
             &lt;div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between',cursor:'pointer',border:'1px solid gray',padding:'10px 10px',borderRadius:'10px',marginRight:'20px' }} onClick={submitHandler}>
+                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
                     &lt;div style={{ display: 'flex', alignItems: 'center' }}>
-                        
+
                         &lt;img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
                     &lt;/div>
 
                     &lt;img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={600} height={400} />
                 &lt;/div>
-                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between',cursor:'pointer',border:'1px solid gray',padding:'10px 10px',borderRadius:'10px' }} onClick={cardSubmitHandler}>
+                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
                     &lt;div style={{ display: 'flex', alignItems: 'center' }}>
-                        
+
                         &lt;img src='https://memberpress.com/wp-content/uploads/2017/09/Integrations2-768x432-1.jpg' width={200} height={100} />
                     &lt;/div>
 
@@ -248,17 +239,13 @@ export default function Payment({ history }) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 02:03:57 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:08:57 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
 <script src="scripts/polyfill.js"></script>
 <script src="scripts/linenumber.js"></script>
 
-<script src="scripts/search.js" defer></script>
-
-
-<script src="scripts/collapse.js" defer></script>
 
 
 </body>

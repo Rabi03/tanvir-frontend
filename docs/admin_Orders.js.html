@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>admin/Orders.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">admin/Orders.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { MDBDataTable } from 'mdbreact'
+
+import MetaData from '../layout/MetaData'
+import Loader from '../layout/Loader'
+import Sidebar from './Sidebar'
+
+import { useAlert } from 'react-alert'
+import { useDispatch, useSelector } from 'react-redux'
+import { allOrders, deleteOrder, clearErrors } from '../../actions/OrderActions'
+import { DELETE_ORDER_RESET } from '../../constants/OrderConstants'
+
+/**
+ * A React component that renders a list of all orders.
+ *
+ * @returns {React.Component} A React component that renders a list of all orders.
+ */
+export default function Orders({ history }) {
+
+    /**
+   * The useAlert hook to display alerts to the user.
+   */
+    const alert = useAlert();
+
+    /**
+     * The useDispatch hook to dispatch actions to the Redux store.
+     */
+    const dispatch = useDispatch();
+
+    /**
+     * The useSelector hook to select state from the Redux store.
+     */
+    const { loading, error, orders } = useSelector(state => state.allOrders);
+    const { isDeleted } = useSelector(state => state.orderDelorUp)
+
+    /**
+     * An effect hook that fetches all orders from the Redux store and displays an alert
+     * if there is an error.
+     */
+    useEffect(() => {
+        dispatch(allOrders());
+
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors())
+        }
+
+        if (isDeleted) {
+            alert.success('Order deleted successfully');
+            history.push('/admin/orders');
+            dispatch({ type: DELETE_ORDER_RESET })
+        }
+
+    }, [dispatch, alert, error, history, isDeleted])
+
+    /**
+     * A function that dispatches an action to delete an order.
+     *
+     * @param {string} id The ID of the order to delete.
+     */
+    const deleteOrderHandler = (id) => {
+        dispatch(deleteOrder(id))
+    }
+
+    /**
+     * A function that formats the orders data for the MDBDataTable component.
+     *
+     * @returns {object} An object containing the formatted orders data.
+     */
+    const setOrders = () => {
+        const data = {
+            columns: [
+                {
+                    label: 'Order ID',
+                    field: 'id',
+                    sort: 'asc'
+                },
+                {
+                    label: 'No of Items',
+                    field: 'numofItems',
+                    sort: 'asc'
+                },
+                {
+                    label: 'Amount',
+                    field: 'amount',
+                    sort: 'asc'
+                },
+
+                {
+                    label: 'Payment',
+                    field: 'payment',
+                },
+                {
+                    label: 'Status',
+                    field: 'status',
+                    sort: 'asc'
+                },
+                // {
+                //     label: 'Supply',
+                //     field: 'supplied',
+                // },
+                {
+                    label: 'Actions',
+                    field: 'actions',
+                },
+            ],
+            rows: []
+        }
+
+        orders.forEach(order => {
+            data.rows.push({
+                id: order._id,
+                numofItems: order.orderItems.length,
+                amount: `BDT ${order.totalPrice}`,
+                status: order.orderStatus &amp;&amp; String(order.orderStatus).includes('Delivered')
+                    ? &lt;p style={{ color: 'green' }}>{order.orderStatus}&lt;/p>
+                    : &lt;p style={{ color: 'red' }}>{order.orderStatus}&lt;/p>,
+                payment: "Paid",
+                //     supplied:order.supplied&amp;&amp;String(order.orderStatus).includes('Delivered')?&lt;div className='line'>
+                //     &lt;h6 className='pop-outin'>supplied&lt;/h6>
+                //   &lt;/div>:&lt;p style={{ color: 'green' }}>&lt;/p>,
+                actions: &lt;>
+                    &lt;Link to={`/admin/order/${order._id}`}>
+                        &lt;i className="fa fa-eye">&lt;/i>
+                    &lt;/Link>
+                    &lt;i className="fa fa-trash" style={{ marginLeft: 20, color: 'red', cursor: 'pointer' }} onClick={() => deleteOrderHandler(order._id)}>&lt;/i>
+                &lt;/>
+            })
+        })
+
+        return data;
+    }
+
+    /**
+   * Renders the list of all orders.
+   *
+   * @returns {React.Component} A React component that renders the list of all orders.
+   */
+    return (
+        &lt;>
+            &lt;MetaData title={'All Orders'} />
+            &lt;div className="row">
+                &lt;div className="col-12 col-md-2">
+                    &lt;Sidebar />
+                &lt;/div>
+
+                &lt;div className="col-12 col-md-10">
+                    &lt;>
+                        &lt;h1 className="my-5">All Orders&lt;/h1>
+
+                        {loading ? &lt;Loader /> : (
+                            &lt;MDBDataTable
+                                data={setOrders()}
+                                className="px-3"
+                                bordered
+                                striped
+                                hover
+                            />
+                        )}
+
+                    &lt;/>
+                &lt;/div>
+            &lt;/div>
+
+        &lt;/>
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:02:48 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

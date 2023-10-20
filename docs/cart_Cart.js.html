@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>cart/Cart.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">cart/Cart.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import {Link} from 'react-router-dom'
+import { useAlert } from "react-alert";
+import MetaData from "../layout/MetaData";
+
+
+import { useDispatch, useSelector } from "react-redux";
+import { addCartItems ,removeCartItem} from "../../actions/CartActions";
+
+/**
+ * A React component that displays the current user's cart.
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {Array&lt;object>} props.cartItems The current user's cart items.
+ *
+ * @returns {React.Component} A React component that displays the current user's cart.
+ */
+export default function Cart({history}) {
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+   /**
+   * Increases the quantity of a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   * @param {number} quantity The current quantity of the cart item.
+   * @param {number} stock The stock of the product.
+   */
+  const increaseQuantity=(id,quantity,stock) => {
+    const newQuantity = quantity+1
+
+    if(newQuantity >stock) return
+
+    dispatch(addCartItems(id,newQuantity))
+}
+
+  /**
+   * Removes a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   */
+const handleCartRemove=id=>{
+    dispatch(removeCartItem(id))
+}
+
+  /**
+   * Decreases the quantity of a cart item.
+   *
+   * @param {string} id The ID of the cart item.
+   * @param {number} quantity The current quantity of the cart item.
+   */
+const decreaseQuantity=(id, quantity)=>{
+    const newQuantity = quantity-1
+
+    if(newQuantity &lt;=0) return
+
+    dispatch(addCartItems(id,newQuantity))
+}
+/**
+   * Handles the checkout process.
+   */
+const handleCheckOut=()=>{
+  history.push('/login?redirect=shipping')
+}
+  return (
+    &lt;>
+      &lt;MetaData title={"Your Cart"} />
+      {cartItems.length === 0 ? (
+        &lt;h2 className="mt-5">Your cart is empty&lt;/h2>
+      ) : (
+        &lt;>
+        &lt;h2 class="mt-5">Your Cart: &lt;b>{cartItems.length} items&lt;/b>&lt;/h2>
+          &lt;div className="row d-flex justify-content-between">
+            &lt;div className="col-12 col-lg-8">
+            {cartItems.map(item => (
+                &lt;>
+                   &lt;div key={item.product} className="cart-item" style={{border: '1px solid #ccc'}}>
+                &lt;div className="row">
+                  &lt;div className="col-4 col-lg-3">
+                    &lt;img
+                      src={item.image.url}
+                      alt="Laptop"
+                      height="90"
+                      width="115"
+                    />
+                  &lt;/div>
+
+                  &lt;div className="col-5 col-lg-3">
+                    &lt;Link to={`/product/${item.product}`}>{item.name}&lt;/Link>
+                  &lt;/div>
+
+                  &lt;div className="col-4 col-lg-2 mt-4 mt-lg-0">
+                    &lt;p id="card_item_price">${item.price}&lt;/p>
+                  &lt;/div>
+
+                  &lt;div className="col-4 col-lg-3 mt-4 mt-lg-0">
+                    &lt;div className="stockCounter d-inline">
+                      &lt;span className="btn btn-danger minus" onClick={()=>decreaseQuantity(item.product,item.quantity)}>-&lt;/span>
+                      &lt;input
+                        type="number"
+                        className="form-control count d-inline"
+                        value={item.quantity}
+                        readOnly
+                      />
+
+                      &lt;span className="btn btn-primary plus" onClick={()=>increaseQuantity(item.product,item.quantity,item.stock)}>+&lt;/span>
+                    &lt;/div>
+                  &lt;/div>
+
+                  &lt;div className="col-4 col-lg-1 mt-4 mt-lg-0">
+                    &lt;i
+                      id="delete_cart_item"
+                      className="fa fa-trash btn btn-danger"
+                      onClick={()=>handleCartRemove(item.product)}
+                    >&lt;/i>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+                &lt;/>
+            ))}
+              
+              
+            &lt;/div>
+
+            &lt;div className="col-12 col-lg-3 my-4">
+              &lt;div id="order_summary">
+                &lt;h4>Order Summary&lt;/h4>
+                &lt;hr />
+                &lt;p>
+                  Subtotal:{" "}
+                  &lt;span className="order-summary-values">{cartItems.reduce((acc, item) =>(acc+Number(item.quantity)),0)} (Units)&lt;/span>
+                &lt;/p>
+                &lt;p>
+                  Est. total:{" "}
+                  &lt;span className="order-summary-values">${cartItems.reduce((acc, item) =>(acc+item.quantity*item.price),0).toFixed(2)}&lt;/span>
+                &lt;/p>
+
+                &lt;hr />
+                &lt;button id="checkout_btn" className="btn btn-primary btn-block" onClick={handleCheckOut}>
+                  Check out
+                &lt;/button>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/>
+      )}
+    &lt;/>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:02:48 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

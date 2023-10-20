@@ -9,7 +9,6 @@ import { addCartItems ,removeCartItem} from "../../actions/CartActions";
 
 /**
  * A React component that displays the current user's cart.
- *
  * @param {object} props The component props.
  * @param {object} props.history The history object.
  * @param {Array<object>} props.cartItems The current user's cart items.

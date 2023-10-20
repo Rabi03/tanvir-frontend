@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/Home.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/Home.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from 'react'
+import MetaData from './layout/MetaData'
+import Pagination from 'react-js-pagination'
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css';
+
+import { useDispatch, useSelector } from 'react-redux'
+import { getProducts } from '../actions/ProductActions'
+import Product from './product/Product'
+import Loader from './layout/Loader'
+import { useAlert } from 'react-alert'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import InboxIcon from '@mui/icons-material/Inbox';
+
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range)
+
+/**
+ * @file This file contains the Home component for your application.
+ */
+
+/**
+ * The Home component displays products and allows filtering by category, price, and ratings.
+ *
+ * @component
+ * @param {Object} match - The React Router match object.
+ * @param {Object} history - The React Router history object.
+ * @returns {JSX.Element} A JSX element representing the Home component.
+ */
+export default function Home({ match, history }) {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [price, setPrice] = useState([1, 25000])
+    const alert = useAlert()
+    const dispatch = useDispatch()
+    // const [keyword, setKeyWord] = useState(null)
+
+    const [category, setCategory] = useState('')
+    const [rating, setRating] = useState(0)
+    /**
+     * All available category.
+     */
+    const categories = [
+        'Electronics',
+        'Cameras',
+        'Laptops',
+        'Accessories',
+        'Headphones',
+        'Food',
+        "Books",
+        'Clothes_Shoes',
+        'Beauty_Health',
+        'Sports',
+        'Outdoor',
+        'Home'
+    ]
+
+    const headCategory = [
+        "Health &amp; Beauty",
+        "Watches, Bags, Jewellery",
+        "Men's &amp; Boys' Fashion",
+        "Mother &amp; Baby",
+        "Electronics Devices",
+        "TV &amp; Home Appliances",
+        "Electronic Accessories",
+        "Groceries",
+        "Sports &amp; Outdoors",
+        "Automotive &amp; Motorbike"
+    ];
+
+    const keyword = match.params.keyword
+
+    useEffect(()=>{
+        if(match.params.category)
+        setCategory(match.params.category)
+        dispatch(getProducts(keyword, currentPage, price, match.params.category, rating))
+    },[match.params])
+
+    // useEffect(() => {
+    //     if (match.params.keyword) {
+    //         let query = match.params.keyword;
+    //         if (query.includes('cat~')) {
+                
+    //             setCategory(query.split("cat~")[1])
+                
+    //         }
+    //         else setKeyWord(query)
+    //     }
+    // }, [match.params])
+
+    const { loading, products, error, resPerPage, productCount, filteredProductsCount } = useSelector(state => state.products)
+
+    useEffect(() => {
+       
+        if (error) {
+            return alert.error(error.message)
+        }
+        dispatch(getProducts(keyword, currentPage, price, category, rating))
+
+    }, [dispatch, alert, error, keyword, currentPage,  category, rating])
+    
+    /**
+     * Sets the current page number for pagination.
+     *
+     * @param {number} pageNumber - The new page number.
+     */
+    const setCurrentPageNo = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
+    let count = productCount
+    if (keyword) {
+        count = filteredProductsCount
+    }
+    /**
+     * Handles the price range change and triggers a product filter based on the selected price range.
+     *
+     * @param {Event} e - The event object.
+     */
+    const handlePriceChange=(e)=>{
+        e.preventDefault()
+        if(price){
+            dispatch(getProducts(keyword, currentPage, price, category, rating))
+        }
+
+    }
+
+    console.log(products)
+
+    return (
+        &lt;>
+            {loading ? &lt;>
+                &lt;Loader />
+            &lt;/> :
+                &lt;>
+                    &lt;MetaData title={keyword ? keyword : "Buy Best Product Online"} />
+                    {(!keyword&amp;&amp;!category) &amp;&amp;
+                        &lt;>
+                            &lt;div className='row' style={{ marginTop: '20px' }}>
+
+                                {/* &lt;List className='col-3' style={{ fontSize: '10px', border: '1px solid gray', borderRadius: '10px' }}>
+                                    {headCategory.map((cat, id) =>
+                                        &lt;ListItem key={id} style={{ padding: '0px' }}>
+                                            &lt;ListItemButton>
+                                                &lt;ListItemIcon>
+                                                    &lt;InboxIcon />
+                                                &lt;/ListItemIcon>
+                                                &lt;ListItemText primary={cat} />
+                                            &lt;/ListItemButton>
+                                        &lt;/ListItem>
+                                    )}
+
+                                &lt;/List> */}
+                                &lt;div id="carouselExampleIndicators" className="col-12 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                                    &lt;ol className="carousel-indicators">
+                                        &lt;li data-target="#carouselExampleIndicators" data-slide-to="0" className="active">&lt;/li>
+                                        &lt;li data-target="#carouselExampleIndicators" data-slide-to="1">&lt;/li>
+                                        &lt;li data-target="#carouselExampleIndicators" data-slide-to="2">&lt;/li>
+                                    &lt;/ol>
+                                    &lt;div className="carousel-inner" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                                        &lt;div className="carousel-item active">
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/VSsN4Jt/carousel-2.png" alt="First slide" />
+                                        &lt;/div>
+                                        &lt;div className="carousel-item">
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/tMB5CZW/behzad-ghaffarian-nh-Wg-ZNV85-LQ-unsplash-1-3-1.png" alt="Second slide" />
+                                        &lt;/div>
+                                        &lt;div className="carousel-item">
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/phw8yGZ/sven-brandsma-Qz6-Zx4-Rjd-D8-unsplash-1.png" alt="Third slide" />
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style={{ backgroundColor: 'black', height: '50px', width: '50px', margin: 'auto 0px', marginLeft: '20px', borderRadius: '100%' }}>
+                                        &lt;span className="carousel-control-prev-icon" aria-hidden="true">&lt;/span>
+                                        &lt;span className="sr-only">Previous&lt;/span>
+                                    &lt;/a>
+                                    &lt;a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style={{ backgroundColor: 'black', height: '50px', width: '50px', margin: 'auto 0px', marginRight: '20px', borderRadius: '100%' }}>
+                                        &lt;span className="carousel-control-next-icon" aria-hidden="true">&lt;/span>
+                                        &lt;span className="sr-only">Next&lt;/span>
+                                    &lt;/a>
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;h1 id="products_heading">Categories&lt;/h1>
+                            &lt;div class="container">
+                                &lt;div class="row">
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" class="card-img-top" alt="Electronics" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Electronics&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" class="card-img-top" alt="Cameras" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Cameras&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" class="card-img-top" alt="Laptops" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Laptops&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Accessories&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Headphones&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Food&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Books&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Clothes_Shoes&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Beauty_Health&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+
+
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" class="card-img-top" alt="Sports" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Sports&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" class="card-img-top" alt="Outdoor" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Outdoor&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
+                                        &lt;div class="card" style={{ textAlign: 'center' }}>
+                                            &lt;img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" class="card-img-top" alt="Home" style={{ margin: '0px auto' }} />
+                                            &lt;div class="card-body">
+                                                &lt;h5 class="card-title">Home&lt;/h5>
+                                            &lt;/div>
+                                        &lt;/div>
+                                    &lt;/div>
+                                &lt;/div>
+
+
+
+                            &lt;/div>
+                        &lt;/>
+                    }
+                    &lt;h1 id="products_heading">{(keyword|| category)?"Available Products":"Latest Products"}&lt;/h1>
+
+                    &lt;section id="products" className="container mt-5">
+                        &lt;div className="row">
+
+
+                            {(keyword || category) ? &lt;>
+                                &lt;div className="col-6 col-md-3 mt-0 mb-5">
+                                    &lt;div className="px-5">
+                                        &lt;h5 className='mb-5'>Price&lt;/h5>
+                                        &lt;Range
+                                            marks={{
+                                                1: `$1`,
+                                                25000: `$1000`
+                                            }}
+                                            min={1}
+                                            max={1000}
+                                            defaultValue={[1, 1000]}
+                                            tipFormatter={value => `$${value}`}
+                                            tipProps={{
+                                                placement: "top",
+                                                visible: true
+                                            }}
+                                            value={price}
+                                            onChange={price => setPrice(price)}
+                                        />
+                                        &lt;button className='btn btn-primary mt-4 ml-5' onClick={handlePriceChange}>Filter&lt;/button>
+
+                                        &lt;hr className="my-5" />
+
+                                        &lt;div className="mt-5">
+                                            &lt;h4 className="mb-3">
+                                                Categories
+                                            &lt;/h4>
+
+                                            &lt;ul className="pl-0">
+                                                {categories.map(category => (
+                                                    &lt;li
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            listStyleType: 'none'
+                                                        }}
+                                                        key={category}
+                                                        onClick={() => setCategory(category)}
+                                                    >
+                                                        {category}
+                                                    &lt;/li>
+                                                ))}
+                                            &lt;/ul>
+                                        &lt;/div>
+
+                                        &lt;hr className="my-3" />
+
+                                        &lt;div className="mt-5">
+                                            &lt;h4 className="mb-3">
+                                                Ratings
+                                            &lt;/h4>
+
+                                            &lt;ul className="pl-0">
+                                                {[5, 4, 3, 2, 1, 0].map(star => (
+                                                    &lt;li
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            listStyleType: 'none'
+                                                        }}
+                                                        key={star}
+                                                        onClick={() => setRating(star)}
+                                                    >
+                                                        &lt;div className="rating-outer">
+                                                            &lt;div className="rating-inner"
+                                                                style={{
+                                                                    width: `${star * 20}%`
+                                                                }}
+                                                            >
+                                                            &lt;/div>
+                                                        &lt;/div>
+                                                    &lt;/li>
+                                                ))}
+                                            &lt;/ul>
+                                        &lt;/div>
+
+                                    &lt;/div>
+                                &lt;/div>
+
+                                &lt;div className="col-6 col-md-9">
+                                    &lt;div className="row">
+                                        {products?.length > 0 &amp;&amp; products.map(product => (
+                                            &lt;Product key={product._id} product={product} col={4} />
+                                        ))}
+                                    &lt;/div>
+                                &lt;/div>
+                            &lt;/>
+
+                                :
+                                products.length > 0 &amp;&amp; products.map(product => (
+                                    &lt;Product key={product._id} product={product} col={3} />
+                                ))}
+
+                        &lt;/div>
+                    &lt;/section>
+                    {resPerPage &lt;= count &amp;&amp; (
+                        &lt;div className="d-flex justify-content-center mt-5">
+                            &lt;Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={resPerPage}
+                                totalItemsCount={productCount}
+                                onChange={setCurrentPageNo}
+                                nextPageText={'Next'}
+                                prevPageText={'Prev'}
+                                firstPageText={'First'}
+                                lastPageText={'Last'}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                            />
+                        &lt;/div>
+                    )}
+
+
+                &lt;/>
+            }
+
+        &lt;/>
+    )
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:08:57 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

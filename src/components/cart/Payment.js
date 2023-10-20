@@ -21,16 +21,13 @@ const options = {
         }
     }
 }
+
 /**
- * A React component that displays the payment page.
+ * Payment component for handling payment methods and order submission.
  *
- * @param {object} props The component props.
- * @param {object} props.history The history object.
- * @param {Array<object>} props.cartItems The current user's cart items.
- * @param {object} props.shippingInfo The current user's shipping information.
- * @param {object} props.user The current user.
- *
- * @returns {React.Component} A React component that displays the payment page.
+ * @param {Object} props - The component's props.
+ * @param {object} props.history - The history object for navigation.
+ * @returns {JSX.Element} - React component for Payment.
  */
 export default function Payment({ history }) {
     const alert = useAlert();
@@ -41,7 +38,7 @@ export default function Payment({ history }) {
     const { cartItems, shippingInfo } = useSelector(state => state.cart);
     const { error } = useSelector(state => state.newOrder)
 
-    console.log("Shipping Info",shippingInfo)
+    console.log("Shipping Info", shippingInfo)
 
     useEffect(() => {
 
@@ -68,11 +65,15 @@ export default function Payment({ history }) {
     const paymentData = {
         amount: Math.round(orderInfo.totalPrice * 100)
     }
-
+        /**
+         * Handles the form submission for payment processing.
+         *
+         * @param {Event} e - The event object.
+         */
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        
+
         let token = localStorage.getItem("token")
         try {
             const res = await axios.post("https://tanvir-backend.vercel.app/api/v1/payment/process", { user, order, shippingInfo, totalPrice: orderInfo.totalPrice }, {
@@ -89,19 +90,23 @@ export default function Payment({ history }) {
 
         }
     }
-
+    /**
+         * Handles the form submission for card payment processing.
+         *
+         * @param {Event} e - The event object.
+         */
     const cardSubmitHandler = async (e) => {
         e.preventDefault();
 
-        
+
         let token = localStorage.getItem("token")
         await axios.post("https://tanvir-backend.vercel.app/stripe/create-checkout-session", {
             orderItems: cartItems,
             shippingInfo,
-            itemsPrice:orderInfo.itemsPrice,
-            taxPrice:orderInfo.taxPrice,
-            shippingPrice:orderInfo.shippingPrice,
-            totalPrice:orderInfo.totalPrice
+            itemsPrice: orderInfo.itemsPrice,
+            taxPrice: orderInfo.taxPrice,
+            shippingPrice: orderInfo.shippingPrice,
+            totalPrice: orderInfo.totalPrice
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -123,19 +128,19 @@ export default function Payment({ history }) {
             <MetaData title={'Payment'} />
 
             <CheckoutSteps state={2} />
-            <h1 style={{margin:'30px 0px'}}>Select Payment method</h1>
+            <h1 style={{ margin: '30px 0px' }}>Select Payment method</h1>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between',cursor:'pointer',border:'1px solid gray',padding:'10px 10px',borderRadius:'10px',marginRight:'20px' }} onClick={submitHandler}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        
+
                         <img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
                     </div>
 
                     <img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={600} height={400} />
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between',cursor:'pointer',border:'1px solid gray',padding:'10px 10px',borderRadius:'10px' }} onClick={cardSubmitHandler}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        
+
                         <img src='https://memberpress.com/wp-content/uploads/2017/09/Integrations2-768x432-1.jpg' width={200} height={100} />
                     </div>
 

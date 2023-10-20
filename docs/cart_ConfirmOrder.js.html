@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>cart/ConfirmOrder.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">cart/ConfirmOrder.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import { Link } from 'react-router-dom'
+
+import MetaData from '../layout/MetaData'
+import CheckoutSteps from './CheckoutSteps'
+
+import { useSelector } from 'react-redux'
+/**
+ * A React component that displays the order confirmation page.
+ *
+ * @param {object} props The component props.
+ * @param {object} props.history The history object.
+ * @param {Array&lt;object>} props.cartItems The current user's cart items.
+ * @param {object} props.shippingInfo The current user's shipping information.
+ * @param {object} props.user The current user.
+ *
+ * @returns {React.Component} A React component that displays the order confirmation page.
+ */
+const ConfirmOrder = ({ history }) => {
+
+    const { cartItems, shippingInfo } = useSelector(state => state.cart)
+    const { user } = useSelector(state => state.user)
+
+    console.log(shippingInfo)
+
+    /**
+   * Calculates the order prices.
+   *
+   * @returns {Object} An object containing the items price, shipping price, tax price, and total price.
+   */
+    const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    const shippingPrice = itemsPrice > 200 ? 0 : 25
+    const taxPrice = Number((0.05 * itemsPrice).toFixed(2))
+    const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2)
+
+    const processToPayment = () => {
+        const data = {
+            itemsPrice: itemsPrice.toFixed(2),
+            shippingPrice,
+            taxPrice,
+            totalPrice
+        }
+
+        sessionStorage.setItem('orderInfo', JSON.stringify(data))
+        history.push('/payment')
+    }
+
+    return (
+        &lt;>
+
+            &lt;MetaData title={'Confirm Order'} />
+
+            &lt;CheckoutSteps state={1} />
+
+            &lt;div className="row d-flex justify-content-between">
+                &lt;div className="col-12 col-lg-8 mt-5 order-confirm">
+
+                    &lt;h4 className="mb-3">Shipping Info&lt;/h4>
+                    &lt;p>&lt;b>Name:&lt;/b> {user &amp;&amp; user.name}&lt;/p>
+                    &lt;p>&lt;b>Phone:&lt;/b> {shippingInfo.phoneNo}&lt;/p>
+                    &lt;p className="mb-4">&lt;b>Address:&lt;/b> {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}&lt;/p>
+
+                    &lt;hr />
+                    &lt;h4 className="mt-4">Your Cart Items:&lt;/h4>
+
+                    {cartItems.map(item => (
+                        &lt;>
+                            &lt;div className="cart-item my-1" key={item.product} style={{border: '1px solid #ccc'}}>
+                                &lt;div className="row">
+                                    &lt;div className="col-4 col-lg-2">
+                                        &lt;img src={item.image.url} alt="Laptop" height="45" width="65" />
+                                    &lt;/div>
+
+                                    &lt;div className="col-5 col-lg-6">
+                                        &lt;Link to={`/product/${item.product}`}>{item.name}&lt;/Link>
+                                    &lt;/div>
+
+
+                                    &lt;div className="col-4 col-lg-4 mt-4 mt-lg-0">
+                                        &lt;p>{item.quantity} x ${item.price} = &lt;b>${(item.quantity * item.price).toFixed(2)}&lt;/b>&lt;/p>
+                                    &lt;/div>
+
+                                &lt;/div>
+                            &lt;/div>
+                        &lt;/>
+                    ))}
+
+
+
+                &lt;/div>
+
+                &lt;div className="col-12 col-lg-3 my-4">
+                    &lt;div id="order_summary">
+                        &lt;h4>Order Summary&lt;/h4>
+                        &lt;hr />
+                        &lt;p>Subtotal:  &lt;span className="order-summary-values">${itemsPrice}&lt;/span>&lt;/p>
+                        &lt;p>Shipping: &lt;span className="order-summary-values">${shippingPrice}&lt;/span>&lt;/p>
+                        &lt;p>Tax:  &lt;span className="order-summary-values">${taxPrice}&lt;/span>&lt;/p>
+
+                        &lt;hr />
+
+                        &lt;p>Total: &lt;span className="order-summary-values">${totalPrice}&lt;/span>&lt;/p>
+
+                        &lt;hr />
+                        &lt;button id="checkout_btn" className="btn btn-primary btn-block" onClick={processToPayment}>Proceed to Payment&lt;/button>
+                    &lt;/div>
+                &lt;/div>
+
+
+            &lt;/div>
+
+        &lt;/>
+    )
+}
+
+export default ConfirmOrder</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:02:48 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

@@ -30,7 +30,11 @@ export default function Home({ match, history }) {
 
     const [category, setCategory] = useState('')
     const [rating, setRating] = useState(0)
-
+/**
+ * A list of all product categories.
+ *
+ * @type {array<string>}
+ */
     const categories = [
         'Electronics',
         'Cameras',
@@ -61,19 +65,19 @@ export default function Home({ match, history }) {
 
     const keyword = match.params.keyword
 
-    useEffect(()=>{
-        if(match.params.category)
-        setCategory(match.params.category)
+    useEffect(() => {
+        if (match.params.category)
+            setCategory(match.params.category)
         dispatch(getProducts(keyword, currentPage, price, match.params.category, rating))
-    },[match.params])
+    }, [match.params])
 
     // useEffect(() => {
     //     if (match.params.keyword) {
     //         let query = match.params.keyword;
     //         if (query.includes('cat~')) {
-                
+
     //             setCategory(query.split("cat~")[1])
-                
+
     //         }
     //         else setKeyWord(query)
     //     }
@@ -81,15 +85,25 @@ export default function Home({ match, history }) {
 
     const { loading, products, error, resPerPage, productCount, filteredProductsCount } = useSelector(state => state.products)
 
+/**
+ * Gets a list of products.
+ *
+ * @param {string} keyword The keyword to search for.
+ * @param {number} currentPage The current page number.
+ * @param {array<number>} price The price range.
+ * @param {string} category The category to filter by.
+ * @param {number} rating The rating to filter by.
+ * @returns {object} An object containing the products and pagination information.
+ */
     useEffect(() => {
-       
+
         if (error) {
             return alert.error(error.message)
         }
         dispatch(getProducts(keyword, currentPage, price, category, rating))
 
-    }, [dispatch, alert, error, keyword, currentPage,  category, rating])
-    
+    }, [dispatch, alert, error, keyword, currentPage, category, rating])
+
 
     const setCurrentPageNo = (pageNumber) => {
         setCurrentPage(pageNumber)
@@ -100,9 +114,9 @@ export default function Home({ match, history }) {
         count = filteredProductsCount
     }
 
-    const handlePriceChange=(e)=>{
+    const handlePriceChange = (e) => {
         e.preventDefault()
-        if(price){
+        if (price) {
             dispatch(getProducts(keyword, currentPage, price, category, rating))
         }
 
@@ -117,7 +131,7 @@ export default function Home({ match, history }) {
             </> :
                 <>
                     <MetaData title={keyword ? keyword : "Buy Best Product Online"} />
-                    {(!keyword&&!category) &&
+                    {(!keyword && !category) &&
                         <>
                             <div className='row' style={{ marginTop: '20px' }}>
 
@@ -269,7 +283,7 @@ export default function Home({ match, history }) {
                             </div>
                         </>
                     }
-                    <h1 id="products_heading">{(keyword|| category)?"Available Products":"Latest Products"}</h1>
+                    <h1 id="products_heading">{(keyword || category) ? "Available Products" : "Latest Products"}</h1>
 
                     <section id="products" className="container mt-5">
                         <div className="row">
