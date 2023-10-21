@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
+import { Category } from '@mui/icons-material';
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range)
@@ -24,17 +25,18 @@ const Range = createSliderWithTooltip(Slider.Range)
 export default function Home({ match, history }) {
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([1, 25000])
+    const [priceChange, setPriceChange] = useState(false);
     const alert = useAlert()
     const dispatch = useDispatch()
     // const [keyword, setKeyWord] = useState(null)
 
     const [category, setCategory] = useState('')
     const [rating, setRating] = useState(0)
-/**
- * A list of all product categories.
- *
- * @type {array<string>}
- */
+    /**
+     * A list of all product categories.
+     *
+     * @type {array<string>}
+     */
     const categories = [
         'Electronics',
         'Cameras',
@@ -85,16 +87,16 @@ export default function Home({ match, history }) {
 
     const { loading, products, error, resPerPage, productCount, filteredProductsCount } = useSelector(state => state.products)
 
-/**
- * Gets a list of products.
- *
- * @param {string} keyword The keyword to search for.
- * @param {number} currentPage The current page number.
- * @param {array<number>} price The price range.
- * @param {string} category The category to filter by.
- * @param {number} rating The rating to filter by.
- * @returns {object} An object containing the products and pagination information.
- */
+    /**
+     * Gets a list of products.
+     *
+     * @param {string} keyword The keyword to search for.
+     * @param {number} currentPage The current page number.
+     * @param {array<number>} price The price range.
+     * @param {string} category The category to filter by.
+     * @param {number} rating The rating to filter by.
+     * @returns {object} An object containing the products and pagination information.
+     */
     useEffect(() => {
 
         if (error) {
@@ -290,25 +292,21 @@ export default function Home({ match, history }) {
 
 
                             {(keyword || category) ? <>
+
                                 <div className="col-6 col-md-3 mt-0 mb-5">
                                     <div className="px-5">
-                                        <h5 className='mb-5'>Price</h5>
-                                        <Range
-                                            marks={{
-                                                1: `$1`,
-                                                25000: `$1000`
-                                            }}
-                                            min={1}
-                                            max={1000}
-                                            defaultValue={[1, 1000]}
-                                            tipFormatter={value => `$${value}`}
-                                            tipProps={{
-                                                placement: "top",
-                                                visible: true
-                                            }}
-                                            value={price}
-                                            onChange={price => setPrice(price)}
-                                        />
+                                        <h5 className='mb-2'>Price</h5>
+                                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', gap: '5px' }}>
+                                            <input type='number' placeholder='Min' value={price[0]} style={{ width: '80px' }} onChange={e => {
+                                                setPriceChange(true)
+                                                setPrice(price => [e.target.value, price[1]])
+                                            }}></input>
+                                            -
+                                            <input type='number' placeholder='Max' value={price[1]} style={{ width: '80px' }} onChange={e => {
+                                                setPrice(price => [price[0], e.target.value])
+                                                setPriceChange(true)
+                                            }} />
+                                        </div>
                                         <button className='btn btn-primary mt-4 ml-5' onClick={handlePriceChange}>Filter</button>
 
                                         <hr className="my-5" />
@@ -318,20 +316,21 @@ export default function Home({ match, history }) {
                                                 Categories
                                             </h4>
 
-                                            <ul className="pl-0">
+                                            <select className="pl-0" value={category} placeholder='Select category' onChange={e=>setCategory(e.target.value)}>
                                                 {categories.map(category => (
-                                                    <li
+                                                    <option
                                                         style={{
                                                             cursor: 'pointer',
                                                             listStyleType: 'none'
                                                         }}
                                                         key={category}
-                                                        onClick={() => setCategory(category)}
+                                                        value={category}
+                                                        
                                                     >
                                                         {category}
-                                                    </li>
+                                                    </option>
                                                 ))}
-                                            </ul>
+                                            </select>
                                         </div>
 
                                         <hr className="my-3" />
@@ -368,6 +367,25 @@ export default function Home({ match, history }) {
                                 </div>
 
                                 <div className="col-6 col-md-9">
+                                    <div className='row my-2'>
+                                        {products?.length == 0 && <div>No product found. Try with different keyword or price range or category.</div>}
+
+                                    </div>
+                                    {products?.length > 0 &&
+                                        <div className='row'>
+                                            <div style={{ display: 'flex', flexDirection: 'row', fontSize: "10px" }}>
+                                                {category && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Category: {category}</h6>}
+                                                {price && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Price: {price[0]}-{price[1]} {priceChange && <span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => {
+                                                    setPrice([1, 25000])
+                                                    setPriceChange(false)
+                                                }}>x</span>}</h6>}
+                                                {rating > 0 && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Rating: {rating} <span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => setRating(0)}>x</span></h6>}
+
+                                            </div>
+
+                                        </div>
+                                    }
+
                                     <div className="row">
                                         {products?.length > 0 && products.map(product => (
                                             <Product key={product._id} product={product} col={4} />

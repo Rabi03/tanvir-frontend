@@ -96,11 +96,11 @@ const Chat = () => {
     }
   },[user])
 
-  console.log(data.user.name===null)
+  console.log(user)
 
   return (
     <>
-    {data.user._id?
+    {(data.user&&data.user._id)?
     <div className="chat">
       <div className="chatInfo">
         <span>{data.user?.name}</span>
@@ -115,7 +115,9 @@ const Chat = () => {
     :
     <div>
       <img src={anime} />
+      {user===null?<div style={{fontSize:'20px',padding:'10px 30px'}}>Please <a href="/login">Login/Register</a> to see conversation.</div>:
       <div style={{fontSize:'20px',padding:'10px 30px'}}>Hello {user?.name}. Select user to start chat..</div>
+    }
     </div>
 }
     </>

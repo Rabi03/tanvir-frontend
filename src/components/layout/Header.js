@@ -1,9 +1,9 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Route, Link } from "react-router-dom";
 import Search from "./Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import { logout,loadedUser } from "../../actions/UserActions";
+import { logout, loadedUser } from "../../actions/UserActions";
 import Badge from "@mui/material/Badge";
 import { createTheme } from '@mui/material/styles';
 
@@ -22,18 +22,18 @@ export default function Header() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user, loading } = useSelector((state) => state.user);
-   /**
-   * The cart items state.
-   *
-   * @type {Array}
-   */
-  const {cartItems}=useSelector((state) => state.cart)
+  /**
+  * The cart items state.
+  *
+  * @type {Array}
+  */
+  const { cartItems } = useSelector((state) => state.cart)
 
-  useEffect(()=>{
-    let token=localStorage.getItem('token')
-    if(token)
-    dispatch(loadedUser())
-  },[dispatch])
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token)
+      dispatch(loadedUser())
+  }, [dispatch])
 
   const handleLogOut = () => {
     dispatch(logout());
@@ -41,12 +41,25 @@ export default function Header() {
   };
 
   return (
-    <div style={{width:'100%',backgroundColor:'#212529'}}>
-      <nav className="navbar row container container-fluid mx-auto rounded" style={{backgroundColor:'#212529'}}>
+    <div style={{ width: '100%', backgroundColor: '#212529' }}>
+      <div className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529', color: 'white', padding: '0px', paddingLeft: '50px', paddingTop: '5px' }}>
+        
+        <div className="dropdown">
+          <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{background:'transparent',color:'white',border:'none',marginRight:'20px',fontSize:'10px'}}>
+          Help and support
+          </button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a className="dropdown-item" href="/return&refund">Returns & Refunds</a>
+            
+          </div>
+        </div>
+      </div>
+      <nav className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529' }}>
+
         <div className="col-12 col-md-2">
           <div className="navbar-brand">
             <Link to="/">
-              <img src="/images/walmart-logo.png" alt="" width="120" height="50"/>
+              <img src="/images/walmart-logo.png" alt="" width="120" height="50" />
             </Link>
           </div>
         </div>
@@ -58,7 +71,7 @@ export default function Header() {
         <div className="col-12 col-md-4 mt-4 mt-md-0 text-center">
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <Badge badgeContent={cartItems.length} color="secondary">
-              <i className="fas fa-shopping-cart" style={{ color: "white",fontSize: "22px"}}></i>
+              <i className="fas fa-shopping-cart" style={{ color: "white", fontSize: "22px" }}></i>
             </Badge>
           </Link>
           {user ? (
@@ -91,10 +104,10 @@ export default function Header() {
                     Dashboard
                   </Link>
                 )}
-                {user&&user?.role==="seller"&&(
+                {user && user?.role === "seller" && (
                   <Link className="dropdown-item" to="/seller/dashboard">
-                  Seller
-                </Link>
+                    Seller
+                  </Link>
                 )}
                 <Link className="dropdown-item" to="/orders/me">
                   Orders

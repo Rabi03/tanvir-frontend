@@ -31,8 +31,8 @@ const Chats = () => {
       };
     };
 
-    currentUser._id && getChats();
-  }, [currentUser._id]);
+    currentUser && getChats();
+  }, [currentUser]);
 
   /**
    * Handle the selection of a chat user and dispatch the selected user to the context.

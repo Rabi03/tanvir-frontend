@@ -56,6 +56,7 @@ import SellerNewProduct from './components/supply/NewProduct'
 import SellerUpdateProduct from './components/supply/UpdateProduct'
 import { useContext } from "react";
 import { ChatContext } from "./components/context/ChatContext";
+import ReturnRefund from "./components/ReturnRefund";
 
 //"http://[::1]:5000"
 
@@ -92,6 +93,7 @@ export default function App() {
           <Route path="/register" exact component={Register} />
           <Route path="/cart" exact component={Cart} />
           <Route path="/me/update" exact component={UpdateProfile} />
+          <Route path="/return&refund" exact component={ReturnRefund} />
           <Route path="/password/update" exact component={UpdatePassword} />
           <Route path="/password/forgot" exact component={ForgotPassword} />
           <Route
