@@ -58,9 +58,7 @@ const SupplyDashboard = () => {
                         {products && products.length}
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      <Link to="/admin/products" style={{ color: 'white', textTransform: 'capitalize' }}>View Details</Link>
-                    </CardActions>
+                    
                   </Card>
                 </div>
                 <div className="col-xl-4 col-sm-6 mb-3">
