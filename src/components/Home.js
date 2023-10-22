@@ -143,7 +143,7 @@ export default function Home({ match, history }) {
                         <>
                             <div className='row' style={{ marginTop: '20px' }}>
 
-                                {/* <List className='col-3' style={{ fontSize: '10px', border: '1px solid gray', borderRadius: '10px' }}>
+                                <List className='col-3' style={{ fontSize: '10px', border: '1px solid gray', borderRadius: '10px' }}>
                                     {headCategory.map((cat, id) =>
                                         <ListItem key={id} style={{ padding: '0px' }}>
                                             <ListItemButton>
@@ -155,8 +155,8 @@ export default function Home({ match, history }) {
                                         </ListItem>
                                     )}
 
-                                </List> */}
-                                <div id="carouselExampleIndicators" className="col-12 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                                </List>
+                                <div id="carouselExampleIndicators" className="col-9 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden' }}>
                                     <ol className="carousel-indicators">
                                         <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
                                         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
