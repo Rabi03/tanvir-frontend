@@ -35,7 +35,7 @@ const OrderDetails = ({ match }) => {
 
     const shippingDetails = shippingInfo && `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`
 
-    const isPaid = paymentInfo && paymentInfo.payment_status ? true : false
+    const isPaid = paymentInfo && paymentInfo.payment_status ? paymentInfo.payment_status : "not paid"
 
     return (
         <Fragment>
@@ -57,7 +57,7 @@ const OrderDetails = ({ match }) => {
                             <hr />
 
                             <h4 className="my-4">Payment</h4>
-                            <p className={isPaid ? "greenColor" : "redColor"}><b>{isPaid ? "PAID" : "NOT PAID"}</b></p>
+                            <p className={isPaid==="paid" ? "greenColor" : "redColor"}><b>{isPaid }</b></p>
 
 
                             <h4 className="my-4">Order Status:</h4>
