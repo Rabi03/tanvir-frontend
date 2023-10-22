@@ -7,7 +7,7 @@ import Sidebar from './Sidebar'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrderDetails, updateOrder, clearErrors } from '../../actions/OrderActions'
+import { getOrderDetails, updateOrder, clearErrors, updateOrderPayInfo } from '../../actions/OrderActions'
 import { UPDATE_ORDER_RESET } from '../../constants/OrderConstants'
 
 /**
@@ -26,6 +26,7 @@ export default function ProcessOrder({ match }) {
     * }} ProcessOrderState
     */
     const [status, setStatus] = useState('Processing');
+    
 
     /**
    * The useAlert hook to display alerts to the user.
@@ -41,7 +42,7 @@ export default function ProcessOrder({ match }) {
     const { loading, order = {} } = useSelector(state => state.orderDetails)
     const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order
     const { error, isUpdated } = useSelector(state => state.orderDelorUp)
-
+    const [paystatus, setPayStatus] = useState(paymentInfo ? paymentInfo.payment_status.toLowerCase():'Not Paid');
     /**
    * The ID of the order to process.
    *
@@ -82,6 +83,13 @@ export default function ProcessOrder({ match }) {
         formData.set('status', status);
 
         dispatch(updateOrder(id, formData))
+    }
+    const handleUpdatePayStatus = (id,status) => {
+
+        const formData = new FormData();
+        formData.set('status', status);
+
+        dispatch(updateOrderPayInfo(id, formData))
     }
     /**
    * A function that formats the shipping information for display.
@@ -124,8 +132,11 @@ export default function ProcessOrder({ match }) {
 
                                     <hr />
 
-                                    <h4 className="my-4">Payment ID</h4>
-                                    <p><b>{paymentInfo && paymentInfo.id}</b></p>
+                                    <h4 className="my-4">Payment Info</h4>
+                                    <p><b>Customer: {paymentInfo && paymentInfo.customerId}</b></p>
+                                    <p><b>Payment ID: {paymentInfo && paymentInfo.paymentIntentId}</b></p>
+                                    <p><b>Payment Status: {paymentInfo && paymentInfo.payment_status}</b></p>
+                                    <p><b>Payment Method: {paymentInfo && paymentInfo.method}</b></p>
 
                                     <h4 className="my-4">Order Status:</h4>
                                     <p className={order.orderStatus && String(order.orderStatus).includes('Delivered') ? "greenColor" : "redColor"} ><b>{orderStatus}</b></p>
@@ -161,7 +172,7 @@ export default function ProcessOrder({ match }) {
                                 </div>
 
                                 <div className="col-12 col-lg-3 mt-5">
-                                    <h4 className="my-4">Status</h4>
+                                    <h4 className="my-4">Order Status</h4>
 
                                     <div className="form-group">
                                         <select
@@ -177,7 +188,24 @@ export default function ProcessOrder({ match }) {
                                     </div>
 
                                     <button className="btn btn-primary btn-block" onClick={() => handleUpdateOrder(order._id)}>
-                                        Update Status
+                                        Update Order Status
+                                    </button>
+                                    <h4 className="my-4">Payment Status</h4>
+
+                                    <div className="form-group">
+                                        <select
+                                            className="form-control"
+                                            name='status'
+                                            value={paystatus}
+                                            onChange={(e) => setPayStatus(e.target.value)}
+                                        >
+                                            <option value="paid">Paid</option>
+                                            <option value="not paid">Not Paid</option>
+                                        </select>
+                                    </div>
+
+                                    <button className="btn btn-primary btn-block" onClick={() => handleUpdatePayStatus(order._id,paystatus)}>
+                                        Update Payment Status
                                     </button>
                                 </div>
 

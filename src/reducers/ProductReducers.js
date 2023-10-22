@@ -33,6 +33,8 @@ import {
     DELETE_REVIEW_SUCCESS,
     DELETE_REVIEW_RESET,
     DELETE_REVIEW_FAIL,
+    SORT_HIGH_TO_LOW_PRODUCT,
+    SORT_LOW_TO_HIGH_PRODUCT
 } from '../constants/ProductConstants'
 
 
@@ -45,6 +47,14 @@ export const ProductsReducer=(state = {products:[]},action)=>{
             return{
                 loading:true,
                 products:[]
+            }
+        case SORT_HIGH_TO_LOW_PRODUCT:
+            return{
+                products:action.payload.products.sort((a,b)=>a.price>=b.price?-1:1)
+            }
+        case SORT_LOW_TO_HIGH_PRODUCT:
+            return{
+                products:action.payload.products.sort((a,b)=>a.price<=b.price?-1:1)
             }
         
         case ALL_PRODUCTS_SUCCESS:

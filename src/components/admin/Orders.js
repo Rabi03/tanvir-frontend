@@ -116,7 +116,7 @@ export default function Orders({ history }) {
                 status: order.orderStatus && String(order.orderStatus).includes('Delivered')
                     ? <p style={{ color: 'green' }}>{order.orderStatus}</p>
                     : <p style={{ color: 'red' }}>{order.orderStatus}</p>,
-                payment: "Paid",
+                payment: order.paymentInfo?order.paymentInfo.payment_status:"",
                 //     supplied:order.supplied&&String(order.orderStatus).includes('Delivered')?<div className='line'>
                 //     <h6 className='pop-outin'>supplied</h6>
                 //   </div>:<p style={{ color: 'green' }}></p>,

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, Link } from "react-router-dom";
 import Search from "./Search";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import { logout, loadedUser } from "../../actions/UserActions";
 import Badge from "@mui/material/Badge";
 import { createTheme } from '@mui/material/styles';
 import jwtDecode from "jwt-decode";
+import { ChatContext } from "../context/ChatContext";
 
 
 /**
@@ -23,6 +24,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user, loading } = useSelector((state) => state.user);
+  const {dispatch:ChatDispatch}=useContext(ChatContext)
   /**
   * The cart items state.
   *
@@ -47,6 +49,7 @@ export default function Header() {
 
   const handleLogOut = () => {
     dispatch(logout());
+    ChatDispatch({ type: "CHANGE_USER", payload: null })
     alert.success("Log Out Successfully.....");
   };
 

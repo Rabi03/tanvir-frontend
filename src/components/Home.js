@@ -6,7 +6,7 @@ import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getProducts } from '../actions/ProductActions'
+import { getProducts, sortProduct } from '../actions/ProductActions'
 import Product from './product/Product'
 import Loader from './layout/Loader'
 import { useAlert } from 'react-alert'
@@ -125,6 +125,12 @@ export default function Home({ match, history }) {
     }
 
     console.log(products)
+
+    const sortByHight_Low=(val)=>{
+        
+        dispatch(sortProduct(val,products))
+
+    }
 
     return (
         <>
@@ -295,6 +301,11 @@ export default function Home({ match, history }) {
 
                                 <div className="col-6 col-md-3 mt-0 mb-5">
                                     <div className="px-5">
+                                        <h5>Sort By</h5>
+                                        <select onChange={e=>sortByHight_Low(e.target.value)} style={{marginBottom:'20px'}}>
+                                            <option value="0">Price high to low</option>
+                                            <option value="1">Price low to high</option>
+                                        </select>
                                         <h5 className='mb-2'>Price</h5>
                                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', gap: '5px' }}>
                                             <input type='number' placeholder='Min' value={price[0]} style={{ width: '80px' }} onChange={e => {

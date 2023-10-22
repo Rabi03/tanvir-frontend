@@ -102,7 +102,7 @@ export default function Payment({ history }) {
                 ...order, paymentInfo: {
                     customerId: user?._id,
                     paymentIntentId: "cash_on_delivery_" + user?._id,
-                    payment_status: "Not Paid",
+                    payment_status: "not paid",
                     method: "Cash On Delivery"
                 }
             }, {

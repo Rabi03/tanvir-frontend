@@ -96,7 +96,7 @@ const Chat = () => {
     }
   },[user])
 
-  console.log(user)
+  console.log(data.user)
 
   return (
     <>

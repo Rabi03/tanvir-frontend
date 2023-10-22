@@ -29,7 +29,10 @@ import {
     DELETE_REVIEW_SUCCESS,
     DELETE_REVIEW_RESET,
     DELETE_REVIEW_FAIL,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    SORT_PRODUCT,
+    SORT_HIGH_TO_LOW_PRODUCT,
+    SORT_LOW_TO_HIGH_PRODUCT
 } from '../constants/ProductConstants'
 
 import axios from 'axios'
@@ -85,6 +88,16 @@ export const newProduct = (productData) => async (dispatch) => {
             payload: error.response.data.message
         })
     }
+}
+
+export const sortProduct=(val,products)=> async (dispatch) => {
+    if(val==="0"){
+        dispatch({ type: SORT_HIGH_TO_LOW_PRODUCT,payload:{products} })
+    }
+    if(val==="1"){
+        dispatch({ type: SORT_LOW_TO_HIGH_PRODUCT,payload:{products} })
+    }
+
 }
 
 export const newSellerProduct = (productData) => async (dispatch) => {

@@ -157,6 +157,34 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
     }
 }
 
+export const updateOrderPayInfo = (id, orderData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_ORDER_REQUEST })
+        let token=localStorage.getItem("token")
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                token
+            }
+        }
+
+        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/admin/order/pay/${id}`, orderData, config)
+
+        dispatch({
+            type: UPDATE_ORDER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        console.log(error.response)
+        dispatch({
+            type: UPDATE_ORDER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
 export const deleteOrder = (id) => async (dispatch) => {
     try {
 
