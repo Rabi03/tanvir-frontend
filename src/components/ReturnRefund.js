@@ -70,61 +70,111 @@ export default function ReturnRefund() {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    <ul>
-                        <li>Sign in to your website Account, click on “My Account” from bottom.</li>
-                        <li>Select the “My Order” section and click on the View all.</li>
-                        <li>Choose the item you want to return and click on “initiate return”</li>
-                        <li>Please select your desired refund method.</li>
-                        <li>Fill in the Return Form along with the available return options (pickup/drop-off)</li>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Delivery Mode</th>
-                                    <th scope="col">Return Modality</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Doorstep Delivery</td>
-                                    <td>Pickup/DropOff</td>
+                    <div className='row'>
+                        <ul className='col-8'>
+                            <li>Sign in to your website Account, click on “My Account” from bottom.</li>
+                            <li>Select the “My Order” section and click on the View all.</li>
+                            <li>Please select your desired refund method.</li>
+                            <li>Fill in the Return Form along with the available return options (pickup/drop-off)</li>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Delivery Mode</th>
+                                        <th scope="col">Return Modality</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Doorstep Delivery</td>
+                                        <td>Pickup/DropOff</td>
 
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
 
-                                    <td>Collection Point</td>
-                                    <td>Only Drop-off</td>
+                                        <td>Collection Point</td>
+                                        <td>Only Drop-off</td>
 
-                                </tr>
-                            </tbody>
-                        </table>
-                        <li>Pack your return package securely, with the product in the original and undamaged manufacturer's packaging as delivered to you. Write your order number & return tracking number clearly on the outer side of the package.</li>
-                        <li>Head to your nearest drop-off point or wait for collection by our pick-up service. While handing over your package to Drop-Off station/ Pickup Agent, please collect the Website Return Acknowledgment paper and reserve it for future reference.</li>
-                        <li>Make sure you have written your order number and return tracking number on your package at the time of drop off. You can view your return tracking number as soon as you have filled the Online Return Form and logged your return request.</li>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <li>Pack your return package securely, with the product in the original and undamaged manufacturer's packaging as delivered to you. Write your order number & return tracking number clearly on the outer side of the package.</li>
+                            <li>Head to your nearest drop-off point or wait for collection by our pick-up service. While handing over your package to Drop-Off station/ Pickup Agent, please collect the Website Return Acknowledgment paper and reserve it for future reference.</li>
+                            <li>Make sure you have written your order number and return tracking number on your package at the time of drop off. You can view your return tracking number as soon as you have filled the Online Return Form and logged your return request.</li>
 
-                    </ul>
+                        </ul>
+                        <div className='col-4'>
+                            <div style={{ fontSize: '13px', border: '1px solid gray', padding: '10px 10px 10px 0px', borderRadius: '10px' }}>
+                                <h5 style={{ textAlign: 'center' }}>Conditions for Returns</h5>
+                                <ol>
+                                    <li>The product must be unused, unworn, unwashed, and without any flaws.</li>
+                                    <li>Fashion products can be tried on to see if they fit and will still be considered unworn.</li>
+                                    <li>If a product is returned to us in an inadequate condition, we reserve the right to send it back to you.</li>
+                                    <li>The product must include the original tags, user manual, warranty cards, freebies, and accessories.</li>
+                                    <li>The product must be returned in the original and undamaged manufacturer packaging/box.</li>
+                                    <li>If the product was delivered in a second layer of Ecommerce website packaging, it must be returned in the same condition with a return shipping label attached.</li>
+                                    <li>Do not put tape or stickers on the manufacturer's box.</li>
+                                    <li>While you return the item at our hub, please collect the Ecommerce website Return Acknowledgment Form from the Hub and fill it in by yourself.</li>
+                                    <li>Keep one copy to yourself, and we will keep another copy of it for the record.</li>
+                                    <li>Note: It is important to indicate the order number and return tracking number on your return package to avoid any inconvenience/delay in the process of your return.</li>
+                                </ol>
+                            </div>
+                            <div className='mt-4'>
+                                <h5>Popular Links</h5>
+                                <a href='/frequs' style={{ fontSize: '12px' }}>Frequently Asked Questions</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <h4>Returns Policy</h4>
-                    <ul>
-                        <li>
-                            If your product is damaged, defective, incorrect, or incomplete at the time of delivery, please raise a return request on Website app or website. Return request must be raised within 14 days for WebsiteMall items or within 7 days for non-WebsiteMall items from the date of delivery.
-                        </li>
-                        <li>
-                            For electronic appliances & mobile phones related issues after usage or after the return policy period, please check if the product is covered under seller warranty or brand warranty. For more information on warranty claims, please view our Warranty Policy.
-                        </li>
-                        <li>
-                            For selected categories, we accept a change of mind. Please refer to the section below on Return Policy per Category for more information.
-                        </li>
+                    <div className='row'>
+                        <div className='col-8'>
+                            <h4>Returns Policy</h4>
+                            <ul>
+                                <li>
+                                    If your product is damaged, defective, incorrect, or incomplete at the time of delivery, please raise a return request on Website app or website. Return request must be raised within 14 days for WebsiteMall items or within 7 days for non-WebsiteMall items from the date of delivery.
+                                </li>
+                                <li>
+                                    For electronic appliances & mobile phones related issues after usage or after the return policy period, please check if the product is covered under seller warranty or brand warranty. For more information on warranty claims, please view our Warranty Policy.
+                                </li>
+                                <li>
+                                    For selected categories, we accept a change of mind. Please refer to the section below on Return Policy per Category for more information.
+                                </li>
 
-                    </ul>
-                    <h4>Valid reasons to return an item</h4>
-                    <ul>
-                        <li>Delivered product is damaged (i.e. physically destroyed or broken) / defective (e.g. unable to switch on)</li>
-                        <li>Delivered product is incomplete (i.e. has missing items and/or accessories)</li>
-                        <li>Delivered product is incorrect (i.e. wrong product/size/colour, fake item, or expired)</li>
-                        <li>Delivered product does not match the product description or picture (i.e., the product is not as advertised)</li>
-                        <li>Delivered product does not fit (i.e., size is unsuitable)</li>
-                    </ul>
+                            </ul>
+                            <h4>Valid reasons to return an item</h4>
+                            <ul>
+                                <li>Delivered product is damaged (i.e. physically destroyed or broken) / defective (e.g. unable to switch on)</li>
+                                <li>Delivered product is incomplete (i.e. has missing items and/or accessories)</li>
+                                <li>Delivered product is incorrect (i.e. wrong product/size/colour, fake item, or expired)</li>
+                                <li>Delivered product does not match the product description or picture (i.e., the product is not as advertised)</li>
+                                <li>Delivered product does not fit (i.e., size is unsuitable)</li>
+                            </ul>
+                        </div>
+                        <div className='col-4'>
+                            <div style={{ fontSize: '13px', border: '1px solid gray', padding: '10px 10px 10px 0px', borderRadius: '10px' }}>
+                                <h5 style={{ textAlign: 'center' }}>Conditions for Returns</h5>
+                                <ol>
+                                    <li>The product must be unused, unworn, unwashed, and without any flaws.For fashion products, items may be tried on to see if they fit, and this will still be considered as unworn.</li>
+                                    <li>The product must include the original tags, user manuals, warranty cards, freebies, invoice, and accessories.</li>
+                                    <li>The product must be returned in the original and undamaged manufacturer's packaging/box. If the product was delivered in Ecommerce website packaging/box, the same packaging/box should be returned. Do not put tape or stickers directly on the manufacturer's packaging/box.</li>
+                                </ol>
+                                <div style={{padding:'5px 30px'}}>
+                                    <span style={{fontWeight:'bold'}}>NOTE:</span> It is important to indicate the Order Number and Return Tracking Number on your return package to avoid any inconvenience/delay in your return process.
+                                    While handing over your package to Drop-Off station/ Pickup Agent, please collect the Daraz Return Acknowledgment paper and reserve it for future reference.
+                                </div>
+                            </div>
+                            <div className='mt-4'>
+                                <h5>Popular Links</h5>
+                                <a href='/frequs' style={{ fontSize: '12px' }}>Frequently Asked Questions</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
 
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>

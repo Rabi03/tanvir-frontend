@@ -57,6 +57,7 @@ import SellerUpdateProduct from './components/supply/UpdateProduct'
 import { useContext } from "react";
 import { ChatContext } from "./components/context/ChatContext";
 import ReturnRefund from "./components/ReturnRefund";
+import FreqQuestion from "./components/FreqQuestion";
 
 //"http://[::1]:5000"
 
@@ -112,6 +113,7 @@ export default function App() {
           <Route path="/orders/me" exact component={ListOfOrders} />
           <PrivateRoute path="/order/:id" exact component={OrderDetails} />
           <PrivateRoute path="/me" exact component={Profile} />
+          <PrivateRoute path="/frequs" exact component={FreqQuestion} />
           <PrivateRoute path="/success" exact component={OrderSuccess} />
           <PrivateRoute path="/fail" exact component={OrderFail} />
           <PrivateRoute path="/cancel" exact component={OrderCancel} />

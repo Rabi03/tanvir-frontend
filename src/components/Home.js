@@ -53,16 +53,18 @@ export default function Home({ match, history }) {
     ]
 
     const headCategory = [
-        "Health & Beauty",
-        "Watches, Bags, Jewellery",
-        "Men's & Boys' Fashion",
-        "Mother & Baby",
-        "Electronics Devices",
-        "TV & Home Appliances",
-        "Electronic Accessories",
-        "Groceries",
-        "Sports & Outdoors",
-        "Automotive & Motorbike"
+        'Electronics',
+        'Cameras',
+        'Laptops',
+        'Accessories',
+        'Headphones',
+        'Food',
+        "Books",
+        'Clothes_Shoes',
+        'Beauty_Health',
+        'Sports',
+        'Outdoor',
+        'Home'
     ];
 
     const keyword = match.params.keyword
@@ -126,9 +128,9 @@ export default function Home({ match, history }) {
 
     console.log(products)
 
-    const sortByHight_Low=(val)=>{
-        
-        dispatch(sortProduct(val,products))
+    const sortByHight_Low = (val) => {
+
+        dispatch(sortProduct(val, products))
 
     }
 
@@ -143,20 +145,16 @@ export default function Home({ match, history }) {
                         <>
                             <div className='row' style={{ marginTop: '20px' }}>
 
-                                <List className='col-3' style={{ fontSize: '10px', border: '1px solid gray', borderRadius: '10px' }}>
+                                <List className='col-2' style={{ border: '1px solid gray', borderRadius: '10px', padding: '10px' }}>
                                     {headCategory.map((cat, id) =>
-                                        <ListItem key={id} style={{ padding: '0px' }}>
-                                            <ListItemButton>
-                                                <ListItemIcon>
-                                                    <InboxIcon />
-                                                </ListItemIcon>
-                                                <ListItemText primary={cat} />
-                                            </ListItemButton>
-                                        </ListItem>
+                                        <div key={id} style={{ padding: '0px', fontSize: '13px', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: '8px', cursor: 'pointer' }} onClick={() => history.push("/category/" + cat)}>
+                                            <InboxIcon style={{fontSize:'13px'}} />
+                                            <p style={{ margin: '0px', textAlign: 'center', marginLeft: '20px', }}>{cat}</p>
+                                        </div>
                                     )}
 
                                 </List>
-                                <div id="carouselExampleIndicators" className="col-9 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                                <div id="carouselExampleIndicators" className="col-10 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden', height: 350 }}>
                                     <ol className="carousel-indicators">
                                         <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
                                         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -164,13 +162,13 @@ export default function Home({ match, history }) {
                                     </ol>
                                     <div className="carousel-inner" style={{ borderRadius: '10px', overflow: 'hidden' }}>
                                         <div className="carousel-item active">
-                                            <img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/VSsN4Jt/carousel-2.png" alt="First slide" />
+                                            <img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/7032e028-eda7-47a9-838f-829c26c3a12d.jpg_1200x1200.jpg" alt="First slide" />
                                         </div>
                                         <div className="carousel-item">
-                                            <img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/tMB5CZW/behzad-ghaffarian-nh-Wg-ZNV85-LQ-unsplash-1-3-1.png" alt="Second slide" />
+                                            <img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/4bd34006-06ba-4816-8049-f356454fce08.jpg" alt="Second slide" />
                                         </div>
                                         <div className="carousel-item">
-                                            <img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/phw8yGZ/sven-brandsma-Qz6-Zx4-Rjd-D8-unsplash-1.png" alt="Third slide" />
+                                            <img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/bc7b487d-f95f-4603-b3a3-2f8e78b71180.jpg" alt="Third slide" />
                                         </div>
                                     </div>
                                     <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style={{ backgroundColor: 'black', height: '50px', width: '50px', margin: 'auto 0px', marginLeft: '20px', borderRadius: '100%' }}>
@@ -186,101 +184,101 @@ export default function Home({ match, history }) {
                             <h1 id="products_heading">Categories</h1>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" class="card-img-top" alt="Electronics" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" width={100} height={100}  alt="Electronics" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Electronics</h5>
+                                                <p class="card-title">Electronics</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" class="card-img-top" alt="Cameras" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" width={100} height={100} alt="Cameras" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Cameras</h5>
+                                                <p class="card-title">Cameras</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" class="card-img-top" alt="Laptops" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" width={100} height={100} alt="Laptops" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Laptops</h5>
+                                                <p class="card-title">Laptops</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Accessories</h5>
+                                                <p class="card-title">Accessories</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Headphones</h5>
+                                                <p class="card-title">Headphones</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Food</h5>
+                                                <p class="card-title">Food</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Books</h5>
+                                                <p class="card-title">Books</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Clothes_Shoes</h5>
+                                                <p class="card-title">Clothes_Shoes</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Beauty_Health</h5>
+                                                <p class="card-title">Beauty_Health</p>
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" class="card-img-top" alt="Sports" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" width={100} height={100} alt="Sports" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Sports</h5>
+                                                <p class="card-title">Sports</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" class="card-img-top" alt="Outdoor" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" width={100} height={100} alt="Outdoor" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Outdoor</h5>
+                                                <p class="card-title">Outdoor</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
+                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
                                         <div class="card" style={{ textAlign: 'center' }}>
-                                            <img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" class="card-img-top" alt="Home" style={{ margin: '0px auto' }} />
+                                            <img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" width={100} height={100} alt="Home" style={{ margin: '0px auto' }} />
                                             <div class="card-body">
-                                                <h5 class="card-title">Home</h5>
+                                                <p class="card-title">Home</p>
                                             </div>
                                         </div>
                                     </div>
@@ -301,11 +299,7 @@ export default function Home({ match, history }) {
 
                                 <div className="col-6 col-md-3 mt-0 mb-5">
                                     <div className="px-5">
-                                        <h5>Sort By</h5>
-                                        <select onChange={e=>sortByHight_Low(e.target.value)} style={{marginBottom:'20px'}}>
-                                            <option value="0">Price high to low</option>
-                                            <option value="1">Price low to high</option>
-                                        </select>
+
                                         <h5 className='mb-2'>Price</h5>
                                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', gap: '5px' }}>
                                             <input type='number' placeholder='Min' value={price[0]} style={{ width: '80px' }} onChange={e => {
@@ -327,7 +321,7 @@ export default function Home({ match, history }) {
                                                 Categories
                                             </h4>
 
-                                            <select className="pl-0" value={category} placeholder='Select category' onChange={e=>setCategory(e.target.value)}>
+                                            <select className="pl-0" value={category} placeholder='Select category' onChange={e => setCategory(e.target.value)}>
                                                 {categories.map(category => (
                                                     <option
                                                         style={{
@@ -336,7 +330,7 @@ export default function Home({ match, history }) {
                                                         }}
                                                         key={category}
                                                         value={category}
-                                                        
+
                                                     >
                                                         {category}
                                                     </option>
@@ -377,21 +371,28 @@ export default function Home({ match, history }) {
                                     </div>
                                 </div>
 
-                                <div className="col-6 col-md-9">
+                                <div className="col-6 col-md-9" style={{width:'100%'}}>
                                     <div className='row my-2'>
                                         {products?.length == 0 && <div>No product found. Try with different keyword or price range or category.</div>}
 
                                     </div>
                                     {products?.length > 0 &&
-                                        <div className='row'>
+                                        <div className='row' style={{width:'100%',justifyContent:'space-between'}}>
                                             <div style={{ display: 'flex', flexDirection: 'row', fontSize: "10px" }}>
-                                                {category && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Category: {category}</h6>}
-                                                {price && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Price: {price[0]}-{price[1]} {priceChange && <span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => {
+                                                {category && <p style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Category: {category}</p>}
+                                                {price && <p style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Price: {price[0]}-{price[1]} {priceChange && <span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => {
                                                     setPrice([1, 25000])
                                                     setPriceChange(false)
-                                                }}>x</span>}</h6>}
+                                                }}>x</span>}</p>}
                                                 {rating > 0 && <h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Rating: {rating} <span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => setRating(0)}>x</span></h6>}
 
+                                            </div>
+                                            <div style={{display:'flex',flexDirection:'row',fontSize: "15px",alignItems:'center',justifyContent:'center'}}>
+                                                <p style={{marginRight:'10px'}}>Sort By</p>
+                                                <select onChange={e => sortByHight_Low(e.target.value)} style={{ marginBottom: '20px' }}>
+                                                    <option value="0">Price high to low</option>
+                                                    <option value="1">Price low to high</option>
+                                                </select>
                                             </div>
 
                                         </div>

@@ -24,7 +24,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user, loading } = useSelector((state) => state.user);
-  const {dispatch:ChatDispatch}=useContext(ChatContext)
+  const { dispatch: ChatDispatch } = useContext(ChatContext)
   /**
   * The cart items state.
   *
@@ -55,18 +55,7 @@ export default function Header() {
 
   return (
     <div style={{ width: '100%', backgroundColor: '#212529' }}>
-      <div className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529', color: 'white', padding: '0px', paddingLeft: '50px', paddingTop: '5px' }}>
 
-        <div className="dropdown">
-          <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ background: 'transparent', color: 'white', border: 'none', marginRight: '20px', fontSize: '10px' }}>
-            Help and support
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="/return&refund">Returns & Refunds</a>
-
-          </div>
-        </div>
-      </div>
       <nav className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529' }}>
 
         <div className="col-12 col-md-2">
@@ -81,7 +70,7 @@ export default function Header() {
           <Route render={({ history }) => <Search history={history} />} />
         </div>
 
-        <div className="col-12 col-md-4 mt-4 mt-md-0 text-center">
+        <div className="col-12 col-md-4 mt-4 mt-md-0 text-center" style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <Badge badgeContent={cartItems.length} color="secondary">
               <i className="fas fa-shopping-cart" style={{ color: "white", fontSize: "22px" }}></i>
@@ -144,7 +133,21 @@ export default function Header() {
               </Link>
             )
           )}
+          <div  style={{ backgroundColor: '#212529', color: 'white', padding: '0px', margin:'0px' }}>
+
+            <div className="dropdown">
+              <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ background: 'transparent', color: 'white', border: 'none',  fontSize: '10px',marginRight:'20px' }}>
+                Help and support
+              </button>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a className="dropdown-item" href="/return&refund">Returns & Refunds</a>
+
+              </div>
+            </div>
+          </div>
+
         </div>
+
       </nav>
     </div>
   );
