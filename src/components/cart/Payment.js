@@ -194,7 +194,7 @@ export default function Payment({ history }) {
                 </div>
             }
             {paytype === 'Offline' && <div style={{ width: '50%', margin: '0px auto', marginTop: '50px' }}>
-                <button type="button" className="btn btn-primary btn-lg btn-block" onClick={cashOnDelivery}>Pay</button>
+                <button type="button" className="btn btn-primary btn-lg btn-block" onClick={cashOnDelivery}>Order Now</button>
             </div>}
 
 
