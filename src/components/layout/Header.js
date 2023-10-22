@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import { logout, loadedUser } from "../../actions/UserActions";
 import Badge from "@mui/material/Badge";
 import { createTheme } from '@mui/material/styles';
+import jwtDecode from "jwt-decode";
 
 
 /**
@@ -31,8 +32,17 @@ export default function Header() {
 
   useEffect(() => {
     let token = localStorage.getItem('token')
-    if (token)
-      dispatch(loadedUser())
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token")
+        localStorage.removeItem("cartItems")
+      } else {
+
+        dispatch(loadedUser())
+      }
+    }
+
   }, [dispatch])
 
   const handleLogOut = () => {
@@ -43,14 +53,14 @@ export default function Header() {
   return (
     <div style={{ width: '100%', backgroundColor: '#212529' }}>
       <div className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529', color: 'white', padding: '0px', paddingLeft: '50px', paddingTop: '5px' }}>
-        
+
         <div className="dropdown">
-          <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{background:'transparent',color:'white',border:'none',marginRight:'20px',fontSize:'10px'}}>
-          Help and support
+          <button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ background: 'transparent', color: 'white', border: 'none', marginRight: '20px', fontSize: '10px' }}>
+            Help and support
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a className="dropdown-item" href="/return&refund">Returns & Refunds</a>
-            
+
           </div>
         </div>
       </div>
