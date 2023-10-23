@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Store.js - Docdash</title>
+    <title>components/FreqQuestion.js - Docdash</title>
     
     <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
     
@@ -49,7 +49,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Store.js</h1>
+    <h1 class="page-title">components/FreqQuestion.js</h1>
     
 
     
@@ -59,84 +59,57 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { createStore, combineReducers, applyMiddleware } from "redux";
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import Faq from 'react-faq-component';
 
-import { composeWithDevTools } from "redux-devtools-extension";
-
-import thunk from "redux-thunk";
-import { cartReducer } from "./reducers/CartReducers";
-
-import {
-  ProductsReducer,
-  ProductDetailsReducer,
-  newReviewReducer,
-  newProductReducer,
-  deleteOrUpdateProductReducer,
-  productReviewsReducer,
-  reviewDeleteReducer,
-} from "./reducers/ProductReducers";
-import {
-  UserReducer,
-  updateReducer,
-  forgotPasswordReducer,
-  allUsersReducer,
-  userDetailsReducer,
-} from "./reducers/UserReducers";
-import {
-  newOrderReducer,
-  myOrdersReducer,
-  orderDetailsReducer,
-  allOrdersReducer,
-  orderDelorUpReducer,
-} from "./reducers/OrderReducers";
 /**
- * The Redux reducer for the application.
- *
- * @param {State} state The current state of the store.
- * @param {Action} action The action to be dispatched.
- * @returns {State} The new state of the store.
+ * Frequently Asked Questions component.
+ * 
+ * @component
  */
-const reducer = combineReducers({
-  products: ProductsReducer,
-  productDelorUp: deleteOrUpdateProductReducer,
-  productDetails: ProductDetailsReducer,
-  user: UserReducer,
-  allUsers: allUsersReducer,
-  profile: updateReducer,
-  profileDetails: userDetailsReducer,
-  forgotPassword: forgotPasswordReducer,
-  cart: cartReducer,
-  newOrder: newOrderReducer,
-  allOrders: allOrdersReducer,
-  myOrders: myOrdersReducer,
-  orderDelorUp: orderDelorUpReducer,
-  orderDetails: orderDetailsReducer,
-  newReview: newReviewReducer,
-  newProduct: newProductReducer,
-  productReviews: productReviewsReducer,
-  reviewDelete: reviewDeleteReducer,
-});
 
-const initialState = {
-  cart: {
-    cartItems: localStorage.getItem("cartItems")
-      ? JSON.parse(localStorage.getItem("cartItems"))
-      : [],
-    shippingInfo: localStorage.getItem("shippingInfo")
-      ? JSON.parse(localStorage.getItem("shippingInfo"))
-      : {},
-  },
-};
+const data = {
+    title: "Returns &amp; Refunds",
+    rows: [
+        {
+            title: "How long do I have to initiate my request for a refund or replacement?",
+            content: "You can initiate your request for refund or replacement within 7 days of delivery. For example: If you received your order on the 5th, then you have until the 12th to request a return."
+        },
+        {
+            title: "How do I pack my return parcel to make sure it arrives in adequate condition?",
+            content: `The product must be returned in the original and undamaged manufacturer packaging / box. If the product was delivered in a second layer of Ecommerce website packaging, it must be returned in the same condition with return shipping label attached. Do not put tape or stickers on the manufacturers box.
 
-const middleware = [thunk];
 
-const store = createStore(
-  reducer,
-  initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+            Note: If a product is returned to us in an inadequate condition, we reserve the right to send it back to you.`
+        },
+        {
+            title: "Do I have to pay for shipping charges when I return a product?",
+            content: "There are no charges for shipping a product back to Ecommerce website."
+        },
+        {
+            title: "How can I track my return?",
+            content: "We will send you regular updates about the status of your order via emails and SMS. After your order has left our warehouse and is on its way to you, you can also track its status by entering your tracking number on 'Need Help?'."
+        },
+        {
+            title:'How long will it take to receive my replacement?',
+            content:"It will take between 5 and 13 days to send you the replacement product, depending on your location. Please refer to the product page on Ecommerce website for further information about delivery time."
+        },
+        {
+            title:'Do I also get refunded the shipping charges when returning a product?',
+            content:"Yes, the refunded amount would also include the shipping amount you were charged."
+        }
+    ]
+}
 
-export default store;
+
+export default function FreqQuestion() {
+    return (
+
+        &lt;div className='pt-5'>
+            &lt;Faq data={data} styles={{border:'1px solid gray'}} />
+        &lt;/div>
+    )
+}
 </code></pre>
         </article>
     </section>

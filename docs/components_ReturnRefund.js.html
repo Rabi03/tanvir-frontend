@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/ReturnRefund.js - Docdash</title>
+    
+    <meta name="description" content="A clean, responsive documentation template theme for JSDoc 3." />
+    
+        <meta name="keywords" content="jsdoc, docdash" />
+        <meta name="keyword" content="jsdoc, docdash" />
+    
+    
+    
+    <meta property="og:title" content="Docdash"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="https://cloud.githubusercontent.com/assets/447956/13398144/4dde7f36-defd-11e5-8909-1a9013302cb9.png"/>
+    <meta property="og:site_name" content="Docdash"/>
+    <meta property="og:url" content="http://clenemt.github.io/docdash/"/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#a11yProps">a11yProps</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/ReturnRefund.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
+import SwipeableViews from 'react-swipeable-views';
+import { useTheme } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+
+/**
+ * A functional component representing a tab panel.
+ *
+ * @param {Object} props - The component's props.
+ * @param {number} props.value - The current tab value.
+ * @param {number} props.index - The index of the tab.
+ * @param {Object} props.other - Other properties.
+ * @returns {JSX.Element} The tab panel component.
+ */
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        &lt;div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}
+        >
+            {value === index &amp;&amp; (
+                &lt;Box sx={{ p: 3 }}>
+                    &lt;Typography>{children}&lt;/Typography>
+                &lt;/Box>
+            )}
+        &lt;/div>
+    );
+}
+
+/**
+ * Get accessibility properties for a tab.
+ *
+ * @param {number} index - The index of the tab.
+ * @returns {Object} Accessibility properties.
+ */
+function a11yProps(index) {
+    return {
+        id: `full-width-tab-${index}`,
+        'aria-controls': `full-width-tabpanel-${index}`,
+    };
+}
+
+/**
+ * A component for handling the return and refund information.
+ *
+ * @returns {JSX.Element} The ReturnRefund component.
+ */
+export default function ReturnRefund() {
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    const handleChangeIndex = (index) => {
+        setValue(index);
+    };
+
+    return (
+        &lt;Box sx={{ bgcolor: 'background.paper', width: '100%', marginTop: '20px' }}>
+            &lt;AppBar position="static">
+                &lt;Tabs
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="inherit"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                >
+                    &lt;Tab label="How to Return a Product" {...a11yProps(0)} sx={{ backgroundColor: 'white', color: 'black' }} />
+                    &lt;Tab label="Returns Policy" {...a11yProps(1)} sx={{ backgroundColor: 'white', color: 'black' }} />
+                    &lt;Tab label="Refunds Policy" {...a11yProps(2)} sx={{ backgroundColor: 'white', color: 'black' }} />
+                &lt;/Tabs>
+            &lt;/AppBar>
+            &lt;SwipeableViews
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                &lt;TabPanel value={value} index={0} dir={theme.direction}>
+                    &lt;div className='row'>
+                        &lt;ul className='col-8'>
+                            &lt;li>Sign in to your website Account, click on “My Account” from bottom.&lt;/li>
+                            &lt;li>Select the “My Order” section and click on the View all.&lt;/li>
+                            &lt;li>Please select your desired refund method.&lt;/li>
+                            &lt;li>Fill in the Return Form along with the available return options (pickup/drop-off)&lt;/li>
+                            &lt;table class="table">
+                                &lt;thead>
+                                    &lt;tr>
+                                        &lt;th scope="col">Delivery Mode&lt;/th>
+                                        &lt;th scope="col">Return Modality&lt;/th>
+                                    &lt;/tr>
+                                &lt;/thead>
+                                &lt;tbody>
+                                    &lt;tr>
+                                        &lt;td>Doorstep Delivery&lt;/td>
+                                        &lt;td>Pickup/DropOff&lt;/td>
+
+                                    &lt;/tr>
+                                    &lt;tr>
+
+                                        &lt;td>Collection Point&lt;/td>
+                                        &lt;td>Only Drop-off&lt;/td>
+
+                                    &lt;/tr>
+                                &lt;/tbody>
+                            &lt;/table>
+                            &lt;li>Pack your return package securely, with the product in the original and undamaged manufacturer's packaging as delivered to you. Write your order number &amp; return tracking number clearly on the outer side of the package.&lt;/li>
+                            &lt;li>Head to your nearest drop-off point or wait for collection by our pick-up service. While handing over your package to Drop-Off station/ Pickup Agent, please collect the Website Return Acknowledgment paper and reserve it for future reference.&lt;/li>
+                            &lt;li>Make sure you have written your order number and return tracking number on your package at the time of drop off. You can view your return tracking number as soon as you have filled the Online Return Form and logged your return request.&lt;/li>
+
+                        &lt;/ul>
+                        &lt;div className='col-4'>
+                            &lt;div style={{ fontSize: '13px', border: '1px solid gray', padding: '10px 10px 10px 0px', borderRadius: '10px' }}>
+                                &lt;h5 style={{ textAlign: 'center' }}>Conditions for Returns&lt;/h5>
+                                &lt;ol>
+                                    &lt;li>The product must be unused, unworn, unwashed, and without any flaws.&lt;/li>
+                                    &lt;li>Fashion products can be tried on to see if they fit and will still be considered unworn.&lt;/li>
+                                    &lt;li>If a product is returned to us in an inadequate condition, we reserve the right to send it back to you.&lt;/li>
+                                    &lt;li>The product must include the original tags, user manual, warranty cards, freebies, and accessories.&lt;/li>
+                                    &lt;li>The product must be returned in the original and undamaged manufacturer packaging/box.&lt;/li>
+                                    &lt;li>If the product was delivered in a second layer of Ecommerce website packaging, it must be returned in the same condition with a return shipping label attached.&lt;/li>
+                                    &lt;li>Do not put tape or stickers on the manufacturer's box.&lt;/li>
+                                    &lt;li>While you return the item at our hub, please collect the Ecommerce website Return Acknowledgment Form from the Hub and fill it in by yourself.&lt;/li>
+                                    &lt;li>Keep one copy to yourself, and we will keep another copy of it for the record.&lt;/li>
+                                    &lt;li>Note: It is important to indicate the order number and return tracking number on your return package to avoid any inconvenience/delay in the process of your return.&lt;/li>
+                                &lt;/ol>
+                            &lt;/div>
+                            &lt;div className='mt-4'>
+                                &lt;h5>Popular Links&lt;/h5>
+                                &lt;a href='/frequs' style={{ fontSize: '12px' }}>Frequently Asked Questions&lt;/a>
+                            &lt;/div>
+
+                        &lt;/div>
+
+                    &lt;/div>
+
+                &lt;/TabPanel>
+                &lt;TabPanel value={value} index={1} dir={theme.direction}>
+                    &lt;div className='row'>
+                        &lt;div className='col-8'>
+                            &lt;h4>Returns Policy&lt;/h4>
+                            &lt;ul>
+                                &lt;li>
+                                    If your product is damaged, defective, incorrect, or incomplete at the time of delivery, please raise a return request on Website app or website. Return request must be raised within 14 days for WebsiteMall items or within 7 days for non-WebsiteMall items from the date of delivery.
+                                &lt;/li>
+                                &lt;li>
+                                    For electronic appliances &amp; mobile phones related issues after usage or after the return policy period, please check if the product is covered under seller warranty or brand warranty. For more information on warranty claims, please view our Warranty Policy.
+                                &lt;/li>
+                                &lt;li>
+                                    For selected categories, we accept a change of mind. Please refer to the section below on Return Policy per Category for more information.
+                                &lt;/li>
+
+                            &lt;/ul>
+                            &lt;h4>Valid reasons to return an item&lt;/h4>
+                            &lt;ul>
+                                &lt;li>Delivered product is damaged (i.e. physically destroyed or broken) / defective (e.g. unable to switch on)&lt;/li>
+                                &lt;li>Delivered product is incomplete (i.e. has missing items and/or accessories)&lt;/li>
+                                &lt;li>Delivered product is incorrect (i.e. wrong product/size/colour, fake item, or expired)&lt;/li>
+                                &lt;li>Delivered product does not match the product description or picture (i.e., the product is not as advertised)&lt;/li>
+                                &lt;li>Delivered product does not fit (i.e., size is unsuitable)&lt;/li>
+                            &lt;/ul>
+                        &lt;/div>
+                        &lt;div className='col-4'>
+                            &lt;div style={{ fontSize: '13px', border: '1px solid gray', padding: '10px 10px 10px 0px', borderRadius: '10px' }}>
+                                &lt;h5 style={{ textAlign: 'center' }}>Conditions for Returns&lt;/h5>
+                                &lt;ol>
+                                    &lt;li>The product must be unused, unworn, unwashed, and without any flaws.For fashion products, items may be tried on to see if they fit, and this will still be considered as unworn.&lt;/li>
+                                    &lt;li>The product must include the original tags, user manuals, warranty cards, freebies, invoice, and accessories.&lt;/li>
+                                    &lt;li>The product must be returned in the original and undamaged manufacturer's packaging/box. If the product was delivered in Ecommerce website packaging/box, the same packaging/box should be returned. Do not put tape or stickers directly on the manufacturer's packaging/box.&lt;/li>
+                                &lt;/ol>
+                                &lt;div style={{padding:'5px 30px'}}>
+                                    &lt;span style={{fontWeight:'bold'}}>NOTE:&lt;/span> It is important to indicate the Order Number and Return Tracking Number on your return package to avoid any inconvenience/delay in your return process.
+                                    While handing over your package to Drop-Off station/ Pickup Agent, please collect the Daraz Return Acknowledgment paper and reserve it for future reference.
+                                &lt;/div>
+                            &lt;/div>
+                            &lt;div className='mt-4'>
+                                &lt;h5>Popular Links&lt;/h5>
+                                &lt;a href='/frequs' style={{ fontSize: '12px' }}>Frequently Asked Questions&lt;/a>
+                            &lt;/div>
+
+                        &lt;/div>
+
+                    &lt;/div>
+
+
+                &lt;/TabPanel>
+                &lt;TabPanel value={value} index={2} dir={theme.direction}>
+                    &lt;h4>Issuance of Refunds&lt;/h4>
+                    &lt;ul>
+                        &lt;li>The processing time of your refund depends on the type of refund and the payment method you used.&lt;/li>
+                        &lt;li>The refund period/process starts when Website has processed your refund according to your refund type.&lt;/li>
+                        &lt;li>The refund amount covers the item price and shipping fee for your returned product.&lt;/li>
+
+                    &lt;/ul>
+                    &lt;h4>Refund Types&lt;/h4>
+                    &lt;ul>
+                        &lt;li>Refund from returns - Refund is processed once your item is returned to the warehouse and QC is completed (successful). To learn how to return an item, read our Return Policy.&lt;/li>
+                        &lt;li>Refunds from cancelled orders - Refund is automatically triggered once cancellation is successfully processed.&lt;/li>
+                        &lt;li>Refunds from failed deliveries - Refund process starts when the item has reached the seller. Please take note that this may take more time depending on the area of your shipping address. Screen reader support enabled.&lt;/li>
+                    &lt;/ul>
+                    &lt;table className='table'>
+                        &lt;thead>
+                            &lt;tr>
+                                &lt;th>Payment Method&lt;/th>
+                                &lt;th>Refund Option&lt;/th>
+                                &lt;th>Refund Time&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        &lt;tbody>
+                            &lt;tr>
+                                &lt;td>Debit or Credit Card&lt;/td>
+                                &lt;td>Debit or Credit Card Payment Reversal&lt;/td>
+                                &lt;td>10 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Equated Monthly Installments&lt;/td>
+                                &lt;td>Debit or Credit Card&lt;/td>
+                                &lt;td>10 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Rocket (Wallet DBBL)&lt;/td>
+                                &lt;td>Mobile Wallet Reversal / Rocket&lt;/td>
+                                &lt;td>7 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Nagad&lt;/td>
+                                &lt;td>Mobile Wallet Reversal / Nagad&lt;/td>
+                                &lt;td>5 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>DBBL Nexus (Online Banking)&lt;/td>
+                                &lt;td>Card Payment Reversal (Nexus)&lt;/td>
+                                &lt;td>7 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>bKash&lt;/td>
+                                &lt;td>Mobile Wallet Reversal / bKash&lt;/td>
+                                &lt;td>5 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Cash on Delivery (COD)&lt;/td>
+                                &lt;td>Bank Deposit&lt;/td>
+                                &lt;td>5 working days&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Website Refund Voucher&lt;/td>
+                                &lt;td>Refund Voucher&lt;/td>
+                                &lt;td>1 working day&lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Website Voucher&lt;/td>
+                                &lt;td>Refund Voucher&lt;/td>
+                                &lt;td>1 working day&lt;/td>
+                            &lt;/tr>
+                        &lt;/tbody>
+                    &lt;/table>
+                    &lt;p>Note: Maximum refund timeline excludes weekends and public holidays.&lt;/p>
+                    &lt;table className='table'>
+                        &lt;thead>
+                            &lt;tr>
+                                &lt;th>Mode of Refund&lt;/th>
+                                &lt;th>Description&lt;/th>
+                            &lt;/tr>
+                        &lt;/thead>
+                        &lt;tbody>
+                            &lt;tr>
+                                &lt;td>Bank Deposit&lt;/td>
+                                &lt;td>
+                                    The bank account details provided must be correct. The account must be active and should hold some balance.
+                                &lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Debit Card or Credit Card&lt;/td>
+                                &lt;td>
+                                    If the refunded amount is not reflecting in your card statement after the refund is completed and you have received a notification by Website, please contact your personal bank.
+                                &lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>bKash / Rocket / Nagad Mobile Wallet&lt;/td>
+                                &lt;td>
+                                    Similar to bank deposit, the amount will be refunded to the same mobile account details which you inserted at the time of payment.
+                                &lt;/td>
+                            &lt;/tr>
+                            &lt;tr>
+                                &lt;td>Refund Voucher&lt;/td>
+                                &lt;td>
+                                    Vouchers will be sent to the customer's registered email ID on Website and can be redeemed against the same email ID.
+                                &lt;/td>
+                            &lt;/tr>
+                        &lt;/tbody>
+                    &lt;/table>
+
+
+                &lt;/TabPanel>
+            &lt;/SwipeableViews>
+        &lt;/Box>
+    );
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 24 2023 04:23:40 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

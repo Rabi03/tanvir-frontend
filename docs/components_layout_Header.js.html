@@ -43,7 +43,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#a11yProps">a11yProps</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
     
 </nav>
 
@@ -59,14 +59,16 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React,{useEffect} from "react";
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect } from "react";
 import { Route, Link } from "react-router-dom";
 import Search from "./Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import { logout,loadedUser } from "../../actions/UserActions";
+import { logout, loadedUser } from "../../actions/UserActions";
 import Badge from "@mui/material/Badge";
 import { createTheme } from '@mui/material/styles';
+import jwtDecode from "jwt-decode";
+import { ChatContext } from "../context/ChatContext";
 
 
 /**
@@ -83,31 +85,44 @@ export default function Header() {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { user, loading } = useSelector((state) => state.user);
-   /**
-   * The cart items state.
-   *
-   * @type {Array}
-   */
-  const {cartItems}=useSelector((state) => state.cart)
+  const { dispatch: ChatDispatch } = useContext(ChatContext)
+  /**
+  * The cart items state.
+  *
+  * @type {Array}
+  */
+  const { cartItems } = useSelector((state) => state.cart)
 
-  useEffect(()=>{
-    let token=localStorage.getItem('token')
-    if(token)
-    dispatch(loadedUser())
-  },[dispatch])
+  useEffect(() => {
+    let token = localStorage.getItem('token')
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 &lt; Date.now()) {
+        localStorage.removeItem("token")
+        localStorage.removeItem("cartItems")
+      } else {
+
+        dispatch(loadedUser())
+      }
+    }
+
+  }, [dispatch])
 
   const handleLogOut = () => {
     dispatch(logout());
+    ChatDispatch({ type: "CHANGE_USER", payload: null })
     alert.success("Log Out Successfully.....");
   };
 
   return (
-    &lt;div style={{width:'100%',backgroundColor:'#212529'}}>
-      &lt;nav className="navbar row container container-fluid mx-auto rounded" style={{backgroundColor:'#212529'}}>
+    &lt;div style={{ width: '100%', backgroundColor: '#212529' }}>
+
+      &lt;nav className="navbar row container container-fluid mx-auto rounded" style={{ backgroundColor: '#212529' }}>
+
         &lt;div className="col-12 col-md-2">
           &lt;div className="navbar-brand">
             &lt;Link to="/">
-              &lt;img src="/images/walmart-logo.png" alt="" width="120" height="50"/>
+              &lt;img src="/images/walmart-logo.png" alt="" width="120" height="50" />
             &lt;/Link>
           &lt;/div>
         &lt;/div>
@@ -116,10 +131,10 @@ export default function Header() {
           &lt;Route render={({ history }) => &lt;Search history={history} />} />
         &lt;/div>
 
-        &lt;div className="col-12 col-md-4 mt-4 mt-md-0 text-center">
+        &lt;div className="col-12 col-md-4 mt-4 mt-md-0 text-center" style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
           &lt;Link to="/cart" style={{ textDecoration: "none" }}>
             &lt;Badge badgeContent={cartItems.length} color="secondary">
-              &lt;i className="fas fa-shopping-cart" style={{ color: "white",fontSize: "22px"}}>&lt;/i>
+              &lt;i className="fas fa-shopping-cart" style={{ color: "white", fontSize: "22px" }}>&lt;/i>
             &lt;/Badge>
           &lt;/Link>
           {user ? (
@@ -152,10 +167,10 @@ export default function Header() {
                     Dashboard
                   &lt;/Link>
                 )}
-                {user&amp;&amp;user?.role==="seller"&amp;&amp;(
+                {user &amp;&amp; user?.role === "seller" &amp;&amp; (
                   &lt;Link className="dropdown-item" to="/seller/dashboard">
-                  Seller
-                &lt;/Link>
+                    Seller
+                  &lt;/Link>
                 )}
                 &lt;Link className="dropdown-item" to="/orders/me">
                   Orders
@@ -179,7 +194,21 @@ export default function Header() {
               &lt;/Link>
             )
           )}
+          &lt;div  style={{ backgroundColor: '#212529', color: 'white', padding: '0px', margin:'0px' }}>
+
+            &lt;div className="dropdown">
+              &lt;button className="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ background: 'transparent', color: 'white', border: 'none',  fontSize: '10px',marginRight:'20px' }}>
+                Help and support
+              &lt;/button>
+              &lt;div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                &lt;a className="dropdown-item" href="/return&amp;refund">Returns &amp; Refunds&lt;/a>
+
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+
         &lt;/div>
+
       &lt;/nav>
     &lt;/div>
   );
@@ -198,7 +227,7 @@ export default function Header() {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:23:11 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 24 2023 04:23:40 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

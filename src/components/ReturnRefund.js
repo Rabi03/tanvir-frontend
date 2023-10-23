@@ -8,7 +8,15 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 
-
+/**
+ * A functional component representing a tab panel.
+ *
+ * @param {Object} props - The component's props.
+ * @param {number} props.value - The current tab value.
+ * @param {number} props.index - The index of the tab.
+ * @param {Object} props.other - Other properties.
+ * @returns {JSX.Element} The tab panel component.
+ */
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -29,6 +37,12 @@ function TabPanel(props) {
     );
 }
 
+/**
+ * Get accessibility properties for a tab.
+ *
+ * @param {number} index - The index of the tab.
+ * @returns {Object} Accessibility properties.
+ */
 function a11yProps(index) {
     return {
         id: `full-width-tab-${index}`,
@@ -36,6 +50,11 @@ function a11yProps(index) {
     };
 }
 
+/**
+ * A component for handling the return and refund information.
+ *
+ * @returns {JSX.Element} The ReturnRefund component.
+ */
 export default function ReturnRefund() {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);

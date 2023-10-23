@@ -1,6 +1,12 @@
 import React from 'react'
 import Faq from 'react-faq-component';
 
+/**
+ * Frequently Asked Questions component.
+ * 
+ * @component
+ */
+
 const data = {
     title: "Returns & Refunds",
     rows: [

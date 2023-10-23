@@ -43,7 +43,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#a11yProps">a11yProps</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
     
 </nav>
 
@@ -67,7 +67,7 @@ import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getProducts } from '../actions/ProductActions'
+import { getProducts, sortProduct } from '../actions/ProductActions'
 import Product from './product/Product'
 import Loader from './layout/Loader'
 import { useAlert } from 'react-alert'
@@ -78,6 +78,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
+import { Category } from '@mui/icons-material';
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range)
@@ -85,17 +86,18 @@ const Range = createSliderWithTooltip(Slider.Range)
 export default function Home({ match, history }) {
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([1, 25000])
+    const [priceChange, setPriceChange] = useState(false);
     const alert = useAlert()
     const dispatch = useDispatch()
     // const [keyword, setKeyWord] = useState(null)
 
     const [category, setCategory] = useState('')
     const [rating, setRating] = useState(0)
-/**
- * A list of all product categories.
- *
- * @type {array&lt;string>}
- */
+    /**
+     * A list of all product categories.
+     *
+     * @type {array&lt;string>}
+     */
     const categories = [
         'Electronics',
         'Cameras',
@@ -112,16 +114,18 @@ export default function Home({ match, history }) {
     ]
 
     const headCategory = [
-        "Health &amp; Beauty",
-        "Watches, Bags, Jewellery",
-        "Men's &amp; Boys' Fashion",
-        "Mother &amp; Baby",
-        "Electronics Devices",
-        "TV &amp; Home Appliances",
-        "Electronic Accessories",
-        "Groceries",
-        "Sports &amp; Outdoors",
-        "Automotive &amp; Motorbike"
+        'Electronics',
+        'Cameras',
+        'Laptops',
+        'Accessories',
+        'Headphones',
+        'Food',
+        "Books",
+        'Clothes_Shoes',
+        'Beauty_Health',
+        'Sports',
+        'Outdoor',
+        'Home'
     ];
 
     const keyword = match.params.keyword
@@ -146,16 +150,16 @@ export default function Home({ match, history }) {
 
     const { loading, products, error, resPerPage, productCount, filteredProductsCount } = useSelector(state => state.products)
 
-/**
- * Gets a list of products.
- *
- * @param {string} keyword The keyword to search for.
- * @param {number} currentPage The current page number.
- * @param {array&lt;number>} price The price range.
- * @param {string} category The category to filter by.
- * @param {number} rating The rating to filter by.
- * @returns {object} An object containing the products and pagination information.
- */
+    /**
+     * Gets a list of products.
+     *
+     * @param {string} keyword The keyword to search for.
+     * @param {number} currentPage The current page number.
+     * @param {array&lt;number>} price The price range.
+     * @param {string} category The category to filter by.
+     * @param {number} rating The rating to filter by.
+     * @returns {object} An object containing the products and pagination information.
+     */
     useEffect(() => {
 
         if (error) {
@@ -185,6 +189,12 @@ export default function Home({ match, history }) {
 
     console.log(products)
 
+    const sortByHight_Low = (val) => {
+
+        dispatch(sortProduct(val, products))
+
+    }
+
     return (
         &lt;>
             {loading ? &lt;>
@@ -196,20 +206,16 @@ export default function Home({ match, history }) {
                         &lt;>
                             &lt;div className='row' style={{ marginTop: '20px' }}>
 
-                                {/* &lt;List className='col-3' style={{ fontSize: '10px', border: '1px solid gray', borderRadius: '10px' }}>
+                                &lt;List className='col-2' style={{ border: '1px solid gray', borderRadius: '10px', padding: '10px' }}>
                                     {headCategory.map((cat, id) =>
-                                        &lt;ListItem key={id} style={{ padding: '0px' }}>
-                                            &lt;ListItemButton>
-                                                &lt;ListItemIcon>
-                                                    &lt;InboxIcon />
-                                                &lt;/ListItemIcon>
-                                                &lt;ListItemText primary={cat} />
-                                            &lt;/ListItemButton>
-                                        &lt;/ListItem>
+                                        &lt;div key={id} style={{ padding: '0px', fontSize: '13px', display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', marginBottom: '8px', cursor: 'pointer' }} onClick={() => history.push("/category/" + cat)}>
+                                            &lt;InboxIcon style={{fontSize:'13px'}} />
+                                            &lt;p style={{ margin: '0px', textAlign: 'center', marginLeft: '20px', }}>{cat}&lt;/p>
+                                        &lt;/div>
                                     )}
 
-                                &lt;/List> */}
-                                &lt;div id="carouselExampleIndicators" className="col-12 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                                &lt;/List>
+                                &lt;div id="carouselExampleIndicators" className="col-10 carousel slide" data-ride="carousel" style={{ borderRadius: '10px', overflow: 'hidden', height: 350 }}>
                                     &lt;ol className="carousel-indicators">
                                         &lt;li data-target="#carouselExampleIndicators" data-slide-to="0" className="active">&lt;/li>
                                         &lt;li data-target="#carouselExampleIndicators" data-slide-to="1">&lt;/li>
@@ -217,13 +223,13 @@ export default function Home({ match, history }) {
                                     &lt;/ol>
                                     &lt;div className="carousel-inner" style={{ borderRadius: '10px', overflow: 'hidden' }}>
                                         &lt;div className="carousel-item active">
-                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/VSsN4Jt/carousel-2.png" alt="First slide" />
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/7032e028-eda7-47a9-838f-829c26c3a12d.jpg_1200x1200.jpg" alt="First slide" />
                                         &lt;/div>
                                         &lt;div className="carousel-item">
-                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/tMB5CZW/behzad-ghaffarian-nh-Wg-ZNV85-LQ-unsplash-1-3-1.png" alt="Second slide" />
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/4bd34006-06ba-4816-8049-f356454fce08.jpg" alt="Second slide" />
                                         &lt;/div>
                                         &lt;div className="carousel-item">
-                                            &lt;img className="d-block w-100" style={{ objectFit: 'cover' }} height={500} src="https://i.ibb.co/phw8yGZ/sven-brandsma-Qz6-Zx4-Rjd-D8-unsplash-1.png" alt="Third slide" />
+                                            &lt;img className="d-block w-100" style={{ objectFit: 'contain',borderRadius:'10px' }}  src="https://icms-image.slatic.net/images/ims-web/bc7b487d-f95f-4603-b3a3-2f8e78b71180.jpg" alt="Third slide" />
                                         &lt;/div>
                                     &lt;/div>
                                     &lt;a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style={{ backgroundColor: 'black', height: '50px', width: '50px', margin: 'auto 0px', marginLeft: '20px', borderRadius: '100%' }}>
@@ -239,101 +245,101 @@ export default function Home({ match, history }) {
                             &lt;h1 id="products_heading">Categories&lt;/h1>
                             &lt;div class="container">
                                 &lt;div class="row">
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" class="card-img-top" alt="Electronics" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" width={100} height={100}  alt="Electronics" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Electronics&lt;/h5>
+                                                &lt;p class="card-title">Electronics&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" class="card-img-top" alt="Cameras" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" width={100} height={100} alt="Cameras" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Cameras&lt;/h5>
+                                                &lt;p class="card-title">Cameras&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" class="card-img-top" alt="Laptops" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" width={100} height={100} alt="Laptops" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Laptops&lt;/h5>
+                                                &lt;p class="card-title">Laptops&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Accessories&lt;/h5>
+                                                &lt;p class="card-title">Accessories&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Headphones&lt;/h5>
+                                                &lt;p class="card-title">Headphones&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Food&lt;/h5>
+                                                &lt;p class="card-title">Food&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Books&lt;/h5>
+                                                &lt;p class="card-title">Books&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Clothes_Shoes&lt;/h5>
+                                                &lt;p class="card-title">Clothes_Shoes&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" class="card-img-top" alt="Accessories" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Beauty_Health&lt;/h5>
+                                                &lt;p class="card-title">Beauty_Health&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
 
 
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" class="card-img-top" alt="Sports" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" width={100} height={100} alt="Sports" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Sports&lt;/h5>
+                                                &lt;p class="card-title">Sports&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" class="card-img-top" alt="Outdoor" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" width={100} height={100} alt="Outdoor" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Outdoor&lt;/h5>
+                                                &lt;p class="card-title">Outdoor&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
-                                    &lt;div class="col-md-3" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
+                                    &lt;div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
                                         &lt;div class="card" style={{ textAlign: 'center' }}>
-                                            &lt;img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" class="card-img-top" alt="Home" style={{ margin: '0px auto' }} />
+                                            &lt;img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" width={100} height={100} alt="Home" style={{ margin: '0px auto' }} />
                                             &lt;div class="card-body">
-                                                &lt;h5 class="card-title">Home&lt;/h5>
+                                                &lt;p class="card-title">Home&lt;/p>
                                             &lt;/div>
                                         &lt;/div>
                                     &lt;/div>
@@ -351,25 +357,22 @@ export default function Home({ match, history }) {
 
 
                             {(keyword || category) ? &lt;>
+
                                 &lt;div className="col-6 col-md-3 mt-0 mb-5">
                                     &lt;div className="px-5">
-                                        &lt;h5 className='mb-5'>Price&lt;/h5>
-                                        &lt;Range
-                                            marks={{
-                                                1: `$1`,
-                                                25000: `$1000`
-                                            }}
-                                            min={1}
-                                            max={1000}
-                                            defaultValue={[1, 1000]}
-                                            tipFormatter={value => `$${value}`}
-                                            tipProps={{
-                                                placement: "top",
-                                                visible: true
-                                            }}
-                                            value={price}
-                                            onChange={price => setPrice(price)}
-                                        />
+
+                                        &lt;h5 className='mb-2'>Price&lt;/h5>
+                                        &lt;div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', gap: '5px' }}>
+                                            &lt;input type='number' placeholder='Min' value={price[0]} style={{ width: '80px' }} onChange={e => {
+                                                setPriceChange(true)
+                                                setPrice(price => [e.target.value, price[1]])
+                                            }}>&lt;/input>
+                                            -
+                                            &lt;input type='number' placeholder='Max' value={price[1]} style={{ width: '80px' }} onChange={e => {
+                                                setPrice(price => [price[0], e.target.value])
+                                                setPriceChange(true)
+                                            }} />
+                                        &lt;/div>
                                         &lt;button className='btn btn-primary mt-4 ml-5' onClick={handlePriceChange}>Filter&lt;/button>
 
                                         &lt;hr className="my-5" />
@@ -379,20 +382,21 @@ export default function Home({ match, history }) {
                                                 Categories
                                             &lt;/h4>
 
-                                            &lt;ul className="pl-0">
+                                            &lt;select className="pl-0" value={category} placeholder='Select category' onChange={e => setCategory(e.target.value)}>
                                                 {categories.map(category => (
-                                                    &lt;li
+                                                    &lt;option
                                                         style={{
                                                             cursor: 'pointer',
                                                             listStyleType: 'none'
                                                         }}
                                                         key={category}
-                                                        onClick={() => setCategory(category)}
+                                                        value={category}
+
                                                     >
                                                         {category}
-                                                    &lt;/li>
+                                                    &lt;/option>
                                                 ))}
-                                            &lt;/ul>
+                                            &lt;/select>
                                         &lt;/div>
 
                                         &lt;hr className="my-3" />
@@ -428,7 +432,33 @@ export default function Home({ match, history }) {
                                     &lt;/div>
                                 &lt;/div>
 
-                                &lt;div className="col-6 col-md-9">
+                                &lt;div className="col-6 col-md-9" style={{width:'100%'}}>
+                                    &lt;div className='row my-2'>
+                                        {products?.length == 0 &amp;&amp; &lt;div>No product found. Try with different keyword or price range or category.&lt;/div>}
+
+                                    &lt;/div>
+                                    {products?.length > 0 &amp;&amp;
+                                        &lt;div className='row' style={{width:'100%',justifyContent:'space-between'}}>
+                                            &lt;div style={{ display: 'flex', flexDirection: 'row', fontSize: "10px" }}>
+                                                {category &amp;&amp; &lt;p style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Category: {category}&lt;/p>}
+                                                {price &amp;&amp; &lt;p style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Price: {price[0]}-{price[1]} {priceChange &amp;&amp; &lt;span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => {
+                                                    setPrice([1, 25000])
+                                                    setPriceChange(false)
+                                                }}>x&lt;/span>}&lt;/p>}
+                                                {rating > 0 &amp;&amp; &lt;h6 style={{ fontSize: '10px', padding: '5px 10px', backgroundColor: "rgba(0,0,0,0.2)", marginRight: '5px', borderRadius: '10px' }}>Rating: {rating} &lt;span style={{ marginLeft: '10px', padding: "1px 5px", borderRadius: '100%', backgroundColor: 'black', color: 'white', cursor: 'pointer' }} onClick={() => setRating(0)}>x&lt;/span>&lt;/h6>}
+
+                                            &lt;/div>
+                                            &lt;div style={{display:'flex',flexDirection:'row',fontSize: "15px",alignItems:'center',justifyContent:'center'}}>
+                                                &lt;p style={{marginRight:'10px'}}>Sort By&lt;/p>
+                                                &lt;select onChange={e => sortByHight_Low(e.target.value)} style={{ marginBottom: '20px' }}>
+                                                    &lt;option value="0">Price high to low&lt;/option>
+                                                    &lt;option value="1">Price low to high&lt;/option>
+                                                &lt;/select>
+                                            &lt;/div>
+
+                                        &lt;/div>
+                                    }
+
                                     &lt;div className="row">
                                         {products?.length > 0 &amp;&amp; products.map(product => (
                                             &lt;Product key={product._id} product={product} col={4} />
@@ -482,7 +512,7 @@ export default function Home({ match, history }) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:23:11 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 24 2023 04:23:40 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

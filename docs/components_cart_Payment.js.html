@@ -43,7 +43,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#a11yProps">a11yProps</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
     
 </nav>
 
@@ -93,7 +93,8 @@ const options = {
 export default function Payment({ history }) {
     const alert = useAlert();
     const dispatch = useDispatch();
-    const [password, setPassword] = useState('');
+    const [paytype, setPaytype] = useState('Online');
+
 
     const { user } = useSelector(state => state.user)
     const { cartItems, shippingInfo } = useSelector(state => state.cart);
@@ -126,11 +127,11 @@ export default function Payment({ history }) {
     const paymentData = {
         amount: Math.round(orderInfo.totalPrice * 100)
     }
-        /**
-         * Handles the form submission for payment processing.
-         *
-         * @param {Event} e - The event object.
-         */
+    /**
+     * Handles the form submission for payment processing.
+     *
+     * @param {Event} e - The event object.
+     */
     const submitHandler = async (e) => {
         e.preventDefault();
 
@@ -146,6 +147,39 @@ export default function Payment({ history }) {
 
             console.log(res)
             window.location.replace(res.data.url)
+
+        } catch (error) {
+
+        }
+    }
+
+    const cashOnDelivery = async (e) => {
+        e.preventDefault();
+        
+
+        let token = localStorage.getItem("token")
+        try {
+            const res = await axios.post("https://tanvir-backend.vercel.app/api/v1/order/new", {
+                ...order, paymentInfo: {
+                    customerId: user?._id,
+                    paymentIntentId: "cash_on_delivery_" + user?._id,
+                    payment_status: "not paid",
+                    method: "Cash On Delivery"
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    token
+                }
+            })
+
+            if(res.data.success&amp;&amp;res.data.success===true){
+                window.location.replace("https://online-shopping-mall.vercel.app/success")
+            }
+            else{
+                
+                window.location.replace("https://online-shopping-mall.vercel.app/fail")
+            }
 
         } catch (error) {
 
@@ -189,51 +223,41 @@ export default function Payment({ history }) {
             &lt;MetaData title={'Payment'} />
 
             &lt;CheckoutSteps state={2} />
-            &lt;h1 style={{ margin: '30px 0px' }}>Select Payment method&lt;/h1>
-            &lt;div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
-                    &lt;div style={{ display: 'flex', alignItems: 'center' }}>
-
-                        &lt;img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
-                    &lt;/div>
-
-                    &lt;img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={600} height={400} />
+            &lt;h1 style={{ margin: '30px 0px', textAlign: 'center' }}>Select Payment method&lt;/h1>
+            &lt;div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: "0px 50px", margin: '0px auto', width: '50%' }}>
+                &lt;div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', textAlign: 'center' }} >
+                    &lt;input type='radio' checked={paytype === 'Online'} onChange={() => setPaytype("Online")}>&lt;/input>
+                    &lt;h5 style={{ marginTop: '5px' }}>Online Payment&lt;/h5>
                 &lt;/div>
-                &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
-                    &lt;div style={{ display: 'flex', alignItems: 'center' }}>
-
-                        &lt;img src='https://memberpress.com/wp-content/uploads/2017/09/Integrations2-768x432-1.jpg' width={200} height={100} />
-                    &lt;/div>
-
-                    &lt;img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={600} height={375} />
+                &lt;div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    &lt;input type='radio' checked={paytype === 'Offline'} onChange={() => setPaytype("Offline")}>&lt;/input>
+                    &lt;h5 style={{ marginTop: '5px' }}>Cash On Delivery&lt;/h5>
                 &lt;/div>
             &lt;/div>
+            {paytype === 'Online' &amp;&amp;
+                &lt;div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
+                        &lt;div style={{ display: 'flex', alignItems: 'center' }}>
 
-            &lt;div className="row wrapper">
-                &lt;div className="col-10 col-lg-5">
-                    {/* &lt;form className="shadow-lg" onSubmit={submitHandler}>
-                        &lt;h1 className="mb-4">Card Info&lt;/h1>
-                        &lt;div className="form-group">
-                            &lt;TextField id="outlined-basic" label="Account Number" value={user?.account} variant="outlined" sx={{ width: '100%' }} />
+                            &lt;img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
                         &lt;/div>
 
-                        &lt;div className="form-group">
-                            &lt;TextField id="outlined-basic" label="Account Secret" variant="outlined" sx={{ width: '100%' }} onChange={e => setPassword(e.target.value)} />
+                        &lt;img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={600} height={400} />
+                    &lt;/div>
+                    &lt;div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
+                        &lt;div style={{ display: 'flex', alignItems: 'center' }}>
+
+                            &lt;img src='https://memberpress.com/wp-content/uploads/2017/09/Integrations2-768x432-1.jpg' width={200} height={100} />
                         &lt;/div>
 
-
-                        &lt;button
-                            id="pay_btn"
-                            type="submit"
-                            className="btn btn-block py-3"
-                        >
-                            Pay {` - ${orderInfo &amp;&amp; orderInfo.totalPrice}`}
-                        &lt;/button>
-
-                    &lt;/form> */}
-
+                        &lt;img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={600} height={375} />
+                    &lt;/div>
                 &lt;/div>
-            &lt;/div>
+            }
+            {paytype === 'Offline' &amp;&amp; &lt;div style={{ width: '50%', margin: '0px auto', marginTop: '50px' }}>
+                &lt;button type="button" className="btn btn-primary btn-lg btn-block" onClick={cashOnDelivery}>Order Now&lt;/button>
+            &lt;/div>}
+
 
         &lt;/Fragment>
     )
@@ -253,7 +277,7 @@ export default function Payment({ history }) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:23:11 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 24 2023 04:23:40 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -15,16 +15,17 @@ import { addCartItems ,removeCartItem} from "../../actions/CartActions";
  *
  * @returns {React.Component} A React component that displays the current user's cart.
  */
-export default function Cart({history}) {
-  const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
-   /**
+/**
    * Increases the quantity of a cart item.
    *
    * @param {string} id The ID of the cart item.
    * @param {number} quantity The current quantity of the cart item.
    * @param {number} stock The stock of the product.
    */
+export default function Cart({history}) {
+  const dispatch = useDispatch();
+  const { cartItems } = useSelector((state) => state.cart);
+   
   const increaseQuantity=(id,quantity,stock) => {
     const newQuantity = quantity+1
 

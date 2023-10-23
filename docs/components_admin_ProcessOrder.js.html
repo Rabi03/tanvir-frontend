@@ -43,7 +43,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Chat">Chat</a></li><li><a href="global.html#ChatContext">ChatContext</a></li><li><a href="global.html#ChatContextProvider">ChatContextProvider</a></li><li><a href="global.html#Chats">Chats</a></li><li><a href="global.html#ConfirmOrder">ConfirmOrder</a></li><li><a href="global.html#Dashboard">Dashboard</a></li><li><a href="global.html#Input">Input</a></li><li><a href="global.html#Message">Message</a></li><li><a href="global.html#Messages">Messages</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NewProduct">NewProduct</a></li><li><a href="global.html#OrderCancel">OrderCancel</a></li><li><a href="global.html#OrderDetails">OrderDetails</a></li><li><a href="global.html#OrderFail">OrderFail</a></li><li><a href="global.html#OrderSuccess">OrderSuccess</a></li><li><a href="global.html#ProcessOrderState">ProcessOrderState</a></li><li><a href="global.html#ProductReviewsState">ProductReviewsState</a></li><li><a href="global.html#QontoConnector">QontoConnector</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#TabPanel">TabPanel</a></li><li><a href="global.html#UpdateProduct">UpdateProduct</a></li><li><a href="global.html#a11yProps">a11yProps</a></li><li><a href="global.html#data">data</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#steps">steps</a></li></ul>
     
 </nav>
 
@@ -68,7 +68,7 @@ import Sidebar from './Sidebar'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrderDetails, updateOrder, clearErrors } from '../../actions/OrderActions'
+import { getOrderDetails, updateOrder, clearErrors, updateOrderPayInfo } from '../../actions/OrderActions'
 import { UPDATE_ORDER_RESET } from '../../constants/OrderConstants'
 
 /**
@@ -87,6 +87,7 @@ export default function ProcessOrder({ match }) {
     * }} ProcessOrderState
     */
     const [status, setStatus] = useState('Processing');
+    
 
     /**
    * The useAlert hook to display alerts to the user.
@@ -102,7 +103,7 @@ export default function ProcessOrder({ match }) {
     const { loading, order = {} } = useSelector(state => state.orderDetails)
     const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order
     const { error, isUpdated } = useSelector(state => state.orderDelorUp)
-
+    const [paystatus, setPayStatus] = useState(paymentInfo ? paymentInfo.payment_status.toLowerCase():'Not Paid');
     /**
    * The ID of the order to process.
    *
@@ -143,6 +144,13 @@ export default function ProcessOrder({ match }) {
         formData.set('status', status);
 
         dispatch(updateOrder(id, formData))
+    }
+    const handleUpdatePayStatus = (id,status) => {
+
+        const formData = new FormData();
+        formData.set('status', status);
+
+        dispatch(updateOrderPayInfo(id, formData))
     }
     /**
    * A function that formats the shipping information for display.
@@ -185,8 +193,11 @@ export default function ProcessOrder({ match }) {
 
                                     &lt;hr />
 
-                                    &lt;h4 className="my-4">Payment ID&lt;/h4>
-                                    &lt;p>&lt;b>{paymentInfo &amp;&amp; paymentInfo.id}&lt;/b>&lt;/p>
+                                    &lt;h4 className="my-4">Payment Info&lt;/h4>
+                                    &lt;p>&lt;b>Customer: {paymentInfo &amp;&amp; paymentInfo.customerId}&lt;/b>&lt;/p>
+                                    &lt;p>&lt;b>Payment ID: {paymentInfo &amp;&amp; paymentInfo.paymentIntentId}&lt;/b>&lt;/p>
+                                    &lt;p>&lt;b>Payment Status: {paymentInfo &amp;&amp; paymentInfo.payment_status}&lt;/b>&lt;/p>
+                                    &lt;p>&lt;b>Payment Method: {paymentInfo &amp;&amp; paymentInfo.method}&lt;/b>&lt;/p>
 
                                     &lt;h4 className="my-4">Order Status:&lt;/h4>
                                     &lt;p className={order.orderStatus &amp;&amp; String(order.orderStatus).includes('Delivered') ? "greenColor" : "redColor"} >&lt;b>{orderStatus}&lt;/b>&lt;/p>
@@ -222,7 +233,7 @@ export default function ProcessOrder({ match }) {
                                 &lt;/div>
 
                                 &lt;div className="col-12 col-lg-3 mt-5">
-                                    &lt;h4 className="my-4">Status&lt;/h4>
+                                    &lt;h4 className="my-4">Order Status&lt;/h4>
 
                                     &lt;div className="form-group">
                                         &lt;select
@@ -238,7 +249,24 @@ export default function ProcessOrder({ match }) {
                                     &lt;/div>
 
                                     &lt;button className="btn btn-primary btn-block" onClick={() => handleUpdateOrder(order._id)}>
-                                        Update Status
+                                        Update Order Status
+                                    &lt;/button>
+                                    &lt;h4 className="my-4">Payment Status&lt;/h4>
+
+                                    &lt;div className="form-group">
+                                        &lt;select
+                                            className="form-control"
+                                            name='status'
+                                            value={paystatus}
+                                            onChange={(e) => setPayStatus(e.target.value)}
+                                        >
+                                            &lt;option value="paid">Paid&lt;/option>
+                                            &lt;option value="not paid">Not Paid&lt;/option>
+                                        &lt;/select>
+                                    &lt;/div>
+
+                                    &lt;button className="btn btn-primary btn-block" onClick={() => handleUpdatePayStatus(order._id,paystatus)}>
+                                        Update Payment Status
                                     &lt;/button>
                                 &lt;/div>
 
@@ -265,7 +293,7 @@ export default function ProcessOrder({ match }) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Oct 20 2023 17:23:11 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Oct 24 2023 04:23:40 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
