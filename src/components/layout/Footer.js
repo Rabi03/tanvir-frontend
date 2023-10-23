@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="py-1">
             <p className="text-center  mt-1">
-            Online Shopping Mall - 2023, All Rights Reserved
+            Walmart - 2023, All Rights Reserved
             </p>
             {/* <div style={{width:'100%'}}>
                 <img src='images/pay.png' style={{marginLeft:'30%'}} />
