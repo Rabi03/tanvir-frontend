@@ -113,11 +113,11 @@ export default function Payment({ history }) {
             })
 
             if(res.data.success&&res.data.success===true){
-                window.location.replace("https://online-shopping-mall.vercel.app/success")
+                window.location.replace("https://walmart12.vercel.app/success")
             }
             else{
                 
-                window.location.replace("https://online-shopping-mall.vercel.app/fail")
+                window.location.replace("https://walmart12.vercel.app/fail")
             }
 
         } catch (error) {

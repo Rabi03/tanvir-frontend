@@ -47,7 +47,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "doc": "jsdoc -c jsdoc.json"
+    "doc": "jsdoc -c jsdoc.json",
+    "open-doc": "open docs/index.html"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,5 +65,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://tanvir-backend.vercel.app"
+  "proxy": "https://tanvir-backend.vercel.app",
+  "devDependencies": {
+    "open": "^9.1.0"
+  }
 }
