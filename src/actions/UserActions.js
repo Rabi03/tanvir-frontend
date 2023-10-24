@@ -35,12 +35,22 @@ import {
     DELETE_USER_REQUEST,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
+    INITIALSTORE
 } from '../constants/UserConstants'
 
 import axios from 'axios'
 
 //LoginUser
+export const initialStore=(items)=>async(dispatch,getState)=>{
+   
 
+    dispatch({
+        type: INITIALSTORE,
+        payload:items
+    })
+
+    localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
+}
 export const login = (email, password) => async (dispatch) => {
 
     try {

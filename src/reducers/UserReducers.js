@@ -39,11 +39,17 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
     USER_DETAILS_FAIL,
+    INITIALSTORE
 } from '../constants/UserConstants'
 
 export const UserReducer=(state={user:null},action)=>{
 
     switch(action.type) {
+        case INITIALSTORE:
+            return{
+                ...state,
+                user:action.payload
+            }
         case LOGIN_REQUEST:
         case REGISTER_USER_REQUEST:
         case LOAD_USER_REQUEST:

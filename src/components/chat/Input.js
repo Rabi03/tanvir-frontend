@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux'
  */
 const Input = () => {
   const [text, setText] = useState("");
-  const [img, setImg] = useState(null);
+  const [image, setImg] = useState(null);
 
   const { user:currentUser, isAuthenticated, loading } = useSelector(state => state.user)
   const { data } = useContext(ChatContext);
@@ -29,10 +29,10 @@ const Input = () => {
    * Handle sending a message (with or without an image).
    */
   const handleSend = async () => {
-    if (img) {
+    if (image) {
       const storageRef = ref(storage, uuid());
 
-      const uploadTask = uploadBytesResumable(storageRef, img);
+      const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
         (error) => {
@@ -89,7 +89,7 @@ const Input = () => {
         value={text}
       />
       <div className="send">
-        <img src={Attach} alt="" />
+        {/* <img src={Attach} alt="" />
         <input
           type="file"
           style={{ display: "none" }}
@@ -98,7 +98,7 @@ const Input = () => {
         />
         <label htmlFor="file">
           <img src={Img} alt="" />
-        </label>
+        </label> */}
         <button onClick={handleSend}>Send</button>
       </div>
     </div>
