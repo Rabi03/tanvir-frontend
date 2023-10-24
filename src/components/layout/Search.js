@@ -38,7 +38,7 @@ export default function Search({ history }) {
 
                 <div className="input-group-append">
 
-                    <button id="search_btn" className="btn" onClick={searchHandler}>
+                    <button data-testid="search_btn" id="search_btn" className="btn" onClick={searchHandler}>
                         <i className="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </div>

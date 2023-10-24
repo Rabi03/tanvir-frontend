@@ -63,9 +63,7 @@ export default function Payment({ history }) {
         order.totalPrice = orderInfo.totalPrice
     }
 
-    const paymentData = {
-        amount: Math.round(orderInfo.totalPrice * 100)
-    }
+
     /**
      * Handles the form submission for payment processing.
      *
@@ -94,7 +92,7 @@ export default function Payment({ history }) {
 
     const cashOnDelivery = async (e) => {
         e.preventDefault();
-        
+
 
         let token = localStorage.getItem("token")
         try {
@@ -112,11 +110,11 @@ export default function Payment({ history }) {
                 }
             })
 
-            if(res.data.success&&res.data.success===true){
+            if (res.data.success && res.data.success === true) {
                 window.location.replace("https://walmart12.vercel.app/success")
             }
-            else{
-                
+            else {
+
                 window.location.replace("https://walmart12.vercel.app/fail")
             }
 
@@ -174,23 +172,25 @@ export default function Payment({ history }) {
                 </div>
             </div>
             {paytype === 'Online' &&
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0px 100px' }}>
+                    <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
+                        <p>Ammar Pay</p>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
 
                             <img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
                         </div>
 
-                        <img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={600} height={400} />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
+                        <img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={400} height={200} />
+                    </button>
+                    <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
+                        <p>Card</p>
                         <div style={{ display: 'flex', alignItems: 'center' }}>
 
                             <img src='https://memberpress.com/wp-content/uploads/2017/09/Integrations2-768x432-1.jpg' width={200} height={100} />
                         </div>
 
-                        <img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={600} height={375} />
-                    </div>
+                        <img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={400} height={180} />
+                    </button>
                 </div>
             }
             {paytype === 'Offline' && <div style={{ width: '50%', margin: '0px auto', marginTop: '50px' }}>

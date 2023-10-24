@@ -38,6 +38,17 @@ import {
 import axios from 'axios'
 
 
+export const getProductsForTest = (keyword, currentPage, price, category, rating) => {
+    return (dispatch) => {
+      // You can perform your asynchronous logic here, e.g., making an API call
+      // Once you have the data, dispatch the action
+      dispatch({
+        type: ALL_PRODUCTS_SUCCESS,
+        payload: { keyword, currentPage, price, category, rating },
+      });
+    };
+  };
+
 export const getProducts=(keyword="",currentPage=1,price,category="",rating=0)=>async(dispatch)=>{
 
     try {

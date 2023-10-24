@@ -1,5 +1,16 @@
 import axios from "axios"
-import { ADD_TO_CART, REMOVE_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO } from "../constants/CartConstants"
+import { ADD_TO_CART, INITIALSTORE, REMOVE_CART, REMOVE_ITEM_CART, SAVE_SHIPPING_INFO } from "../constants/CartConstants"
+
+export const initialStore=(items)=>async(dispatch,getState)=>{
+   
+
+    dispatch({
+        type: INITIALSTORE,
+        payload:items
+    })
+
+    localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
+}
 
 export const addCartItems=(id,quantity)=>async(dispatch,getState)=>{
     const {data}= await axios.get(`https://tanvir-backend.vercel.app/api/v1/product/${id}`)

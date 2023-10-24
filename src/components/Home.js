@@ -70,9 +70,10 @@ export default function Home({ match, history }) {
     const keyword = match.params.keyword
 
     useEffect(() => {
-        if (match.params.category)
+        if (match.params.category){
             setCategory(match.params.category)
-        dispatch(getProducts(keyword, currentPage, price, match.params.category, rating))
+            dispatch(getProducts(keyword, currentPage, price, match.params.category, rating))
+        }
     }, [match.params])
 
     // useEffect(() => {
@@ -182,103 +183,103 @@ export default function Home({ match, history }) {
                                 </div>
                             </div>
                             <h1 id="products_heading">Categories</h1>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Electronics")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/dd1ce7eea60fd1eade8f9daf3a4aa674.jpg" width={100} height={100}  alt="Electronics" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Electronics</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Electronics</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Cameras")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/57a3723d055a73f586609b5eb73357bb.jpg" width={100} height={100} alt="Cameras" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Cameras</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Cameras</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Laptops")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/434d4cc0977d07719c274c515f45fc58.jpg" width={100} height={100} alt="Laptops" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Laptops</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Laptops</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Accessories")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/c38b438c460a2a1c391e73ca6af95006.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Accessories</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Accessories</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Headphones")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/e5d71e4d4c3d5214aadcd24c5a796c12.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Headphones</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Headphones</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Food")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/6fe700086e28e39796b316e5631e75ac.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Food</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Food</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Books")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/b658f30dcb72bbc4211df367b3bb777a.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Books</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Books</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Clothes_Shoes")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/9eb3a585dad8898d575d9587c652ac42.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Clothes_Shoes</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Clothes_Shoes</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Beauty_Health")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/ba3a0628aeaacc262c52113187ef2b76.jpg" width={100} height={100} alt="Accessories" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Beauty_Health</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Beauty_Health</p>
                                             </div>
                                         </div>
                                     </div>
 
 
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Sports")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/043f5b53dd7f56ccd62c7bd742f9d592.jpg" width={100} height={100} alt="Sports" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Sports</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Sports</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Outdoor")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/b3c33a984f6dd093b4ef60956815009c.jpg" width={100} height={100} alt="Outdoor" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Outdoor</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Outdoor</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
-                                        <div class="card" style={{ textAlign: 'center' }}>
+                                    <div className="col-md-2" style={{ padding: 0, cursor: 'pointer' }} onClick={() => history.push("/category/Home")}>
+                                        <div className="card" style={{ textAlign: 'center' }}>
                                             <img src="https://static-01.daraz.com.bd/p/546356db127bd4e29985f218b6825cbf.jpg" width={100} height={100} alt="Home" style={{ margin: '0px auto' }} />
-                                            <div class="card-body">
-                                                <p class="card-title">Home</p>
+                                            <div className="card-body">
+                                                <p className="card-title">Home</p>
                                             </div>
                                         </div>
                                     </div>
