@@ -70,11 +70,11 @@ export default function Cart({ history }) {
         <h2 className="mt-5">Your cart is empty</h2>
       ) : (
         <>
-          <h2 class="mt-5">Your Cart: <b>{cartItems.length} items</b></h2>
+          <h2 className="mt-5">Your Cart: <b>{cartItems.length} items</b></h2>
           <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8">
               {cartItems.map(item => (
-                <>
+               
                   <div key={item.product} className="cart-item" style={{ border: '1px solid #ccc' }}>
                     <div className="row">
                       <div className="col-4 col-lg-3">
@@ -118,7 +118,7 @@ export default function Cart({ history }) {
                       </div>
                     </div>
                   </div>
-                </>
+               
               ))}
 
 

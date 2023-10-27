@@ -322,7 +322,12 @@ export default function Home({ match, history }) {
                                                 Categories
                                             </h4>
 
-                                            <select className="pl-0" value={category} placeholder='Select category' onChange={e => setCategory(e.target.value)}>
+                                            <select className="pl-0" value={category} placeholder='Select category' onChange={e => {
+                                                let val=e.target.value;
+                                                if(val!=='select')
+                                                    setCategory(val)
+                                            }}>
+                                                <option value={"select"} selected>Select Category</option>
                                                 {categories.map(category => (
                                                     <option
                                                         style={{

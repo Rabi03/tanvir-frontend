@@ -22,6 +22,29 @@ import {
     CLEAR_ERRORS
 } from '../constants/OrderConstants'
 
+export const mockCreateOrder=(order)=>async (dispatch, getState) => {
+    try {
+
+        dispatch({ type: CREATE_ORDER_REQUEST })
+
+        
+
+        const data=await axios.post.mockResolvedValue({ data: order});
+        dispatch({
+            type: CREATE_ORDER_SUCCESS,
+            payload: data
+        })
+
+
+    } catch (error) {
+        console.log(error)
+        dispatch({
+            type: CREATE_ORDER_FAIL,
+            payload: error.response?error.response.data?.message:"Network Error"
+        })
+    }
+}
+
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
 
@@ -48,7 +71,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         console.log(error)
         dispatch({
             type: CREATE_ORDER_FAIL,
-            payload: error.response.data.message
+            payload: error?.response?.data?.message
         })
     }
 }
