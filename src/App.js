@@ -47,7 +47,6 @@ import 'react-tiny-fab/dist/styles.css';
 import { BsMessenger } from 'react-icons/bs'
 import Dialog from '@mui/material/Dialog';
 import { BiMessageDetail } from "react-icons/bi"
-import Home2 from "./components/Home2";
 import ChatHome from "./components/ChatHome";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "./components/firebase";
