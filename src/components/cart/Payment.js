@@ -174,13 +174,10 @@ export default function Payment({ history }) {
             {paytype === 'Online' &&
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '0px 100px' }}>
                     <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px', marginRight: '20px' }} onClick={submitHandler}>
-                        <p>Ammar Pay</p>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <p>Mobile Banking</p>
+                        
 
-                            <img src='https://www.aamarpay.com/images/logo/aamarpay_logo.png' />
-                        </div>
-
-                        <img src="https://www.aamarpay.com/images/payment-method-web-banner-4.jpg" width={400} height={200} />
+                        <img src="https://mybangla24.com/static/img/blog/mobile-banking-bangladesh.webp" width={400} height={200} />
                     </button>
                     <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
                         <p>Card</p>
