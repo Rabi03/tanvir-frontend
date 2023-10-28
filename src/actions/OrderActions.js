@@ -54,7 +54,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
 
         let token=localStorage.getItem("token")
 
-        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/order/new', order, {
+        const { data } = await axios.post('https://walmart-backend.vercel.app/api/v1/order/new', order, {
             headers: {
                 'Content-Type': 'application/json',
                 token
@@ -81,7 +81,7 @@ export const myOrders = () => async (dispatch) => {
 
         dispatch({ type: MY_ORDERS_REQUEST });
         let token=localStorage.getItem("token")
-        const { data } = await axios.get('https://tanvir-backend.vercel.app/api/v1/orders/me',{
+        const { data } = await axios.get('https://walmart-backend.vercel.app/api/v1/orders/me',{
             headers: {
                 'Content-Type': 'application/json',
                 token
@@ -107,7 +107,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
 
         dispatch({ type: ORDER_DETAILS_REQUEST });
         let token=localStorage.getItem("token")
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/order/${id}`,{
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/order/${id}`,{
             headers: {
                 'Content-Type': 'application/json',
                 token
@@ -132,7 +132,7 @@ export const allOrders = () => async (dispatch) => {
 
         dispatch({ type: ALL_ORDERS_REQUEST });
         let token=localStorage.getItem("token")
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/admin/orders`,{
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/admin/orders`,{
             headers: {
                 'Content-Type': 'application/json',
                 token
@@ -164,7 +164,7 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/admin/order/${id}`, orderData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/admin/order/${id}`, orderData, config)
 
         dispatch({
             type: UPDATE_ORDER_SUCCESS,
@@ -192,7 +192,7 @@ export const updateOrderPayInfo = (id, orderData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/admin/order/pay/${id}`, orderData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/admin/order/pay/${id}`, orderData, config)
 
         dispatch({
             type: UPDATE_ORDER_SUCCESS,
@@ -219,7 +219,7 @@ export const deleteOrder = (id) => async (dispatch) => {
                 token
             }
         }
-        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/admin/order/${id}`,config)
+        const { data } = await axios.delete(`https://walmart-backend.vercel.app/api/v1/admin/order/${id}`,config)
 
         dispatch({
             type: DELETE_ORDER_SUCCESS,

@@ -37,7 +37,7 @@ export default function SupplyOrders({ history }) {
     const [loading, setLoading] = useState(false)
 
     const getAllOrders = async () => {
-        const res = await axios.get('https://tanvir-backend.vercel.app/api/v1/supply/orders', { headers: { token: localStorage.getItem('token') } })
+        const res = await axios.get('https://walmart-backend.vercel.app/api/v1/supply/orders', { headers: { token: localStorage.getItem('token') } })
         console.log(res.data)
         if (res.data.success === true) {
             setAllOrders(res.data.supplies)
@@ -51,7 +51,7 @@ export default function SupplyOrders({ history }) {
     }
 
     const handleSupply=async(id,val)=>{
-        const res=await axios.put(`https://tanvir-backend.vercel.app/api/v1/supply/order/${id}`,{supplied:val},{headers:{token:localStorage.getItem('token')}})
+        const res=await axios.put(`https://walmart-backend.vercel.app/api/v1/supply/order/${id}`,{supplied:val},{headers:{token:localStorage.getItem('token')}})
 
         if(res.data.success){
             getAllOrders()

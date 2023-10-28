@@ -186,7 +186,7 @@ export default function Transactions() {
                         id:recived._id
                     }
 
-                    let result = await axios.post(`https://tanvir-backend.vercel.app/api/v1/admin/supply`, {
+                    let result = await axios.post(`https://walmart-backend.vercel.app/api/v1/admin/supply`, {
                         order:selectOrder?._id,
                         paymentInfo
                     }, {

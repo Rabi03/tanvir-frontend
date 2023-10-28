@@ -39,7 +39,7 @@ const Chat = () => {
    */
   const getAdminInfo = async () => {
 
-    const resadmin = await axios.get("https://tanvir-backend.vercel.app/api/v1/getAdmin")
+    const resadmin = await axios.get("https://walmart-backend.vercel.app/api/v1/getAdmin")
     if (resadmin.data && resadmin.data.success === true&&user.role!=='admin') {
 
       console.log(resadmin.data)

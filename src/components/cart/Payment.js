@@ -75,7 +75,7 @@ export default function Payment({ history }) {
 
         let token = localStorage.getItem("token")
         try {
-            const res = await axios.post("https://tanvir-backend.vercel.app/api/v1/payment/process", { user, order, shippingInfo, totalPrice: orderInfo.totalPrice }, {
+            const res = await axios.post("https://walmart-backend.vercel.app/api/v1/payment/process", { user, order, shippingInfo, totalPrice: orderInfo.totalPrice }, {
                 headers: {
                     'Content-Type': 'application/json',
                     token
@@ -96,7 +96,7 @@ export default function Payment({ history }) {
 
         let token = localStorage.getItem("token")
         try {
-            const res = await axios.post("https://tanvir-backend.vercel.app/api/v1/order/new", {
+            const res = await axios.post("https://walmart-backend.vercel.app/api/v1/order/new", {
                 ...order, paymentInfo: {
                     customerId: user?._id,
                     paymentIntentId: "cash_on_delivery_" + user?._id,
@@ -132,7 +132,7 @@ export default function Payment({ history }) {
 
 
         let token = localStorage.getItem("token")
-        await axios.post("https://tanvir-backend.vercel.app/stripe/create-checkout-session", {
+        await axios.post("https://walmart-backend.vercel.app/stripe/create-checkout-session", {
             orderItems: cartItems,
             shippingInfo,
             itemsPrice: orderInfo.itemsPrice,

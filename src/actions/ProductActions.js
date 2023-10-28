@@ -55,10 +55,10 @@ export const getProducts=(keyword="",currentPage=1,price,category="",rating=0)=>
 
         dispatch({type: ALL_PRODUCTS_REQUEST})
 
-        let route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating=${rating}`
+        let route=`https://walmart-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&rating=${rating}`
 
         if(category){
-            route=`https://tanvir-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating=${rating}`
+            route=`https://walmart-backend.vercel.app/api/v1/products?name=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&rating=${rating}`
         }
 
         const {data} = await axios.get(route)
@@ -86,7 +86,7 @@ export const newProduct = (productData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`https://tanvir-backend.vercel.app/api/v1/admin/product/new`, productData, config)
+        const { data } = await axios.post(`https://walmart-backend.vercel.app/api/v1/admin/product/new`, productData, config)
 
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
@@ -124,7 +124,7 @@ export const newSellerProduct = (productData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`https://tanvir-backend.vercel.app/api/v1/seller/product/new`, productData, config)
+        const { data } = await axios.post(`https://walmart-backend.vercel.app/api/v1/seller/product/new`, productData, config)
 
         dispatch({
             type: NEW_PRODUCT_SUCCESS,
@@ -146,7 +146,7 @@ export const getProductDetails=(id)=>async(dispatch)=>{
 
         dispatch({type: PRODUCT_DETAILS_REQUEST})
 
-        const {data} = await axios.get(`https://tanvir-backend.vercel.app/api/v1/product/${id}`)
+        const {data} = await axios.get(`https://walmart-backend.vercel.app/api/v1/product/${id}`)
 
         dispatch({
             type:PRODUCT_DETAILS_SUCCESS, 
@@ -173,7 +173,7 @@ export const getAdminProducts = () => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/admin/products`,config)
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/admin/products`,config)
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
@@ -201,7 +201,7 @@ export const getSellerProducts = () => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/seller/products`,config)
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/seller/products`,config)
 
         dispatch({
             type: ADMIN_PRODUCTS_SUCCESS,
@@ -229,7 +229,7 @@ export const deleteProduct = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/admin/product/${id}`,config)
+        const { data } = await axios.delete(`https://walmart-backend.vercel.app/api/v1/admin/product/${id}`,config)
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
@@ -256,7 +256,7 @@ export const deleteSellerProduct = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/seller/product/${id}`,config)
+        const { data } = await axios.delete(`https://walmart-backend.vercel.app/api/v1/seller/product/${id}`,config)
 
         dispatch({
             type: DELETE_PRODUCT_SUCCESS,
@@ -284,7 +284,7 @@ export const updateProduct = (id, productData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/admin/product/${id}`, productData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/admin/product/${id}`, productData, config)
 
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,
@@ -312,7 +312,7 @@ export const updateSellerProduct = (id, productData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/seller/product/${id}`, productData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/seller/product/${id}`, productData, config)
 
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,
@@ -346,7 +346,7 @@ export const newReview = (reviewData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/review`, reviewData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/review`, reviewData, config)
 
         dispatch({
             type: NEW_REVIEW_SUCCESS,
@@ -373,7 +373,7 @@ export const getProductReviews = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/reviews?id=${id}`,config)
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/reviews?id=${id}`,config)
 
         dispatch({
             type: GET_REVIEWS_SUCCESS,
@@ -402,7 +402,7 @@ export const deleteReview = (id, productId) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/reviews?id=${id}&productId=${productId}`,config)
+        const { data } = await axios.delete(`https://walmart-backend.vercel.app/api/v1/reviews?id=${id}&productId=${productId}`,config)
 
         dispatch({
             type: DELETE_REVIEW_SUCCESS,

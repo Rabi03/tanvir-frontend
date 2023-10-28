@@ -69,7 +69,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://tanvir-backend.vercel.app",
+  "proxy": "https://walmart-backend.vercel.app",
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^12.1.5",

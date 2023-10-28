@@ -13,7 +13,7 @@ export const initialStore=(items)=>async(dispatch,getState)=>{
 }
 
 export const addCartItems=(id,quantity)=>async(dispatch,getState)=>{
-    const {data}= await axios.get(`https://tanvir-backend.vercel.app/api/v1/product/${id}`)
+    const {data}= await axios.get(`https://walmart-backend.vercel.app/api/v1/product/${id}`)
 
     dispatch({
         type: ADD_TO_CART,

@@ -60,7 +60,7 @@ export const login = (email, password) => async (dispatch) => {
             'Content-Type': 'application/json'
         }
 
-        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/login', { email, password }, config)
+        const { data } = await axios.post('https://walmart-backend.vercel.app/api/v1/login', { email, password }, config)
         localStorage.setItem("token",data.token)
         dispatch({
             type: LOGIN_SUCCESS,
@@ -86,7 +86,7 @@ export const register = (name, email, password, avatar,role) => async (dispatch)
 
 
 
-        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/register', { name, email, password, avatar,role }, config)
+        const { data } = await axios.post('https://walmart-backend.vercel.app/api/v1/register', { name, email, password, avatar,role }, config)
         
         console.log(data.user)
         localStorage.setItem("token",data.token)
@@ -115,7 +115,7 @@ export const loadedUser = () => async (dispatch) => {
         dispatch({ type: LOAD_USER_REQUEST })
         let token=localStorage.getItem("token")
 
-        const { data } = await axios.get('https://tanvir-backend.vercel.app/api/v1/me',{headers:{token}})
+        const { data } = await axios.get('https://walmart-backend.vercel.app/api/v1/me',{headers:{token}})
         dispatch({
             type: LOAD_USER_SUCCESS,
             payload: data.user
@@ -134,7 +134,7 @@ export const logout = () => async (dispatch) => {
     try {
 
 
-        await axios.get('https://tanvir-backend.vercel.app/api/v1/logout')
+        await axios.get('https://walmart-backend.vercel.app/api/v1/logout')
         dispatch({
             type: LOGOUT_SUCCESS
         })
@@ -170,7 +170,7 @@ export const updateProfile = (name, email, avatar) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('https://tanvir-backend.vercel.app/api/v1/me/update', { name, email, avatar }, config)
+        const { data } = await axios.put('https://walmart-backend.vercel.app/api/v1/me/update', { name, email, avatar }, config)
         dispatch({
             type: UPDATE_PROFILE_SUCCESS,
             payload: data.success,
@@ -198,7 +198,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put('https://tanvir-backend.vercel.app/api/v1/password/update', passwords, config)
+        const { data } = await axios.put('https://walmart-backend.vercel.app/api/v1/password/update', passwords, config)
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,
             payload: data.success,
@@ -225,7 +225,7 @@ export const forgotPassword = (email) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('https://tanvir-backend.vercel.app/api/v1/password/forgot', { email }, config)
+        const { data } = await axios.post('https://walmart-backend.vercel.app/api/v1/password/forgot', { email }, config)
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
             payload: data.message,
@@ -252,7 +252,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/password/reset/${token}`, passwords, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/password/reset/${token}`, passwords, config)
         dispatch({
             type: NEW_PASSWORD_SUCCESS,
             payload: data.success,
@@ -279,7 +279,7 @@ export const allUsers = () => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get('https://tanvir-backend.vercel.app/api/v1/admin/users',config)
+        const { data } = await axios.get('https://walmart-backend.vercel.app/api/v1/admin/users',config)
 
         dispatch({
             type: ALL_USERS_SUCCESS,
@@ -307,7 +307,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`https://tanvir-backend.vercel.app/api/v1/admin/user/${id}`, userData, config)
+        const { data } = await axios.put(`https://walmart-backend.vercel.app/api/v1/admin/user/${id}`, userData, config)
 
         dispatch({
             type: UPDATE_USER_SUCCESS,
@@ -335,7 +335,7 @@ export const getUserDetails = (id) => async (dispatch) => {
         }
 
 
-        const { data } = await axios.get(`https://tanvir-backend.vercel.app/api/v1/admin/user/${id}`,config)
+        const { data } = await axios.get(`https://walmart-backend.vercel.app/api/v1/admin/user/${id}`,config)
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -362,7 +362,7 @@ export const deleteUser = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.delete(`https://tanvir-backend.vercel.app/api/v1/admin/user/${id}`,config)
+        const { data } = await axios.delete(`https://walmart-backend.vercel.app/api/v1/admin/user/${id}`,config)
 
         dispatch({
             type: DELETE_USER_SUCCESS,
