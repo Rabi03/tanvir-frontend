@@ -182,7 +182,7 @@ export default function Payment({ history }) {
                     <button style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between', cursor: 'pointer', border: '1px solid gray', padding: '10px 10px', borderRadius: '10px' }} onClick={cardSubmitHandler}>
                         <p>Card</p>
 
-                        <img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={400} height={180} />
+                        <img src='https://www.businesscreditworkshop.me/wp-content/uploads/2022/10/Stripe-Corporate-Card-1024x576.png' width={400} height={200} />
                     </button>
                 </div>
             }
